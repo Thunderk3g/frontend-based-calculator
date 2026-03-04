@@ -1,11 +1,16 @@
 /**
  * Premium Calculation Engine for Bajaj Life eTouch II (UIN: 116N198V05)
- * Uses real rate data extracted from the BI_eTouch II_V05_Ver09.xlsb workbook.
+ * ═══════════════════════════════════════════════════════════════════════
+ * Uses real rate data extracted from BI_eTouch II_V05_Ver09.xlsb.
  *
- * Key Formula:
- *   Base Premium = (Rate / 1000) × SA
- *   Instalment   = Base Premium × Modal Factor × (1 - SISO Discount)
- *   Final        = (Instalment + Riders) × (1 + GST)
+ * Excel Premium Summary structure (Output rows 41-52):
+ *   Base Instalment Premium  = (BaseRate / 1000) × SA × ModalFactor
+ *   Rider Instalment Premium = CI + ADB (each: (Rate/1000) × RiderSA × ModalFactor)
+ *   SISO Discount            = 6% off Base + Riders (if enabled)
+ *   Other Discounts          = Online, Partner, Salary, Insurance-for-All, etc.
+ *   Total excl GST           = Premium after all discounts + Geographical Extra
+ *   Total incl GST Year 1    = Total × (1 + GSTYear1)
+ *   Total incl GST Year 2+   = Total × (1 + GSTYear2)
  */
 
 // ═══════════════════════════════════════════
@@ -15,14 +20,8 @@
 export const MODAL_FACTORS = {
   Annual: 1.0,
   'Half-Yearly': 0.51,
-  'Semi-Annual': 0.51,
   Quarterly: 0.26,
   Monthly: 0.0875,
-};
-
-export const GST_RATES = {
-  year1: 0.045,   // 4.5% first year
-  year2: 0.0225,  // 2.25% second year onwards
 };
 
 export const SISO_DISCOUNT_RATE = 0.06; // 6%
@@ -31,38 +30,22 @@ export const CONSTRAINTS = {
   minAge: 18,
   maxAge: 65,
   maxMaturityAge: 85,
-  minSA: 5000000,  // ₹50 Lakhs
+  minSA: 5000000,
 };
 
 export const VARIANTS = ['Life Shield', 'Life Shield ROP'];
-export const VARIANT_CODES = {
-  'Life Shield': 'LS',
-  'Life Shield ROP': 'LSR',
-};
+export const VARIANT_CODES = { 'Life Shield': 'LS', 'Life Shield ROP': 'LSR' };
 
 export const SMOKER_OPTIONS = ['Non Smoker', 'Smoker'];
-export const SMOKER_CODES = {
-  'Non Smoker': 'NS',
-  Smoker: 'S',
-};
-
 export const GENDER_OPTIONS = ['Male', 'Female'];
-export const GENDER_CODES = {
-  Male: 'M',
-  Female: 'F',
-};
-
+export const GENDER_CODES = { Male: 'M', Female: 'F' };
 export const MEDICAL_OPTIONS = ['Medical', 'Non Medical'];
-
 export const RESIDENCE_OPTIONS = ['Resident Indian', 'NRI'];
-export const RESIDENCE_CODES = {
-  'Resident Indian': 'R',
-  NRI: 'P', // Non-resident maps to different code based on Excel keys
-};
-
+export const RESIDENCE_CODES = { 'Resident Indian': 'R', NRI: 'P' };
 export const MODE_OPTIONS = ['Annual', 'Half-Yearly', 'Quarterly', 'Monthly'];
-
-export const PPT_OPTIONS = [1, 5, 10, 12, 15, 20, 'PT', 'Pay Till 60'];
+export const CI_TYPE_OPTIONS = ['Comprehensive', 'Critical', 'Enhanced'];
+export const CI_MEDICAL_TYPE_OPTIONS = ['TeleMedical'];
+export const CARE_PLUS_PLAN_OPTIONS = ['Prime'];
 
 // ═══════════════════════════════════════════
 // Rate Data Store
@@ -71,13 +54,17 @@ export const PPT_OPTIONS = [1, 5, 10, 12, 15, 20, 'PT', 'Pay Till 60'];
 let medicalRates = null;
 let nonMedicalRates = null;
 let adbRates = null;
+let ciRates = null;
+let carePlusRates = null;
 
 export async function loadRateData() {
   const t0 = performance.now();
-  const [medResp, nonMedResp, adbResp] = await Promise.all([
+  const [medResp, nonMedResp, adbResp, ciResp, cpResp] = await Promise.all([
     fetch('/medical_rates.json'),
     fetch('/non_medical_rates.json'),
     fetch('/adb_rates.json'),
+    fetch('/ci_rates.json'),
+    fetch('/care_plus_rates.json'),
   ]);
 
   if (!medResp.ok || !nonMedResp.ok || !adbResp.ok) {
@@ -87,14 +74,11 @@ export async function loadRateData() {
   medicalRates = await medResp.json();
   nonMedicalRates = await nonMedResp.json();
   adbRates = await adbResp.json();
+  ciRates = ciResp.ok ? await ciResp.json() : {};
+  carePlusRates = cpResp.ok ? await cpResp.json() : {};
 
   const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
-  console.log(`Rate data loaded in ${elapsed}s — Medical: ${Object.keys(medicalRates).length} keys, ADB: ${Object.keys(adbRates).length} keys`);
-  return { medicalRates, nonMedicalRates, adbRates };
-}
-
-export function isRateDataLoaded() {
-  return medicalRates !== null;
+  console.log(`Rate data loaded in ${elapsed}s — Medical: ${Object.keys(medicalRates).length}, ADB: ${Object.keys(adbRates).length}, CI: ${Object.keys(ciRates).length}, Care+: ${Object.keys(carePlusRates).length}`);
 }
 
 // ═══════════════════════════════════════════
@@ -102,31 +86,35 @@ export function isRateDataLoaded() {
 // ═══════════════════════════════════════════
 
 /**
- * Build the concatenated lookup key used by the Excel rate tables.
- * Key format from actual data:
- *   Non-Smoker: "26M5910LSNSR5000000" = Age + Gender + PT + PPT + Variant + 'NS' + Residence + Band
- *   Smoker:     "22F2010LSS5000000"   = Age + Gender + PT + PPT + Variant + 'S' + Band
- * Note: Smoker keys do NOT include residence code suffix.
+ * Base rate key format (from actual data):
+ *   Non-Smoker: "26M5910LSNSR5000000"  = Age + Gender + PT + PPT + Variant + 'NS' + Residence + Band
+ *   Smoker:     "22F2010LSS5000000"    = Age + Gender + PT + PPT + Variant + 'S' + Band
  */
-export function buildLookupKey(age, genderCode, pt, ppt, variantCode, isSmoker, residenceCode, saBand) {
+export function buildBaseKey(age, genderCode, pt, ppt, variantCode, isSmoker, residenceCode, saBand) {
   const smokerSuffix = isSmoker ? 'S' : `NS${residenceCode}`;
   return `${age}${genderCode}${pt}${ppt}${variantCode}${smokerSuffix}${saBand}`;
 }
 
-/**
- * Build ADB lookup key.
- * Example: "26M5910ADB"
- */
+/** ADB key: "26M5910ADB" */
 export function buildADBKey(age, genderCode, pt, ppt) {
   return `${age}${genderCode}${pt}${ppt}ADB`;
 }
 
 /**
- * Get the SA band for lookup key construction.
+ * CI rate key: "26-20-10-Male-Comprehensive-TeleMedical"
+ *   = Age + BenefitTerm + PPT + Gender + CIType + MedicalType
  */
+export function buildCIKey(age, benefitTerm, ppt, gender, ciType, medicalType) {
+  return `${age}-${benefitTerm}-${ppt}-${gender}-${ciType}-${medicalType}`;
+}
+
+/** Care Plus key: "20-5-Prime" = BenefitTerm + PPT + PlanType */
+export function buildCarePlusKey(benefitTerm, ppt, planType) {
+  return `${benefitTerm}-${ppt}-${planType}`;
+}
+
 export function getSABand(sa) {
-  if (sa >= 10000000) return 10000000;
-  return 5000000;
+  return sa >= 10000000 ? 10000000 : 5000000;
 }
 
 // ═══════════════════════════════════════════
@@ -135,39 +123,38 @@ export function getSABand(sa) {
 
 export function validateInputs(inputs) {
   const errors = [];
-  const { age, pt, ppt, sa } = inputs;
-
-  if (age < CONSTRAINTS.minAge) errors.push(`Age must be at least ${CONSTRAINTS.minAge} years`);
-  if (age > CONSTRAINTS.maxAge) errors.push(`Age must not exceed ${CONSTRAINTS.maxAge} years`);
-  if (age + pt > CONSTRAINTS.maxMaturityAge) errors.push(`Maturity age (${age + pt}) exceeds ${CONSTRAINTS.maxMaturityAge} years`);
-  if (sa < CONSTRAINTS.minSA) errors.push(`Sum Assured must be at least ₹${(CONSTRAINTS.minSA / 100000).toFixed(0)} Lakhs`);
+  const { age, pt, sa } = inputs;
+  if (age < CONSTRAINTS.minAge) errors.push(`Age must be at least ${CONSTRAINTS.minAge}`);
+  if (age > CONSTRAINTS.maxAge) errors.push(`Age must not exceed ${CONSTRAINTS.maxAge}`);
+  if (age + pt > CONSTRAINTS.maxMaturityAge) errors.push(`Maturity age (${age + pt}) exceeds ${CONSTRAINTS.maxMaturityAge}`);
+  if (sa < CONSTRAINTS.minSA) errors.push(`SA must be at least ₹${(CONSTRAINTS.minSA / 100000).toFixed(0)}L`);
   if (pt < 5) errors.push('Policy Term must be at least 5 years');
-
-  // PPT validation
-  const numPPT = typeof ppt === 'number' ? ppt : parseInt(ppt);
-  if (!isNaN(numPPT) && numPPT > pt) {
-    errors.push('Premium Payment Term cannot exceed Policy Term');
-  }
-
   return errors;
 }
 
 // ═══════════════════════════════════════════
-// Core Calculation
+// Core Calculation (matches Excel Output rows 41–52)
 // ═══════════════════════════════════════════
 
 export function calculatePremium(inputs) {
   const {
     age, gender, smoker, variant, pt, ppt, sa,
     mode, medicalCategory, residence,
-    sisoEnabled, adbSA,
+    sisoEnabled,
+    // ADB
+    adbSA,
+    // CI
+    ciEnabled, ciSA, ciPT, ciPPT, ciType, ciMedicalType,
+    // Care Plus
+    carePlusEnabled, carePlusPT, carePlusPPT, carePlusPlan,
+    // GST
+    gstYear1Rate, gstYear2Rate,
   } = inputs;
 
   // Resolve PPT
-  let resolvedPPT = ppt;
-  if (ppt === 'PT' || ppt === pt) resolvedPPT = pt;
+  let resolvedPPT = Number(ppt);
+  if (ppt === 'PT') resolvedPPT = pt;
   else if (ppt === 'Pay Till 60') resolvedPPT = Math.max(60 - age, 5);
-  else resolvedPPT = Number(ppt);
 
   // Codes
   const genderCode = GENDER_CODES[gender] || 'M';
@@ -175,131 +162,147 @@ export function calculatePremium(inputs) {
   const variantCode = VARIANT_CODES[variant] || 'LS';
   const residenceCode = RESIDENCE_CODES[residence] || 'R';
   const saBand = getSABand(sa);
+  const modalFactor = MODAL_FACTORS[mode] || 1.0;
 
-  // Build lookup key
-  const lookupKey = buildLookupKey(age, genderCode, pt, resolvedPPT, variantCode, isSmoker, residenceCode, saBand);
-
-  // Get rate from table
+  // ── BASE PREMIUM ──────────────────────────────
+  const baseKey = buildBaseKey(age, genderCode, pt, resolvedPPT, variantCode, isSmoker, residenceCode, saBand);
   const rateTable = medicalCategory === 'Medical' ? medicalRates : nonMedicalRates;
-  const baseRate = rateTable ? rateTable[lookupKey] : null;
+  const baseRate = rateTable ? rateTable[baseKey] : null;
 
   if (baseRate === null || baseRate === undefined) {
-    return {
-      success: false,
-      error: `Rate not found for key: ${lookupKey}`,
-      lookupKey,
-      inputs: { age, gender, smoker, variant, pt, ppt: resolvedPPT, sa, mode, medicalCategory, residence },
-    };
+    return { success: false, error: `Rate not found for key: ${baseKey}`, lookupKey: baseKey };
   }
 
-  // Calculate base premium
-  const annualBasePremium = (baseRate / 1000) * sa;
+  const baseAnnualPremium = (baseRate / 1000) * sa;
+  const baseInstalmentPremium = baseAnnualPremium * modalFactor;
 
-  // Modal factor
-  const modalFactor = MODAL_FACTORS[mode] || 1.0;
-  const instalmentBase = annualBasePremium * modalFactor;
-
-  // SISO Discount
-  const sisoDiscount = sisoEnabled ? SISO_DISCOUNT_RATE : 0;
-  const sisoAmount = instalmentBase * sisoDiscount;
-  const instalmentAfterSISO = instalmentBase * (1 - sisoDiscount);
-
-  // ADB Rider
-  let adbRate = 0;
-  let adbInstalmentPremium = 0;
-  let adbAnnualPremium = 0;
-  let adbKey = '';
+  // ── ADB RIDER ─────────────────────────────────
+  let adbRate = 0, adbAnnualPrem = 0, adbInstalmentPrem = 0, adbKey = '';
   if (adbSA && adbSA > 0) {
     adbKey = buildADBKey(age, genderCode, pt, resolvedPPT);
-    adbRate = adbRates ? adbRates[adbKey] : null;
-    if (adbRate) {
-      adbAnnualPremium = (adbRate / 1000) * adbSA;
-      adbInstalmentPremium = adbAnnualPremium * modalFactor;
-    }
+    adbRate = adbRates ? (adbRates[adbKey] || 0) : 0;
+    adbAnnualPrem = (adbRate / 1000) * adbSA;
+    adbInstalmentPrem = adbAnnualPrem * modalFactor;
   }
 
-  // Total instalment before GST
-  const totalInstalmentBeforeGST = instalmentAfterSISO + adbInstalmentPremium;
+  // ── CI RIDER ──────────────────────────────────
+  let ciRate = 0, ciAnnualPrem = 0, ciInstalmentPrem = 0, ciKey = '';
+  const resolvedCiSA = ciEnabled ? (Number(ciSA) || 0) : 0;
+  const resolvedCiPT = Number(ciPT) || 20;
+  const resolvedCiPPT = Number(ciPPT) || resolvedPPT;
+  if (ciEnabled && resolvedCiSA > 0) {
+    ciKey = buildCIKey(age, resolvedCiPT, resolvedCiPPT, gender, ciType || 'Comprehensive', ciMedicalType || 'TeleMedical');
+    ciRate = ciRates ? (ciRates[ciKey] || 0) : 0;
+    ciAnnualPrem = (ciRate / 1000) * resolvedCiSA;
+    ciInstalmentPrem = ciAnnualPrem * modalFactor;
+  }
 
-  // GST calculations
-  const gstYear1 = totalInstalmentBeforeGST * GST_RATES.year1;
-  const gstYear2 = totalInstalmentBeforeGST * GST_RATES.year2;
-  const instalmentWithGSTYear1 = totalInstalmentBeforeGST + gstYear1;
-  const instalmentWithGSTYear2 = totalInstalmentBeforeGST + gstYear2;
+  // ── CARE PLUS RIDER ───────────────────────────
+  let cpRate = 0, cpAnnualPrem = 0, cpInstalmentPrem = 0, cpKey = '';
+  const resolvedCpPT = Number(carePlusPT) || 20;
+  const resolvedCpPPT = Number(carePlusPPT) || 5;
+  if (carePlusEnabled) {
+    cpKey = buildCarePlusKey(resolvedCpPT, resolvedCpPPT, carePlusPlan || 'Prime');
+    cpRate = carePlusRates ? (carePlusRates[cpKey] || 0) : 0;
+    // Care Plus premium is a flat annual rate (not per 1000)
+    // It's the annualized premium directly from the table
+    cpAnnualPrem = cpRate;
+    cpInstalmentPrem = cpAnnualPrem * modalFactor;
+  }
 
-  // Annualized amounts
-  const annualizedAfterSISO = annualBasePremium * (1 - sisoDiscount);
-  const annualizedTotal = annualizedAfterSISO + adbAnnualPremium;
+  // ── TOTALS (before discounts) ─────────────────
+  const totalRiderInstalment = adbInstalmentPrem + ciInstalmentPrem + cpInstalmentPrem;
+  const totalRiderAnnual = adbAnnualPrem + ciAnnualPrem + cpAnnualPrem;
 
-  // Early Exit eligibility
+  const totalInstalmentBeforeDiscounts = baseInstalmentPremium + totalRiderInstalment;
+  const totalAnnualBeforeDiscounts = baseAnnualPremium + totalRiderAnnual;
+
+  // ── SISO DISCOUNT (applied to total base + riders) ──
+  const sisoDiscount = sisoEnabled ? SISO_DISCOUNT_RATE : 0;
+  const sisoBaseAmount = baseInstalmentPremium * sisoDiscount;
+  const sisoRiderAmount = totalRiderInstalment * sisoDiscount;
+  const sisoTotalAmount = sisoBaseAmount + sisoRiderAmount;
+  const instalmentAfterSISO = totalInstalmentBeforeDiscounts - sisoTotalAmount;
+
+  // ── After all discounts (same as after SISO for now) ──
+  const totalInstalmentAfterDiscounts = instalmentAfterSISO;
+
+  // ── GST ───────────────────────────────────────
+  const gstY1 = Number(gstYear1Rate) || 0;
+  const gstY2 = Number(gstYear2Rate) || 0;
+  const gstYear1Amount = totalInstalmentAfterDiscounts * gstY1;
+  const gstYear2Amount = totalInstalmentAfterDiscounts * gstY2;
+  const instalmentWithGSTYear1 = totalInstalmentAfterDiscounts + gstYear1Amount;
+  const instalmentWithGSTYear2 = totalInstalmentAfterDiscounts + gstYear2Amount;
+
+  // ── EARLY EXIT ────────────────────────────────
   const earlyExitEligible = age <= 50 && pt >= 35 && (age + pt) >= 70;
 
   return {
     success: true,
-    lookupKey,
-    inputs: { age, gender, smoker, variant, pt, ppt: resolvedPPT, sa, mode, medicalCategory, residence },
+    lookupKey: baseKey,
 
-    // Rate
-    baseRate,
+    // Inputs echo
+    inputs: { age, gender, smoker, variant, pt, ppt: resolvedPPT, sa, mode, medicalCategory, residence },
+    modalFactor,
     saBand,
 
-    // Base premium
-    annualBasePremium,
-    modalFactor,
-    instalmentBase,
+    // Base
+    baseRate,
+    baseAnnualPremium,
+    baseInstalmentPremium,
 
-    // Discounts
+    // ADB
+    adbKey, adbRate, adbSA: adbSA || 0, adbAnnualPrem, adbInstalmentPrem,
+
+    // CI
+    ciKey, ciRate, ciSA: resolvedCiSA, ciAnnualPrem, ciInstalmentPrem,
+    ciPT: resolvedCiPT, ciPPT: resolvedCiPPT,
+
+    // Care Plus
+    cpKey, cpRate, cpAnnualPrem, cpInstalmentPrem,
+
+    // Totals before discounts
+    totalRiderInstalment,
+    totalInstalmentBeforeDiscounts,
+
+    // SISO
     sisoEnabled,
     sisoDiscount,
-    sisoAmount,
+    sisoBaseAmount,
+    sisoRiderAmount,
+    sisoTotalAmount,
     instalmentAfterSISO,
 
-    // Riders
-    adbKey,
-    adbRate: adbRate || 0,
-    adbSA: adbSA || 0,
-    adbAnnualPremium,
-    adbInstalmentPremium,
-
-    // Totals
-    totalInstalmentBeforeGST,
+    // After all discounts
+    totalInstalmentAfterDiscounts,
 
     // GST
-    gstYear1Rate: GST_RATES.year1,
-    gstYear1,
-    gstYear2Rate: GST_RATES.year2,
-    gstYear2,
-
-    // Final
+    gstY1Rate: gstY1,
+    gstY2Rate: gstY2,
+    gstYear1Amount,
+    gstYear2Amount,
     instalmentWithGSTYear1,
     instalmentWithGSTYear2,
 
     // Annualized
-    annualizedAfterSISO,
-    annualizedTotal,
+    totalAnnualBeforeDiscounts,
+    annualizedAfterDiscounts: totalAnnualBeforeDiscounts * (1 - sisoDiscount),
 
-    // Info
-    earlyExitEligible,
     maturityAge: age + pt,
+    earlyExitEligible,
   };
 }
 
 // ═══════════════════════════════════════════
-// Formatter
+// Formatters
 // ═══════════════════════════════════════════
 
 export function formatCurrency(amount) {
   if (amount === null || amount === undefined || isNaN(amount)) return '—';
-  return '₹' + amount.toLocaleString('en-IN', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  return '₹' + amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
-
 export function formatCurrencyWhole(amount) {
   if (amount === null || amount === undefined || isNaN(amount)) return '—';
-  return '₹' + amount.toLocaleString('en-IN', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
+  return '₹' + amount.toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 }
