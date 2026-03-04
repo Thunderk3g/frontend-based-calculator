@@ -1,0 +1,17 @@
+{
+  "name": "excel-logic-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "prepare-data": "node scripts/copy-data.js",
+    "dev": "npm run prepare-data && npx vite web",
+    "build": "npm run prepare-data && npx vite build --root web --outDir web-dist",
+    "preview": "npx vite preview --root web --port 5173"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

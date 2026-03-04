@@ -1,0 +1,18 @@
+[
+    {
+        "sheet": "Input",
+        "address": "E17",
+        "label": "E17",
+        "original_formula": "=IF(OR(AND(D6=\"Life Shield ROP\",Calc!$I$4>Calc!$I$5,Calc!$I$4-Calc!$I$5<5),Calc!$I$4<Calc!$I$5,AND(D6=\"Life Shield ROP\",D17=\"Pay Till 60\",Age<25)),\"Premium Payment Term Is Not Valid\",\"\")",
+        "math_logic": "=IF(OR(AND(D6=\"Life Shield ROP\",Calc!I4>Calc!I5,Calc!I4-Calc!I5<5),Calc!I4<Calc!I5,AND(D6=\"Life Shield ROP\",D17=\"Pay Till 60\",Age<25)),\"Premium Payment Term Is Not Valid\",\"\")",
+        "result": ""
+    },
+    {
+        "sheet": "Input",
+        "address": "H20",
+        "label": "Eligible SA",
+        "original_formula": "=VLOOKUP(Age,Calc!$AW$5:$AX$11,2,TRUE)",
+        "math_logic": "=VLOOKUP(Age,Calc!AW5:AX11,2,TRUE)",
+        "result": 25
+    }
+]
