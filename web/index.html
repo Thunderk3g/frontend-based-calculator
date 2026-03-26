@@ -1074,6 +1074,114 @@
       gap: 12px;
     }
 
+    /* COMBOBOX (Manual Input + Dropdown) */
+    .combo-box {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .combo-wrapper {
+      position: relative;
+      background: #fdfdfe;
+      border: 1.5px solid #edf0f5;
+      border-radius: 10px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .combo-wrapper:focus-within {
+      border-color: #0b3a6e;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(11, 58, 110, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .combo-input {
+      background: none;
+      border: none;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--t1);
+      font-family: inherit;
+      outline: none;
+      width: 100%;
+      flex: 1;
+    }
+
+    .combo-btn {
+      background: none;
+      border: none;
+      padding: 0 8px;
+      cursor: pointer;
+      color: var(--t3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--tr);
+    }
+
+    .combo-btn:hover {
+      color: #0b3a6e;
+    }
+
+    .combo-list {
+      position: absolute;
+      top: 100%;
+      /* REQUIRED: Always downwards */
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1.5px solid #0b3a6e;
+      border-radius: 10px;
+      margin-top: 4px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      animation: comboFade .2s ease-out;
+    }
+
+    @keyframes comboFade {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .combo-list.open {
+      display: block;
+    }
+
+    .combo-item {
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--t2);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .combo-item:hover {
+      background: #f1f5f9;
+      color: #0b3a6e;
+    }
+
+    .combo-item.active {
+      background: #e0f2fe;
+      color: #0b3a6e;
+      font-weight: 700;
+    }
+
     /* Rider row inside card */
     .card-rider-row {
       display: flex;
@@ -1681,11 +1789,32 @@
               <input type="number" class="c-sa" data-ci="${i}" value="${cs.sa}" min="5000000" step="100000">
             </div>
             <div class="card-fr">
-              <div class="card-fg"><label>Policy Term</label>
-                <select class="c-pt" data-ci="${i}">${ptOpts}</select>
+              <!-- Policy Term Combobox -->
+              <div class="card-fg combo-box">
+                <label>Policy Term</label>
+                <div class="combo-wrapper">
+                  <input type="number" class="combo-input c-pt-input" data-ci="${i}" value="${cs.pt}" placeholder="Years">
+                  <button class="combo-btn c-pt-btn" data-ci="${i}">
+                    <span class="material-icons-outlined">expand_more</span>
+                  </button>
+                </div>
+                <div class="combo-list c-pt-list" data-ci="${i}">
+                  ${Array.from({ length: v.maxPT - 4 }, (_, k) => k + 5).map(n => `<div class="combo-item${n === cs.pt ? ' active' : ''}" data-val="${n}">${n} yrs</div>`).join('')}
+                </div>
               </div>
-              <div class="card-fg"><label>Payment Term</label>
-                <select class="c-ppt" data-ci="${i}">${pptOpts}</select>
+
+              <!-- Payment Term Combobox -->
+              <div class="card-fg combo-box">
+                <label>Payment Term</label>
+                <div class="combo-wrapper">
+                  <input type="number" class="combo-input c-ppt-input" data-ci="${i}" value="${cs.ppt}" placeholder="Years">
+                  <button class="combo-btn c-ppt-btn" data-ci="${i}">
+                    <span class="material-icons-outlined">expand_more</span>
+                  </button>
+                </div>
+                <div class="combo-list c-ppt-list" data-ci="${i}">
+                  ${Array.from({ length: Math.min(cs.pt, v.maxPT) }, (_, k) => k + 1).map(n => `<div class="combo-item${n === cs.ppt ? ' active' : ''}" data-val="${n}">${n} yrs</div>`).join('')}
+                </div>
               </div>
             </div>
           </div>
@@ -1757,25 +1886,86 @@
         });
         el.addEventListener('click', e => e.stopPropagation());
       });
-      g.querySelectorAll('.c-pt').forEach(el => {
-        el.addEventListener('change', e => {
+      // Combobox Logic: Policy Term
+      g.querySelectorAll('.c-pt-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
           e.stopPropagation();
-          const ci = parseInt(el.dataset.ci);
-          CS[ci].pt = parseInt(el.value) || 20;
+          const ci = btn.dataset.ci;
+          const list = g.querySelector(`.c-pt-list[data-ci="${ci}"]`);
+          const isOpen = list.classList.contains('open');
+
+          document.querySelectorAll('.combo-list').forEach(l => l.classList.remove('open'));
+          if (!isOpen) list.classList.add('open');
+        });
+      });
+
+      g.querySelectorAll('.c-pt-list .combo-item').forEach(item => {
+        item.addEventListener('click', e => {
+          e.stopPropagation();
+          const list = item.closest('.combo-list');
+          const ci = parseInt(list.dataset.ci);
+          const val = parseInt(item.dataset.val);
+
+          CS[ci].pt = val;
+          if (CS[ci].ppt > CS[ci].pt) CS[ci].ppt = CS[ci].pt;
+
+          list.classList.remove('open');
+          recalc();
+        });
+      });
+
+      g.querySelectorAll('.c-pt-input').forEach(input => {
+        input.addEventListener('input', e => {
+          const ci = parseInt(input.dataset.ci);
+          const val = parseInt(input.value) || 0;
+          CS[ci].pt = val;
+          // We don't recalc on every keystroke to avoid jitter, but we'll use 'change' for final sync
+        });
+        input.addEventListener('change', e => {
+          const ci = parseInt(input.dataset.ci);
           if (CS[ci].ppt > CS[ci].pt) CS[ci].ppt = CS[ci].pt;
           recalc();
         });
-        el.addEventListener('click', e => e.stopPropagation());
+        input.addEventListener('click', e => e.stopPropagation());
       });
-      g.querySelectorAll('.c-ppt').forEach(el => {
-        el.addEventListener('change', e => {
+
+      // Combobox Logic: Payment Term
+      g.querySelectorAll('.c-ppt-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
           e.stopPropagation();
-          const ci = parseInt(el.dataset.ci);
-          CS[ci].ppt = parseInt(el.value) || 10;
+          const ci = btn.dataset.ci;
+          const list = g.querySelector(`.c-ppt-list[data-ci="${ci}"]`);
+          const isOpen = list.classList.contains('open');
+
+          document.querySelectorAll('.combo-list').forEach(l => l.classList.remove('open'));
+          if (!isOpen) list.classList.add('open');
+        });
+      });
+
+      g.querySelectorAll('.c-ppt-list .combo-item').forEach(item => {
+        item.addEventListener('click', e => {
+          e.stopPropagation();
+          const list = item.closest('.combo-list');
+          const ci = parseInt(list.dataset.ci);
+          const val = parseInt(item.dataset.val);
+
+          CS[ci].ppt = val;
+          list.classList.remove('open');
           recalc();
         });
-        el.addEventListener('click', e => e.stopPropagation());
       });
+
+      g.querySelectorAll('.c-ppt-input').forEach(input => {
+        input.addEventListener('input', e => {
+          const ci = parseInt(input.dataset.ci);
+          CS[ci].ppt = parseInt(input.value) || 0;
+        });
+        input.addEventListener('change', e => recalc());
+        input.addEventListener('click', e => e.stopPropagation());
+      });
+
+      // Global click listener to close combo lists
+      // (Moved out of renderCards to avoid accumulation)
       g.querySelectorAll('.c-ls').forEach(el => {
         el.addEventListener('change', e => { e.stopPropagation(); CS[parseInt(el.dataset.ci)].lumpSum = parseInt(el.value) || 0; });
         el.addEventListener('click', e => e.stopPropagation());
@@ -2108,6 +2298,13 @@
         document.getElementById('ld').innerHTML = `<div style="color:#dc2626;text-align:center;padding:40px"><h2>Failed to load</h2><p>${e.message}</p></div>`;
       }
     }
+    // Close any open combo lists when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.combo-box')) {
+        document.querySelectorAll('.combo-list').forEach(l => l.classList.remove('open'));
+      }
+    });
+
     init();
   </script>
 </body>
