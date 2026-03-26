@@ -1,0 +1,2098 @@
+[
+  {
+    "id": 1,
+    "desc": "Case 1",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (228) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 32,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 15000000,
+      "policyTerm": 4,
+      "ppt": 228,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 7,
+    "desc": "Case 7",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (141) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 26,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 55000000,
+      "policyTerm": 4,
+      "ppt": 141,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 10,
+    "desc": "Case 10",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (810) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 19,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 5000000,
+      "policyTerm": 3,
+      "ppt": 810,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 14,
+    "desc": "Case 14",
+    "errors": [
+      "Payment Term (242) cannot exceed Policy Term (5)."
+    ],
+    "input": {
+      "age": 18,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 5,
+      "ppt": 242,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 16,
+    "desc": "Case 16",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (85) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 38,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 9000000,
+      "policyTerm": 2,
+      "ppt": 85,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 17,
+    "desc": "Case 17",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (312) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 24,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 2,
+      "ppt": 312,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 19,
+    "desc": "Case 19",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (215) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 29,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 3,
+      "ppt": 215,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 21,
+    "desc": "Case 21",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (717) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 54,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 15000000,
+      "policyTerm": 1,
+      "ppt": 717,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 23,
+    "desc": "Case 23",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (616) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 48,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 1,
+      "ppt": 616,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 24,
+    "desc": "Case 24",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (715) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 27,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 5000000,
+      "policyTerm": 3,
+      "ppt": 715,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 25,
+    "desc": "Case 25",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (615) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 36,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 7500000,
+      "policyTerm": 4,
+      "ppt": 615,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 30,
+    "desc": "Case 30",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (939) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 33,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 3,
+      "ppt": 939,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 31,
+    "desc": "Case 31",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (818) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 28,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 7500000,
+      "policyTerm": 1,
+      "ppt": 818,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 34,
+    "desc": "Case 34",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (222) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 53,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 2,
+      "ppt": 222,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 37,
+    "desc": "Case 37",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (76) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 20,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 1,
+      "ppt": 76,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 38,
+    "desc": "Case 38",
+    "errors": [
+      "Payment Term (620) cannot exceed Policy Term (5)."
+    ],
+    "input": {
+      "age": 19,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 55000000,
+      "policyTerm": 5,
+      "ppt": 620,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 39,
+    "desc": "Case 39",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (414) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 31,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 5000000,
+      "policyTerm": 1,
+      "ppt": 414,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 40,
+    "desc": "Case 40",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (45) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 65,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 1,
+      "ppt": 45,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 41,
+    "desc": "Case 41",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (56) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 56,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 20000000,
+      "policyTerm": 1,
+      "ppt": 56,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 45,
+    "desc": "Case 45",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (55) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 44,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 3,
+      "ppt": 55,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 46,
+    "desc": "Case 46",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (15) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 33,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 12000000,
+      "policyTerm": 4,
+      "ppt": 15,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 47,
+    "desc": "Case 47",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (310) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 52,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 1,
+      "ppt": 310,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 48,
+    "desc": "Case 48",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (636) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 24,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 15000000,
+      "policyTerm": 3,
+      "ppt": 636,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 53,
+    "desc": "Case 53",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (815) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 51,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 4,
+      "ppt": 815,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 54,
+    "desc": "Case 54",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (720) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 32,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 3,
+      "ppt": 720,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 55,
+    "desc": "Case 55",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (55) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 33,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 7500000,
+      "policyTerm": 4,
+      "ppt": 55,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 59,
+    "desc": "Case 59",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (535) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 32,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 7500000,
+      "policyTerm": 3,
+      "ppt": 535,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 60,
+    "desc": "Case 60",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (636) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 26,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 3,
+      "ppt": 636,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 61,
+    "desc": "Case 61",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (412) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 21,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 10000000,
+      "policyTerm": 3,
+      "ppt": 412,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 66,
+    "desc": "Case 66",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (15) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 48,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 3,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 67,
+    "desc": "Case 67",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (310) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 26,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 4,
+      "ppt": 310,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 68,
+    "desc": "Case 68",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (320) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 15000000,
+      "policyTerm": 4,
+      "ppt": 320,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 69,
+    "desc": "Case 69",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (46) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 32,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 1,
+      "ppt": 46,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 74,
+    "desc": "Case 74",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (712) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 41,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 15000000,
+      "policyTerm": 3,
+      "ppt": 712,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 75,
+    "desc": "Case 75",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (315) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 19,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 4,
+      "ppt": 315,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 76,
+    "desc": "Case 76",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (76) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 36,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 20000000,
+      "policyTerm": 1,
+      "ppt": 76,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 77,
+    "desc": "Case 77",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (410) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 26,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 55000000,
+      "policyTerm": 1,
+      "ppt": 410,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 81,
+    "desc": "Case 81",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (812) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 37,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 12000000,
+      "policyTerm": 1,
+      "ppt": 812,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 82,
+    "desc": "Case 82",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (55) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 45,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 55000000,
+      "policyTerm": 3,
+      "ppt": 55,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 83,
+    "desc": "Case 83",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (111) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 49,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 2,
+      "ppt": 111,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 84,
+    "desc": "Case 84",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (96) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 38,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 10000000,
+      "policyTerm": 4,
+      "ppt": 96,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 86,
+    "desc": "Case 86",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (131) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 46,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 12000000,
+      "policyTerm": 3,
+      "ppt": 131,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 88,
+    "desc": "Case 88",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (715) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 25,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 4,
+      "ppt": 715,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 91,
+    "desc": "Case 91",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (220) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 37,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 55000000,
+      "policyTerm": 3,
+      "ppt": 220,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 92,
+    "desc": "Case 92",
+    "errors": [
+      "Payment Term (737) cannot exceed Policy Term (5)."
+    ],
+    "input": {
+      "age": 23,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 5,
+      "ppt": 737,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 93,
+    "desc": "Case 93",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (85) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 42,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 2,
+      "ppt": 85,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 99,
+    "desc": "Case 99",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (910) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 20,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 12000000,
+      "policyTerm": 3,
+      "ppt": 910,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 100,
+    "desc": "Case 100",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (315) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 26,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 20000000,
+      "policyTerm": 3,
+      "ppt": 315,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 101,
+    "desc": "Case 101",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (712) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 62,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 1,
+      "ppt": 712,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 103,
+    "desc": "Case 103",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (66) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 58,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 20000000,
+      "policyTerm": 1,
+      "ppt": 66,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 104,
+    "desc": "Case 104",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (26) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 62,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 1,
+      "ppt": 26,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 105,
+    "desc": "Case 105",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (86) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 33,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 55000000,
+      "policyTerm": 1,
+      "ppt": 86,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 106,
+    "desc": "Case 106",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (45) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 21,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 1,
+      "ppt": 45,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 107,
+    "desc": "Case 107",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (36) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 43,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 55000000,
+      "policyTerm": 3,
+      "ppt": 36,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 110,
+    "desc": "Case 110",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (812) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 47,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 3,
+      "ppt": 812,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 111,
+    "desc": "Case 111",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (66) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 25,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 3,
+      "ppt": 66,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 113,
+    "desc": "Case 113",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (25) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 26,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 55000000,
+      "policyTerm": 2,
+      "ppt": 25,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 114,
+    "desc": "Case 114",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (220) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 20,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 3,
+      "ppt": 220,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 116,
+    "desc": "Case 116",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (323) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 36,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 12000000,
+      "policyTerm": 2,
+      "ppt": 323,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 117,
+    "desc": "Case 117",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (820) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 31,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 5000000,
+      "policyTerm": 2,
+      "ppt": 820,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 118,
+    "desc": "Case 118",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (36) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 56,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 5000000,
+      "policyTerm": 1,
+      "ppt": 36,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 119,
+    "desc": "Case 119",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (737) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 3,
+      "ppt": 737,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 120,
+    "desc": "Case 120",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (929) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 30,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 10000000,
+      "policyTerm": 2,
+      "ppt": 929,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 121,
+    "desc": "Case 121",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (715) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 21,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 55000000,
+      "policyTerm": 2,
+      "ppt": 715,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 122,
+    "desc": "Case 122",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (812) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 34,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 1,
+      "ppt": 812,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 123,
+    "desc": "Case 123",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (627) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 33,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 3,
+      "ppt": 627,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 127,
+    "desc": "Case 127",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (810) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 56,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 1,
+      "ppt": 810,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 128,
+    "desc": "Case 128",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (412) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 30,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 4,
+      "ppt": 412,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 130,
+    "desc": "Case 130",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (712) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 55,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 2,
+      "ppt": 712,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 131,
+    "desc": "Case 131",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (615) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 42,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 12000000,
+      "policyTerm": 3,
+      "ppt": 615,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 132,
+    "desc": "Case 132",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (737) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 25,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 15000000,
+      "policyTerm": 3,
+      "ppt": 737,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 133,
+    "desc": "Case 133",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (55) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 35,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 3,
+      "ppt": 55,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 136,
+    "desc": "Case 136",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (212) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 35,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 3,
+      "ppt": 212,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 138,
+    "desc": "Case 138",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (310) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 51,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 5000000,
+      "policyTerm": 2,
+      "ppt": 310,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 140,
+    "desc": "Case 140",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (828) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 19,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 2,
+      "ppt": 828,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 143,
+    "desc": "Case 143",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (66) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 27,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 9000000,
+      "policyTerm": 4,
+      "ppt": 66,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 144,
+    "desc": "Case 144",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (420) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 21,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 3,
+      "ppt": 420,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 145,
+    "desc": "Case 145",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (912) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 62,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 1,
+      "ppt": 912,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 147,
+    "desc": "Case 147",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (66) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 44,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 20000000,
+      "policyTerm": 3,
+      "ppt": 66,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 148,
+    "desc": "Case 148",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (510) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 40,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 4,
+      "ppt": 510,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 150,
+    "desc": "Case 150",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (76) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 34,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 4,
+      "ppt": 76,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 151,
+    "desc": "Case 151",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (433) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 27,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 4,
+      "ppt": 433,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 152,
+    "desc": "Case 152",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (512) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 18,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 55000000,
+      "policyTerm": 2,
+      "ppt": 512,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 153,
+    "desc": "Case 153",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (112) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 34,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 12000000,
+      "policyTerm": 3,
+      "ppt": 112,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 155,
+    "desc": "Case 155",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (415) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 25,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 4,
+      "ppt": 415,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 156,
+    "desc": "Case 156",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (45) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 55,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 1,
+      "ppt": 45,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 159,
+    "desc": "Case 159",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (75) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 34,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 55000000,
+      "policyTerm": 1,
+      "ppt": 75,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 160,
+    "desc": "Case 160",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (737) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 46,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 10000000,
+      "policyTerm": 3,
+      "ppt": 737,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 164,
+    "desc": "Case 164",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (212) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 28,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 1,
+      "ppt": 212,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 165,
+    "desc": "Case 165",
+    "errors": [
+      "Payment Term (238) cannot exceed Policy Term (6)."
+    ],
+    "input": {
+      "age": 22,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 6,
+      "ppt": 238,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 167,
+    "desc": "Case 167",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (412) cannot exceed Policy Term (4)."
+    ],
+    "input": {
+      "age": 35,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 55000000,
+      "policyTerm": 4,
+      "ppt": 412,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 168,
+    "desc": "Case 168",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (56) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 20,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 3,
+      "ppt": 56,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 169,
+    "desc": "Case 169",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (210) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 39,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 3,
+      "ppt": 210,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 170,
+    "desc": "Case 170",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (131) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 37,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 10000000,
+      "policyTerm": 3,
+      "ppt": 131,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 171,
+    "desc": "Case 171",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (220) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 49,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 15000000,
+      "policyTerm": 3,
+      "ppt": 220,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 172,
+    "desc": "Case 172",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (112) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 50,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 7500000,
+      "policyTerm": 2,
+      "ppt": 112,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 174,
+    "desc": "Case 174",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (610) cannot exceed Policy Term (1)."
+    ],
+    "input": {
+      "age": 52,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "NRI",
+      "planVariant": "LSR",
+      "sumAssured": 55000000,
+      "policyTerm": 1,
+      "ppt": 610,
+      "mode": "Half-Yearly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 180,
+    "desc": "Case 180",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (720) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 32,
+      "gender": "M",
+      "smoker": "S",
+      "isMedical": true,
+      "residency": "Resident Indian",
+      "planVariant": "LSR",
+      "sumAssured": 20000000,
+      "policyTerm": 3,
+      "ppt": 720,
+      "mode": "Monthly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 182,
+    "desc": "Case 182",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (211) cannot exceed Policy Term (3)."
+    ],
+    "input": {
+      "age": 49,
+      "gender": "F",
+      "smoker": "S",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 3,
+      "ppt": 211,
+      "mode": "Quarterly"
+    },
+    "type": "CALC_ERROR"
+  },
+  {
+    "id": 183,
+    "desc": "Case 183",
+    "errors": [
+      "Policy Term must be at least 5 years",
+      "Payment Term (26) cannot exceed Policy Term (2)."
+    ],
+    "input": {
+      "age": 51,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "Resident Indian",
+      "planVariant": "LS",
+      "sumAssured": 55000000,
+      "policyTerm": 2,
+      "ppt": 26,
+      "mode": "Annual"
+    },
+    "type": "CALC_ERROR"
+  }
+]

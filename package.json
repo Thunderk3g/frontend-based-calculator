@@ -2,11 +2,18 @@
   "name": "excel-logic-frontend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "prepare-data": "node scripts/copy-data.js",
+    "prepare-data": "node scripts/copy-data.cjs",
     "dev": "npm run prepare-data && npx vite web",
-    "build": "npm run prepare-data && npx vite build --root web --outDir web-dist",
-    "preview": "npx vite preview --root web --port 5173"
+    "build": "npm run prepare-data && npx vite build web",
+    "preview": "npx vite preview web-dist",
+    "test": "node ./tests/master.test.js",
+    "test:excel": "node tests/excel_match_test.js",
+    "generate:cases": "py scripts/generate_test_cases.py",
+    "generate:10k": "py scripts/generate_10k_tests.py",
+    "test:10k": "node tests/excel_match_10k.js",
+    "test:verified": "node tests/verified_tests.js"
   },
   "devDependencies": {
     "vite": "^5.0.0"
