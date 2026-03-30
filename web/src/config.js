@@ -23,8 +23,8 @@ export let CONFIG = {
         webAggregator: 0.06,
     },
     gst: {
-        year1: 0,
-        year2: 0,
+        year1: 0.045,
+        year2: 0.0225,
     },
     ciLimits: {
         minSA: 50000,
@@ -107,9 +107,13 @@ export async function loadConfig() {
         outputSheet.forEach(row => {
             const label = String(row[5] || '');
             const value = parseFloat(row[7]);
-            if (label.includes('GST Rate (First Year)')) CONFIG.gst.year1 = value;
-            if (label.includes('GST Rate (Second Year Onwards)')) CONFIG.gst.year2 = value;
+            if (label.includes('GST Rate (First Year)')) CONFIG.gst.year1 = value || 0.045;
+            if (label.includes('GST Rate (Second Year Onwards)')) CONFIG.gst.year2 = value || 0.0225;
         });
+
+        // Forced fallback if data is zero/missing to ensure split exists
+        if (!CONFIG.gst.year1) CONFIG.gst.year1 = 0.045;
+        if (!CONFIG.gst.year2) CONFIG.gst.year2 = 0.0225;
 
         // 5. CI Limits from 'CI Calc' sheet
         const ciCalcSheet = data['CI Calc'] || [];

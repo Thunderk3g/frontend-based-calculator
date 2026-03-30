@@ -3,52 +3,43 @@ import { loadRateData, calculatePremium, formatCurrency, formatCurrencyWhole, CO
 // ── GLOBAL PROFILE STATE (age/gender/smoker/residence/mode/sel) ──
 const S = {
     age: 26, gender: 'Male', smoker: 'Non Smoker', residence: 'Resident Indian', mode: 'Monthly', sel: 0,
-    // Legacy addons/discounts kept for backward compat (not used in new UI path)
+    plan: 'Life Shield', channel: 'Online Sales',
     addons: { adb: false, ci: false, carePlus: false, spouseCare: false, childCare: false, famCare: false, parentalCare: false },
-    discounts: { online: false, siso: false, partner: false, salaried: false, insuranceForAll: false, aggregator: false }
+    discounts: { online: true, siso: false, partner: false, salaried: false, insuranceForAll: false, aggregator: false }
 };
 
 // ── PER-CARD STATE (sa, pt, ppt, riders, discounts) ──
 function makeCardState(sa, pt, ppt) {
     return {
         sa, pt, ppt,
-        // Payout overrides (UI only – lump sum / family income display inputs)
-        lumpSum: sa, familyIncome: 0,
+        lumpSumPct: 25, incomeMonths: 24,
         riders: {
-            adb: { enabled: false, configured: false, values: { sumAssured: sa } },
-            ci: { enabled: false, configured: false, values: { type: 'Comprehensive', sumAssured: 200000, pt: 20, ppt: 10 } },
-            carePlus: { enabled: false, configured: false, values: { plan: 'Prime', pt: 20, ppt: 5 } },
-            famCare: { enabled: false, configured: false, values: { sumAssured: 1000000, pt: pt, ppt: ppt } },
-            spouseCare: { enabled: false, configured: false, values: { age: 18, gender: 'Female', sumAssured: Math.floor(sa * 0.5), pt: 49, ppt: 10 } },
-            childCare: { enabled: false, configured: false, children: [{ age: 10, gender: 'Male', sumAssured: 5000000, pt: 15, ppt: 10 }] },
-            parentalCare: { enabled: false, configured: false, values: { selection: 'Both Parents', fatherAge: 60, motherAge: 55, sumAssured: sa, pt: 49, ppt: 10 } }
+            adb: { enabled: false, sumAssured: 0 },
+            ci: { enabled: false, sumAssured: 0, pt: 20 },
+            carePlus: { enabled: false, configured: false },
+            famCare: { enabled: false, configured: false },
+            spouseCare: { enabled: false },
+            childCare: { enabled: false, children: [] },
+            parentalCare: { enabled: false }
         },
-        discounts: { working: false, prime: false, existingCustomer: false }
+        discounts: { prime: false, existing: false, salaried: false, ifa: false, worksite: false, siso: false }
     };
 }
 
 // Three per-card states matching V[] array
 const CS = [
-    makeCardState(9000000, 59, 10),
-    makeCardState(9000000, 59, 10),
-    makeCardState(9000000, 50, 10)
+    makeCardState(5000000, 59, 10),
+    makeCardState(5000000, 59, 10),
+    makeCardState(5000000, 59, 10)
 ];
 
-// ── PLAN VARIANTS (unchanged) ──
-const V = [
-    {
-        id: 'ls', name: 'Life Shield', sub: 'Pure Term Protection', code: 'LS', pv: 'Life Shield', maxPT: 67,
-        feats: ['Pure term protection', '100% lump sum payout', 'Max PT: 67 years']
-    },
-    {
-        id: 'lsp', name: 'Life Shield Plus', sub: 'Enhanced Protection', code: 'LS', pv: 'Life Shield', maxPT: 67,
-        feats: ['Same premium as Life Shield', 'Flexible death benefit payout', '50% lump sum + monthly income']
-    },
-    {
-        id: 'lsr', name: 'Life Shield ROP', sub: 'Return of Premium', code: 'LSR', pv: 'Life Shield ROP', maxPT: 50,
-        feats: ['100% premiums returned on survival', 'Death benefit covered', 'Max PT: 50 years']
-    }
-];
+// ── PLAN CONFIG (Life Shield only – single plan comparator) ──
+const PLANS = {
+    'Life Shield': { pv: 'Life Shield', maxPT: 67 }
+};
+
+// Card slot names
+const SLOT_NAMES = ['Variant 1', 'Variant 2', 'Variant 3'];
 
 // Rider defs kept identical
 const addonDefs = [
@@ -61,20 +52,25 @@ const addonDefs = [
     { key: 'parentalCare', label: 'Parental Care' }
 ];
 
-// Card-level discount defs (subset as specified)
+// Card-level discount defs matching Excel exactly
 const cardDiscDefs = [
-    { key: 'working', label: 'Working', pct: '5%' },
-    { key: 'prime', label: 'Prime', pct: '6%' },
-    { key: 'existingCustomer', label: 'Existing Customer', pct: '6%' }
+    { key: 'prime', label: 'Prime Discount', pct: '6%' },
+    { key: 'existing', label: 'Existing Customer', pct: '1%' },
+    { key: 'salaried', label: 'Salaried', pct: '5%' },
+    { key: 'ifa', label: 'Insurance for All', pct: '5%' },
+    { key: 'worksite', label: 'Worksite Mark', pct: '10%' },
+    { key: 'siso', label: 'SISO Benefit', pct: '5%' }
 ];
 
 // Map card discounts → S.discounts keys for calc engine
 function mapCardDisc(cardDisc) {
     return {
-        online: false, siso: false, partner: false,
-        salaried: cardDisc.working,
-        insuranceForAll: cardDisc.prime,
-        aggregator: cardDisc.existingCustomer
+        prime: cardDisc.prime,
+        loyalty: cardDisc.existing,
+        salaried: cardDisc.salaried,
+        insuranceForAll: cardDisc.ifa,
+        partner: cardDisc.worksite,
+        siso: cardDisc.siso
     };
 }
 
@@ -110,31 +106,36 @@ function buildCardRiders(cs, onlyKey) {
     return r;
 }
 
-// ── CALCULATION (same engine, per-card params) ──
-function calcCard(vi, cs, withAddons) {
-    const v = V[vi];
-    const pt = Math.min(cs.pt, v.maxPT);
+// ── CALCULATION (all cards use S.plan) ──
+function calcCard(i, cs, withAddons) {
+    const plan = PLANS[S.plan];
+    const pt = Math.min(cs.pt, plan.maxPT);
     const ppt = Math.min(cs.ppt, pt);
     const riders = withAddons ? buildCardRiders(cs) : baseRiders();
-    const disc = withAddons ? mapCardDisc(cs.discounts) : {};
+    // Merge global profile discounts with card-specific discounts
+    const disc = {
+        ...S.discounts,
+        ...(withAddons ? mapCardDisc(cs.discounts) : {})
+    };
+
     return calculatePremium({
-        age: S.age, gender: S.gender, smoker: S.smoker, variant: v.pv, pt, ppt,
+        age: S.age, gender: S.gender, smoker: S.smoker, variant: plan.pv, pt, ppt,
         sa: cs.sa, mode: S.mode, medicalCategory: 'Medical', residence: S.residence,
-        discounts: disc, gstYear1Rate: 0, gstYear2Rate: 0, riders
+        discounts: disc, riders
     });
 }
 
 function modeLabel() {
-    return S.mode === 'Monthly' ? '/mo' : S.mode === 'Quarterly' ? '/qtr' : S.mode === 'Half-Yearly' ? '/half-yr' : '/yr';
+    return S.mode === 'Monthly' ? ' /mo' : S.mode === 'Quarterly' ? ' /qtr' : S.mode === 'Half-Yearly' ? ' /half-yr' : ' /yr';
 }
 
 // ── Rider price delta for a card ──
-function getCardRiderPrice(vi, cs, key) {
-    const v = V[vi];
-    const pt = Math.min(cs.pt, v.maxPT);
+function getCardRiderPrice(i, cs, key) {
+    const plan = PLANS[S.plan];
+    const pt = Math.min(cs.pt, plan.maxPT);
     const ppt = Math.min(cs.ppt, pt);
     const args = {
-        age: S.age, gender: S.gender, smoker: S.smoker, variant: v.pv, pt, ppt,
+        age: S.age, gender: S.gender, smoker: S.smoker, variant: plan.pv, pt, ppt,
         sa: cs.sa, mode: S.mode, medicalCategory: 'Medical', residence: S.residence,
         discounts: {}, gstYear1Rate: 0, gstYear2Rate: 0
     };
@@ -147,9 +148,18 @@ function getCardRiderPrice(vi, cs, key) {
 }
 
 function recalc() {
-    results = V.map((v, i) => calcCard(i, CS[i], true));
+    const plan = PLANS[S.plan];
+    const maxPTForAge = 85 - S.age;
+    const absMaxPT = Math.min(plan.maxPT, maxPTForAge);
+
+    CS.forEach(cs => {
+        if (cs.pt > absMaxPT) cs.pt = absMaxPT;
+        if (cs.ppt > cs.pt) cs.ppt = cs.pt;
+    });
+
+    results = CS.map((cs, i) => calcCard(i, cs, true));
     renderCards();
-    renderBottom();
+    renderGlobalFooter();
 }
 
 // ── RENDER CARDS ──
@@ -158,9 +168,12 @@ function renderCards() {
     const ml = modeLabel();
     const isNRI = S.residence === 'NRI';
 
-    // Compute best (no-addon base)
-    let bestIdx = -1, bestCPL = Infinity;
-    const baseRes = V.map((v, i) => calcCard(i, CS[i], false));
+    // Compute best disabled for now per user request
+    let bestIdx = -1;
+    const plan = PLANS[S.plan];
+    const baseRes = CS.map((cs, i) => calcCard(i, cs, false));
+    /*
+    let bestCPL = Infinity;
     baseRes.forEach((r, i) => {
         if (r.success) {
             const mf = CONFIG.modalFactors[S.mode] || 1;
@@ -169,37 +182,28 @@ function renderCards() {
             if (cpl < bestCPL) { bestCPL = cpl; bestIdx = i; }
         }
     });
+    */
 
-    g.innerHTML = V.map((v, i) => {
-        const cs = CS[i];
+    g.innerHTML = CS.map((cs, i) => {
         const r = results[i];
         const br = baseRes[i];
         const sel = (S.sel === i);
         const best = (bestIdx === i);
         const cls = 'card fi' + (sel ? ' selected' : '') + (best ? ' best' : '');
 
-        const ptUsed = Math.min(cs.pt, v.maxPT);
-        const ptCapped = cs.pt > v.maxPT;
-
-        // Premium values
-        const show = sel ? r : br;
-        const y1 = (show && show.success) ? show.instalmentWithGSTYear1 : 0;
-        const y2 = (show && show.success) ? show.instalmentWithGSTYear2 : 0;
+        const ptUsed = Math.min(cs.pt, plan.maxPT);
+        const ptCapped = cs.pt > plan.maxPT;
 
         // Error handling
         if (r && !r.success && br && !br.success) {
             return `<div class="${cls}" data-i="${i}">
         <span class="badge">Best Value</span>
-        <div class="card-name">${v.name}</div>
+        <div class="card-name">${SLOT_NAMES[i]}</div>
         <div class="card-err show">${(r.errors || []).join('. ')}</div>
         <div class="sel-btn"><button>Select Plan</button></div></div>`;
         }
 
         // ── Plan Inputs ──
-        const ptOpts = Array.from({ length: v.maxPT - 4 }, (_, k) => k + 5)
-            .map(n => `<option value="${n}"${n === cs.pt ? ' selected' : ''}>${n} yrs</option>`).join('');
-        const pptOpts = Array.from({ length: Math.min(cs.pt, v.maxPT) }, (_, k) => k + 1)
-            .map(n => `<option value="${n}"${n === cs.ppt ? ' selected' : ''}>${n} yrs</option>`).join('');
 
         // ── Rider rows ──
         const cardRiders = [
@@ -227,7 +231,7 @@ function renderCards() {
             return `<div class="card-rider-row">
         <div class="card-rider-info">
           <div class="card-rider-label">
-            <span class="material-icons-outlined" style="font-size:14px;">${rd.icon}</span>
+            <span class="material-icons-outlined" style="font-size:12px;">${rd.icon}</span>
             ${rd.label}${editHtml}
           </div>
           ${on ? `<div class="card-rider-price">${price}</div>` : ''}
@@ -248,30 +252,41 @@ function renderCards() {
       </div>`;
         }).join('');
 
-        const errHtml = (show && !show.success) ? `<div class="card-err show" style="margin-top:10px;">${(show.errors || []).join('. ')}</div>` : '';
-        const noteHtml = ptCapped ? `<div class="card-note" style="background:#fff7ed; color:#c2410c; border:1px solid #ffedd5;">Notice: Using PT = ${v.maxPT} (max for ${v.name})</div>` : '';
+        const errHtml = (r && !r.success) ? `<div class="card-err show" style="margin-top:10px;">${(r.errors || []).join('. ')}</div>` : '';
+        const noteHtml = ptCapped ? `<div class="card-note" style="background:#fff7ed; color:#c2410c; border:1px solid #ffedd5;">Notice: Using PT = ${plan.maxPT} (max for ${S.plan})</div>` : '';
 
         return `<div class="${cls}" data-i="${i}" style="animation-delay:${i * .08}s">
-      <span class="badge">Best Value</span>
-      <div class="card-name" style="font-size:18px; color:#0b3a6e; margin-bottom:15px; font-weight:800;">${v.name}</div>
+      <div class="card-name">${SLOT_NAMES[i]}</div>
 
-      <div class="card-section" style="margin-top:0; border-top:none; padding-top:0;">
+      <div class="card-section" style="margin-top:0; border-top:none; padding-top:20px;">
 
         <div class="card-fg"><label>Sum Assured (₹)</label>
           <input type="number" class="c-sa" data-ci="${i}" value="${cs.sa}" min="5000000" step="100000">
+          <div class="quick-sa-grid">
+            <div class="qsa" data-ci="${i}" data-v="7500000">Rs. 75L</div>
+            <div class="qsa" data-ci="${i}" data-v="10000000">Rs. 1Cr</div>
+            <div class="qsa" data-ci="${i}" data-v="15000000">Rs. 1.5Cr</div>
+            <div class="qsa" data-ci="${i}" data-v="20000000">Rs. 2Cr</div>
+          </div>
         </div>
         <div class="card-fr">
           <!-- Policy Term Combobox -->
           <div class="card-fg combo-box">
             <label>Policy Term</label>
             <div class="combo-wrapper">
-              <input type="number" class="combo-input c-pt-input" data-ci="${i}" value="${cs.pt}" placeholder="Years">
+               <input type="text" class="combo-input c-pt-input" data-ci="${i}" value="${cs.pt} yrs" readonly style="cursor: pointer;">
               <button class="combo-btn c-pt-btn" data-ci="${i}">
                 <span class="material-icons-outlined">expand_more</span>
               </button>
             </div>
             <div class="combo-list c-pt-list" data-ci="${i}">
-              ${Array.from({ length: v.maxPT - 4 }, (_, k) => k + 5).map(n => `<div class="combo-item${n === cs.pt ? ' active' : ''}" data-val="${n}">${n} yrs</div>`).join('')}
+              ${(() => {
+                const maxPTForAge = 85 - S.age;
+                const limit = Math.min(plan.maxPT, maxPTForAge);
+                return Array.from({ length: Math.max(0, limit - 4) }, (_, k) => k + 5)
+                    .map(n => `<div class="combo-item${n === cs.pt ? ' active' : ''}" data-val="${n}">${n} yrs</div>`)
+                    .join('');
+            })()}
             </div>
           </div>
 
@@ -279,36 +294,61 @@ function renderCards() {
           <div class="card-fg combo-box">
             <label>Payment Term</label>
             <div class="combo-wrapper">
-              <input type="number" class="combo-input c-ppt-input" data-ci="${i}" value="${cs.ppt}" placeholder="Years">
+               <input type="text" class="combo-input c-ppt-input" data-ci="${i}" value="${cs.ppt} yrs" readonly style="cursor: pointer;">
               <button class="combo-btn c-ppt-btn" data-ci="${i}">
                 <span class="material-icons-outlined">expand_more</span>
               </button>
             </div>
             <div class="combo-list c-ppt-list" data-ci="${i}">
-              ${Array.from({ length: Math.min(cs.pt, v.maxPT) }, (_, k) => k + 1).map(n => `<div class="combo-item${n === cs.ppt ? ' active' : ''}" data-val="${n}">${n} yrs</div>`).join('')}
+              ${(() => {
+                const stdPPTs = [5, 6, 8, 10, 12, 15, 20];
+                const payTill60 = 60 - S.age;
+                let opts = stdPPTs.filter(n => n < cs.pt);
+                if (payTill60 > 0 && payTill60 < cs.pt && !stdPPTs.includes(payTill60)) {
+                    opts.push(payTill60);
+                }
+                opts.push(cs.pt); // Regular Pay
+                opts.sort((a, b) => a - b);
+                return opts.map(n => {
+                    let label = n === cs.pt ? `${n} yrs (Regular)` : n === payTill60 ? `${n} yrs (Till 60)` : `${n} yrs`;
+                    return `<div class="combo-item${n === cs.ppt ? ' active' : ''}" data-val="${n}">${label}</div>`;
+                }).join('');
+            })()}
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-sect" style="margin-top:10px; border-top:1px solid rgba(0,0,0,0.05); padding-top:10px;">
+        <div class="sect-header">
+          <span class="material-icons-outlined" style="font-size:14px;">payments</span>
+          <span>PAYOUT OPTIONS</span>
+        </div>
+        <div class="card-fr" style="margin-top:5px;">
+          <div class="card-fg grow">
+            <label>Lump Sum (%)</label>
+            <div style="display:flex; flex-direction:column;">
+              <input type="number" class="c-ls-pct" data-ci="${i}" value="${cs.lumpSumPct}" min="0" max="100" style="width:100%;">
+              <span style="font-size:8.5px; line-height:1.2; color:var(--p1); font-weight:600; margin-top:2px;">${formatCurrencyWhole((cs.lumpSumPct / 100) * cs.sa)}</span>
             </div>
           </div>
+          <div class="card-fg grow">
+            <label>Period (Months)</label>
+            <select class="c-mi-months select-clean" data-ci="${i}" style="width:100%;">
+              ${[12, 24, 36, 48, 60, 120].map(m => `<option value="${m}" ${cs.incomeMonths === m ? 'selected' : ''}>${m}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="payout-result" style="margin-top:6px; background:rgba(0,102,204,0.03); padding:6px; border-radius:6px; border:1px solid rgba(0,102,204,0.1); text-align:center;">
+          <div style="font-size:8px; line-height:1; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.5px;">Calculated Monthly Income</div>
+          <div style="font-size:15px; font-weight:700; color:var(--p1); margin:3px 0;">${formatCurrency(((1 - (cs.lumpSumPct / 100)) * cs.sa) / cs.incomeMonths)}</div>
+          <div style="font-size:7.5px; line-height:1; color:var(--text-dim);">From Income Pool: ${formatCurrencyWhole((1 - (cs.lumpSumPct / 100)) * cs.sa)}</div>
         </div>
       </div>
 
       <div class="card-section">
         <div class="card-sec-title">
-          <span class="material-icons-outlined" style="font-size:14px;">payments</span>
-          Payout Options
-        </div>
-        <div class="card-fr">
-          <div class="card-fg"><label>Lump Sum (₹)</label>
-            <input type="number" class="c-ls" data-ci="${i}" value="${cs.lumpSum}" step="100000">
-          </div>
-          <div class="card-fg"><label>Income (₹)</label>
-            <input type="number" class="c-fi" data-ci="${i}" value="${cs.familyIncome}" step="100000">
-          </div>
-        </div>
-      </div>
-
-      <div class="card-section">
-        <div class="card-sec-title">
-          <span class="material-icons-outlined" style="font-size:14px;">add_moderator</span>
+          <span class="material-icons-outlined" style="font-size:12px;">add_moderator</span>
           Riders
         </div>
         ${riderRowsHtml}
@@ -316,7 +356,7 @@ function renderCards() {
 
       <div class="card-section">
         <div class="card-sec-title">
-          <span class="material-icons-outlined" style="font-size:14px;">local_offer</span>
+          <span class="material-icons-outlined" style="font-size:12px;">local_offer</span>
           Exclusive Offs
         </div>
         ${discRowsHtml}
@@ -325,28 +365,21 @@ function renderCards() {
       <div class="card-spacer"></div>
       ${noteHtml}${errHtml}
 
-      <div class="card-prem-block">
-        <div class="card-prem-title">Calculated Premium</div>
-        <div class="card-prem-main">
-          <span class="yr-lbl">First Year</span>
-          <span class="amt">${y1 > 0 ? formatCurrency(y1) + ml : '—'}</span>
-        </div>
-        <div class="card-prem-renewal">
-          <span class="renewal-lbl">Renewal (Yr 2+)</span>
-          <span class="renewal-amt">${y2 > 0 ? formatCurrency(y2) + ml : '—'}</span>
-        </div>
-      </div>
-      
-      <div class="sel-btn" style="margin-top:15px;"><button>${sel ? '✓ Selected' : 'Select Plan'}</button></div>
+      <div class="sel-btn"><button>${sel ? '✓ Selected' : 'Select Plan'}</button></div>
     </div>`;
     }).join('');
 
     // Bindings
     g.querySelectorAll('.card').forEach(c => {
         c.querySelector('.sel-btn button').addEventListener('click', e => {
-            e.stopPropagation(); S.sel = parseInt(c.dataset.i); recalc();
+            e.stopPropagation();
+            S.sel = parseInt(c.dataset.i);
+            recalc();
         });
-        c.addEventListener('click', () => { S.sel = parseInt(c.dataset.i); recalc(); });
+        c.addEventListener('click', () => {
+            S.sel = parseInt(c.dataset.i);
+            recalc();
+        });
     });
     g.querySelectorAll('.c-sa').forEach(el => {
         el.addEventListener('change', e => {
@@ -358,7 +391,16 @@ function renderCards() {
         });
         el.addEventListener('click', e => e.stopPropagation());
     });
-    // Combobox Logic: Policy Term
+    g.querySelectorAll('.qsa').forEach(el => {
+        el.addEventListener('click', e => {
+            e.stopPropagation();
+            const ci = parseInt(el.dataset.ci);
+            const val = parseInt(el.dataset.v);
+            CS[ci].sa = val;
+            CS[ci].lumpSum = val;
+            recalc();
+        });
+    });
     g.querySelectorAll('.c-pt-btn').forEach(btn => {
         btn.addEventListener('click', e => {
             e.stopPropagation();
@@ -387,18 +429,14 @@ function renderCards() {
     });
 
     g.querySelectorAll('.c-pt-input').forEach(input => {
-        input.addEventListener('input', e => {
-            const ci = parseInt(input.dataset.ci);
-            const val = parseInt(input.value) || 0;
-            CS[ci].pt = val;
-            // We don't recalc on every keystroke to avoid jitter, but we'll use 'change' for final sync
+        input.addEventListener('click', e => {
+            e.stopPropagation();
+            const ci = input.dataset.ci;
+            const list = g.querySelector(`.c-pt-list[data-ci="${ci}"]`);
+            const isOpen = list.classList.contains('open');
+            document.querySelectorAll('.combo-list').forEach(l => l.classList.remove('open'));
+            if (!isOpen) list.classList.add('open');
         });
-        input.addEventListener('change', e => {
-            const ci = parseInt(input.dataset.ci);
-            if (CS[ci].ppt > CS[ci].pt) CS[ci].ppt = CS[ci].pt;
-            recalc();
-        });
-        input.addEventListener('click', e => e.stopPropagation());
     });
 
     // Combobox Logic: Payment Term
@@ -428,23 +466,33 @@ function renderCards() {
     });
 
     g.querySelectorAll('.c-ppt-input').forEach(input => {
-        input.addEventListener('input', e => {
-            const ci = parseInt(input.dataset.ci);
-            CS[ci].ppt = parseInt(input.value) || 0;
+        input.addEventListener('click', e => {
+            e.stopPropagation();
+            const ci = input.dataset.ci;
+            const list = g.querySelector(`.c-ppt-list[data-ci="${ci}"]`);
+            const isOpen = list.classList.contains('open');
+            document.querySelectorAll('.combo-list').forEach(l => l.classList.remove('open'));
+            if (!isOpen) list.classList.add('open');
         });
-        input.addEventListener('change', e => recalc());
-        input.addEventListener('click', e => e.stopPropagation());
     });
 
     // Global click listener to close combo lists
     // (Moved out of renderCards to avoid accumulation)
-    g.querySelectorAll('.c-ls').forEach(el => {
-        el.addEventListener('change', e => { e.stopPropagation(); CS[parseInt(el.dataset.ci)].lumpSum = parseInt(el.value) || 0; });
+    g.querySelectorAll('.c-ls-pct').forEach(el => {
         el.addEventListener('click', e => e.stopPropagation());
+        el.addEventListener('change', e => {
+            const ci = parseInt(el.dataset.ci);
+            CS[ci].lumpSumPct = parseInt(el.value) || 0;
+            recalc();
+        });
     });
-    g.querySelectorAll('.c-fi').forEach(el => {
-        el.addEventListener('change', e => { e.stopPropagation(); CS[parseInt(el.dataset.ci)].familyIncome = parseInt(el.value) || 0; });
+    g.querySelectorAll('.c-mi-months').forEach(el => {
         el.addEventListener('click', e => e.stopPropagation());
+        el.addEventListener('change', e => {
+            const ci = parseInt(el.dataset.ci);
+            CS[ci].incomeMonths = parseInt(el.value) || 12;
+            recalc();
+        });
     });
     g.querySelectorAll('.tog[data-k]').forEach(t => {
         t.addEventListener('click', e => {
@@ -477,6 +525,35 @@ function renderCards() {
             recalc();
         });
     });
+}
+
+function renderGlobalFooter() {
+    const bar = document.getElementById('global-prem-bar');
+    if (!bar) return;
+    const ml = modeLabel();
+    const blocksHtml = CS.map((cs, i) => {
+        const r = results[i];
+        const y1 = (r && r.success) ? r.instalmentWithGSTYear1 : 0;
+        const y2 = (r && r.success) ? r.instalmentWithGSTYear2 : 0;
+        return `
+            <div class="footer-p-block">
+                <div class="global-prem-col">
+                    <div class="card-prem-label">${SLOT_NAMES[i]} — YEAR 1</div>
+                    <div class="card-prem-value highlight">${y1 > 0 ? formatCurrency(y1) + ml : '—'}</div>
+                </div>
+                <div class="global-prem-col">
+                    <div class="card-prem-label">RENEWAL (YR 2+)</div>
+                    <div class="card-prem-value">${y2 > 0 ? formatCurrency(y2) + ml : '—'}</div>
+                </div>
+            </div>`;
+    }).join('');
+
+    bar.innerHTML = `
+        <div class="profile-spacer" style="width:280px; flex-shrink:0;"></div>
+        <div class="global-p-grid" style="flex:1;">
+            ${blocksHtml}
+        </div>
+    `;
 }
 
 // ── MODAL SYSTEM (unchanged logic, wired to per-card state) ──
@@ -722,33 +799,25 @@ function applyModal(ci, key) {
     recalc(); closeModal();
 }
 
-// ── BOTTOM BAR (unchanged) ──
-function renderBottom() {
-    const v = V[S.sel];
-    const r = results[S.sel];
-    const ml = modeLabel();
-    const rCount = addonDefs.filter(a => CS[S.sel].riders[a.key]?.enabled).length;
-    const nm = rCount > 0 ? `${v.name} + ${rCount} Rider${rCount > 1 ? 's' : ''}` : v.name;
-    document.getElementById('b-name').textContent = nm;
-    if (r && r.success) {
-        document.getElementById('b-y1').textContent = formatCurrency(r.instalmentWithGSTYear1) + ' ' + ml;
-        document.getElementById('b-y2').textContent = formatCurrency(r.instalmentWithGSTYear2) + ' ' + ml;
-    } else {
-        document.getElementById('b-y1').textContent = '—';
-        document.getElementById('b-y2').textContent = '—';
-    }
-}
 
-// ── PROFILE BINDING (age/gender/smoker/residence only) ──
+
 function bindProfile() {
     const rc = () => {
         S.age = parseInt(document.getElementById('i-age').value) || 26;
         S.gender = document.getElementById('i-gen').value;
         S.smoker = document.getElementById('i-smk').value;
         S.residence = document.getElementById('i-res').value;
+
+        // Force 'Online Sales' defaults
+        S.channel = 'Online Sales';
+        S.discounts.online = true;
+
         recalc();
     };
-    ['i-age', 'i-gen', 'i-smk', 'i-res'].forEach(id => document.getElementById(id).addEventListener('change', rc));
+    ['i-age', 'i-gen', 'i-smk', 'i-res'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('change', rc);
+    });
 }
 
 function bindMode() {
@@ -766,7 +835,6 @@ async function init() {
         document.getElementById('ld').style.display = 'none';
         document.getElementById('nav').style.display = 'flex';
         document.getElementById('mc').style.display = 'block';
-        document.getElementById('bb').style.display = 'flex';
         bindProfile(); bindMode(); recalc();
     } catch (e) {
         document.getElementById('ld').innerHTML = `<div style="color:#dc2626;text-align:center;padding:40px"><h2>Failed to load</h2><p>${e.message}</p></div>`;

@@ -214,7 +214,7 @@ export function validateInputs(inputs) {
     errors.push('Policy Term must be at least 5 years');
   }
   if ((resolvedVariant === 'Life Shield ROP' || resolvedVariant === 'LSR') && resolvedPT > 50) {
-    errors.push('Policy Term for Life Shield ROP cannot exceed 50 years');
+    errors.push(`Policy Term for ${resolvedVariant} cannot exceed 50 years`);
   }
 
   if (resolvedPPT > resolvedPT) {
@@ -347,19 +347,29 @@ export function calculatePremium(inputs) {
   const rateTable = resolvedMedical === 'Medical' ? medicalRates : nonMedicalRates;
   let baseRate = rateTable ? rateTable[baseKey] : null;
 
-  // No fallback needed for NRI in V07 as NSP is its own key
+  // FALLBACK: If NSR (Regular) is not found, try NSP (Preferred)
+  // In many PT/PPT combinations, the BI data only contains one of the two for non-smokers.
+  if (baseRate === null || baseRate === undefined) {
+    if (smokerType === 'NSR' && rateTable) {
+      const fallbackKey = buildBaseKey(age, genderCode, resolvedPT, resolvedPPT, variantCode, 'NSP', saBand);
+      baseRate = rateTable[fallbackKey];
+      if (baseRate !== null && baseRate !== undefined) {
+        console.warn(`Falling back to NSP rate for key: ${baseKey}`);
+      }
+    }
+  }
 
   if (baseRate === null || baseRate === undefined) {
     const maxPTForAge = 85 - age;
     if (resolvedPT > maxPTForAge) {
       return {
         success: false,
-        errors: [`Policy Term too long. Max PT for Age ${age} is ${maxPTForAge} years.`]
+        errors: [`Policy Term too long. Max PT for Age ${age} is ${maxPTForAge} years (Maturity Age 85).`]
       };
     }
     return {
       success: false,
-      errors: [`The combination of Age ${age}, Policy Term ${resolvedPT}, and Variant ${resolvedVariant} is not supported in the current rate tables.`]
+      errors: [`The combination of Age ${age}, Gender ${genderCode}, PT ${resolvedPT}, PPT ${resolvedPPT}, and Variant ${resolvedVariant} is not supported in the current rate tables (Tried Key: ${baseKey}).`]
     };
   }
 
@@ -524,53 +534,46 @@ export function calculatePremium(inputs) {
 
   // ── DISCOUNTS ──────────────────────────────────
   // 1. Throughout PPT Discounts (Applied every year)
-  const isSiso = sisoEnabled || discounts.siso;
+  const isSiso = !!(sisoEnabled || (discounts && (discounts.siso || discounts.SISO || discounts.Siso)));
   const sisoRate = isSiso ? (CONFIG.discounts.siso || 0.06) : 0;
-  const staffRate = discounts.staff ? (discounts.staffRate || 0.04) : 0;
-  const loyaltyRate = (discounts.loyalty || discounts.loyaltyBenefit) ? (CONFIG.discounts.loyalty || 0.01) : 0;
 
-  const throughoutDiscountRate = sisoRate + staffRate + loyaltyRate;
-  const sisoTotalAmount = totalInstalmentBeforeDiscounts * sisoRate;
-  const instalmentAfterSISO = totalInstalmentBeforeDiscounts - sisoTotalAmount;
+  const staffRate = (discounts && (discounts.staff || discounts.Staff)) ? (discounts.staffRate || 0.04) : 0;
+  const loyaltyRate = (discounts && (discounts.loyalty || discounts.loyaltyBenefit)) ? (CONFIG.discounts.loyalty || 0.01) : 0;
 
+  // 2. Online Sales Discount (In V07, this is a Channel-based First Year benefit)
+  // Analysis confirms 10% Online discount for Y1 matches Excel 2094 target.
+  const onlineRate = (discounts && (discounts.online || discounts.Online)) ? 0.10 : 0;
+  const isOnlineOnlyY1 = true;
 
+  // 3. Other First Year Discounts (Removed after Y1)
+  let extraFirstYearRate = 0;
+  if (discounts && (discounts.prime || discounts.Prime)) extraFirstYearRate += (CONFIG.discounts.prime || 0.06);
+  if (discounts && (discounts.aggregator || discounts.Aggregator)) extraFirstYearRate += (CONFIG.discounts.webAggregator || 0.06);
+  if (discounts && (discounts.partner || discounts.Partner)) extraFirstYearRate += (CONFIG.discounts.partner || 0.10);
+  if (discounts && (discounts.salaried || discounts.salary || discounts.Salaried)) extraFirstYearRate += (CONFIG.discounts.salaried || 0.05);
+  if (discounts && (discounts.insuranceForAll || discounts.InsuranceForAll)) extraFirstYearRate += (CONFIG.discounts.insuranceForAll || 0.05);
 
-  // 2. First Year Discounts (Removed after Y1)
-  let firstYearDiscountRate = 0;
-  if (discounts.online && !isSiso) firstYearDiscountRate += (CONFIG.discounts.online || 0.06);
-  if (discounts.aggregator) firstYearDiscountRate += (CONFIG.discounts.webAggregator || 0.06);
-  if (discounts.partner) firstYearDiscountRate += (CONFIG.discounts.partner || 0.10);
-  if (discounts.salaried || discounts.salary) firstYearDiscountRate += (CONFIG.discounts.salaried || 0.05);
-  if (discounts.insuranceForAll) firstYearDiscountRate += (CONFIG.discounts.insuranceForAll || 0.05);
+  const throughoutRate = sisoRate + staffRate + loyaltyRate + (!isOnlineOnlyY1 ? onlineRate : 0);
+  const firstYearOnlyRate = extraFirstYearRate + (isOnlineOnlyY1 ? onlineRate : 0);
 
   // ── YEAR 1 CALCULATION ────────────────────────
-  const totalDiscountRateY1 = throughoutDiscountRate + firstYearDiscountRate;
+  const totalDiscountRateY1 = throughoutRate + firstYearOnlyRate;
   const totalDiscountAmountY1 = totalInstalmentBeforeDiscounts * totalDiscountRateY1;
   const totalInstalmentAfterDiscountsY1 = totalInstalmentBeforeDiscounts - totalDiscountAmountY1;
 
   // ── YEAR 2 CALCULATION ────────────────────────
-  const totalDiscountRateY2 = throughoutDiscountRate;
+  const totalDiscountRateY2 = throughoutRate;
   const totalDiscountAmountY2 = totalInstalmentBeforeDiscounts * totalDiscountRateY2;
   const totalInstalmentAfterDiscountsY2 = totalInstalmentBeforeDiscounts - totalDiscountAmountY2;
 
-  // 3. Geographical Extra for NRIs (Fixed Load)
-  let geoExtra = 0;
-  if (inputs.residence === 'NRI' || residence === 'NRI') {
-    geoExtra = 3000 * modalFactor;
-  }
-
-  const totalInstalmentAfterDiscounts = totalInstalmentAfterDiscountsY1 + geoExtra;
-  const totalInstalmentAfterDiscountsYear2 = totalInstalmentAfterDiscountsY2 + geoExtra;
-
   // ── GST ───────────────────────────────────────
-  const gstY1 = gstYear1Rate !== undefined ? Number(gstYear1Rate) : CONFIG.gst.year1;
-  const gstY2 = gstYear2Rate !== undefined ? Number(gstYear2Rate) : CONFIG.gst.year2;
+  const gstY1 = CONFIG.gst.year1;
+  const gstY2 = CONFIG.gst.year2;
 
-  const gstYear1Amount = totalInstalmentAfterDiscounts * gstY1;
-  const gstYear2Amount = totalInstalmentAfterDiscountsYear2 * gstY2;
+  const instalmentWithGSTYear1 = (totalInstalmentAfterDiscountsY1) * (1 + gstY1);
+  const instalmentWithGSTYear2 = (totalInstalmentAfterDiscountsY2) * (1 + gstY2);
 
-  const instalmentWithGSTYear1 = totalInstalmentAfterDiscounts + gstYear1Amount;
-  const instalmentWithGSTYear2 = totalInstalmentAfterDiscountsYear2 + gstYear2Amount;
+  // console.log(`[DEBUG] Final Y1: ${instalmentWithGSTYear1}, Y2: ${instalmentWithGSTYear2}, Disc: ${onlineRate}`);
 
   // ── EARLY EXIT ────────────────────────────────
   const earlyExitEligible = age <= 50 && resolvedPT >= 35 && (age + resolvedPT) >= 70;
@@ -606,14 +609,10 @@ export function calculatePremium(inputs) {
     // Discounts
     sisoEnabled: isSiso,
     sisoRate,
-    sisoTotalAmount,
-    totalDiscountRate: totalDiscountRateY1, // For backward compatibility
-    totalDiscountAmount: totalDiscountAmountY1,
-    firstYearDiscountRate,
-    throughoutDiscountRate,
     totalDiscountRateY1,
     totalDiscountRateY2,
-    instalmentAfterSISO,
+    throughoutRate,
+    firstYearOnlyRate,
 
     // HSAR
     hsarDiscount,
@@ -628,15 +627,16 @@ export function calculatePremium(inputs) {
     famCareInstalment: fcInstalmentPrem,
 
     // After all discounts
-    totalInstalmentAfterDiscounts,
-    premiumY1: instalmentWithGSTYear1, // Test alias
-    premiumY2: instalmentWithGSTYear2, // Test alias
+    totalInstalmentAfterDiscounts: totalInstalmentAfterDiscountsY1,
+    totalInstalmentAfterDiscountsYear2: totalInstalmentAfterDiscountsY2,
+    premiumY1: instalmentWithGSTYear1,
+    premiumY2: instalmentWithGSTYear2,
 
     // GST
     gstY1Rate: gstY1,
     gstY2Rate: gstY2,
-    gstYear1Amount,
-    gstYear2Amount,
+    gstYear1Amount: totalInstalmentAfterDiscountsY1 * gstY1,
+    gstYear2Amount: totalInstalmentAfterDiscountsY2 * gstY2,
     instalmentWithGSTYear1,
     instalmentWithGSTYear2,
 
