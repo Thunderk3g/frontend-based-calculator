@@ -183,101 +183,113 @@ function getFPRAdjustmentFactor(diff, type) {
 
 export function validateInputs(inputs) {
   const errors = [];
-  const { age, pt, sa, ciEnabled, ciSA, ciPT, variant } = inputs;
+  const age = Number(inputs.age || 0);
+  const sa = Number(inputs.sa || inputs.sumAssured || 0);
+  const pt = Number(inputs.pt || inputs.policyTerm || 0);
+  const ppt = Number(inputs.ppt || inputs.premiumPaymentTerm || 0);
+  const variant = inputs.variant || inputs.planVariant || 'Life Shield';
 
-  const resolvedSA = sa || inputs.sumAssured || 0;
-  const resolvedPT = pt || inputs.policyTerm || 0;
-  const resolvedPPT = inputs.ppt || inputs.premiumPaymentTerm || 0;
-  const resolvedVariant = variant || inputs.planVariant || 'Life Shield';
-  const resolvedCiEnabled = ciEnabled || inputs.riders?.ci?.enabled;
-  const resolvedCiSAVal = ciSA || inputs.riders?.ci?.sumAssured || 0;
-  const resolvedCiPTVal = ciPT || inputs.ciPT || CONFIG.ciLimits.maxPT;
+  const minBaseSA = Number(CONFIG.constraints.minSA);
+  const minBasePT = 5;
+  const maxMaturityAge = Number(CONFIG.constraints.maxMaturityAge);
 
-  // Base Constraints
-  if (age < CONFIG.constraints.minAge || age > CONFIG.constraints.maxAge) {
+  if (age < Number(CONFIG.constraints.minAge) || age > Number(CONFIG.constraints.maxAge)) {
     errors.push(`Age must be between ${CONFIG.constraints.minAge} and ${CONFIG.constraints.maxAge} years`);
   }
-
-  const maturityAge = age + resolvedPT;
-  if (maturityAge > CONFIG.constraints.maxMaturityAge) {
-    errors.push(`Maturity Age ${maturityAge} exceeds maximum of 85 years. For Age ${age}, maximum Policy Term is ${CONFIG.constraints.maxMaturityAge - age} years.`);
+  if ((age + pt) > maxMaturityAge) {
+    errors.push(`Maturity Age ${age + pt} exceeds maximum of ${maxMaturityAge} years.`);
+  }
+  if (sa < minBaseSA) {
+    errors.push(`Minimum Sum Assured is ₹${minBaseSA.toLocaleString('en-IN')}`);
+  }
+  if (pt < minBasePT) {
+    errors.push(`Policy Term must be at least ${minBasePT} years`);
+  }
+  if (sa % 1000 !== 0) {
+    errors.push(`Sum Assured must be in multiples of ₹1,000`);
+  }
+  if (variant === 'Life Shield ROP' || variant === 'LSR' || variant === 'LSRNSR' || variant === 'Life Shield ROP') {
+    if (pt > 50) errors.push(`For Life Shield ROP, maximum Policy Term is 50 years`);
   }
 
-  if (resolvedSA < CONFIG.constraints.minSA) {
-    errors.push(`Minimum Sum Assured is ₹50,00,000`);
-  }
-  if (resolvedSA % 1000 !== 0) {
-    errors.push('Sum Assured must be a multiple of ₹1,000');
-  }
+  // CI Rider
+  const ci = inputs.riders?.ci;
+  if (ci?.enabled) {
+    const v = ci.values || {};
+    const ciSA = Number(v.sumAssured || 0);
+    const ciPT = Number(v.pt || 0);
+    const ciPPT = Number(v.ppt || ciPT);
+    const minCiSA = Number(CONFIG.ciLimits.minSA);
+    const maxCiPT = Number(CONFIG.ciLimits.maxPT);
 
-  if (resolvedPT < 5) {
-    errors.push('Policy Term must be at least 5 years');
-  }
-  if ((resolvedVariant === 'Life Shield ROP' || resolvedVariant === 'LSR') && resolvedPT > 50) {
-    errors.push(`Policy Term for ${resolvedVariant} cannot exceed 50 years`);
-  }
-
-  if (resolvedPPT > resolvedPT) {
-    errors.push(`Payment Term (${resolvedPPT}) cannot exceed Policy Term (${resolvedPT}).`);
-  }
-
-  // CI Constraints
-  if (resolvedCiEnabled) {
-    if (resolvedCiSAVal < CONFIG.ciLimits.minSA) errors.push(`Min CI SA is ₹50,000`);
-    if (resolvedCiSAVal > resolvedSA) errors.push(`CI SA cannot exceed base Sum Assured`);
-    if (resolvedCiPTVal > CONFIG.ciLimits.maxPT) errors.push(`Max CI Policy Term is 20 years`);
-    if (age + resolvedCiPTVal > CONFIG.ciLimits.maxMaturityAge) {
-      errors.push(`CI Rider: Maximum maturity age is 80 years. Reduce PT or Age.`);
+    if (ciSA < minCiSA) {
+      errors.push(`Min CI SA is ₹${minCiSA.toLocaleString('en-IN')}`);
     }
-    if (inputs.residence === 'NRI' && resolvedCiSAVal > 5000000) errors.push('Max CI SA for NRI is ₹50 Lakhs');
+    if (ciSA > sa) errors.push(`CI SA cannot exceed base Sum Assured`);
+    if (ciPT > maxCiPT) errors.push(`Max CI Policy Term is ${maxCiPT} years`);
+    if (ciPPT > ciPT) errors.push(`CI PPT cannot exceed CI PT`);
+    if ((age + ciPT) > Number(CONFIG.ciLimits.maxMaturityAge)) {
+      errors.push(`CI Maturity Age ${age + ciPT} exceeds maximum of ${CONFIG.ciLimits.maxMaturityAge} years`);
+    }
   }
 
   // Spouse Care
   const sc = inputs.riders?.spouseCare;
   if (sc?.enabled) {
-    if (sc.spouseAge < 18 || sc.spouseAge > 65) errors.push('Spouse Age must be between 18 and 65');
-    if (sc.pt > 57) errors.push('Max Spouse Policy Term: 57 years');
-    const minS = resolvedSA * 0.5;
-    const maxS = Math.min(10000000, resolvedSA);
-    if (sc.sumAssured < minS || sc.sumAssured > maxS) {
-      errors.push(`Spouse SA must be between ${formatCurrencyWhole(minS)} and ${formatCurrencyWhole(maxS)}`);
-    }
+    const v = sc.values || {};
+    const sSA = Number(v.sumAssured || 0);
+    const sAge = Number(v.age || 0);
+    const sPT = Number(v.pt || 0);
+    const sPPT = Number(v.ppt || sPT);
+
+    if (sAge < 18 || sAge > 65) errors.push('Spouse Age must be between 18 and 65');
+    if (sPT > 57) errors.push('Max Spouse Policy Term: 57 years');
+    if (sPPT > sPT) errors.push('Spouse Care PPT cannot exceed Rider PT');
+    if (sSA < (sa * 0.5)) errors.push(`Min Spouse SA is 50% of base SA`);
   }
 
   // Parental Care
   const pc = inputs.riders?.parentalCare;
   if (pc?.enabled) {
-    if (pc.pt > 57) errors.push('Max Parental Policy Term: 57 years');
-    const selection = pc.selection || 'Both Parents';
-    if (selection.includes('Father') || selection === 'Both Parents') {
-      if (pc.fatherAge <= age) errors.push('Father age must be greater than Life Assured age');
-    }
-    if (selection.includes('Mother') || selection === 'Both Parents') {
-      if (pc.motherAge <= age) errors.push('Mother age must be greater than Life Assured age');
-    }
+    const v = pc.values || {};
+    const pPT = Number(v.pt || 0);
+    const pPPT = Number(v.ppt || pPT);
+    if (pPT > 57) errors.push('Max Parental Policy Term: 57 years');
+    if (pPPT > pPT) errors.push('Parental Care PPT cannot exceed Rider PT');
   }
 
   // Child Care
-  const cc = inputs.riders?.childCare || [];
-  if (cc.some(c => c.enabled)) {
-    let totalC = 0;
-    cc.forEach((c, i) => {
-      if (c.enabled) {
-        if (c.age >= age) errors.push(`Child ${i + 1} age must be < LA age`);
-        if (c.pt > 25) errors.push(`Max Child Care PT: 25 years`);
-        totalC += (c.sa || c.sumAssured || 0);
-      }
-    });
-    // if (totalC > resolvedSA) errors.push('Child 1+2+3 SA > base SA');
-  }
+  const cc = inputs.riders?.childCare?.enabled ? (inputs.riders.childCare.children || []) : [];
+  cc.forEach((child, i) => {
+    const cPT = Number(child.pt || 0);
+    const cPPT = Number(child.ppt || cPT);
+    if (cPT > 25) errors.push(`Max Child Care PT: 25 years`);
+    if (cPPT > cPT) errors.push(`Child ${i + 1} PPT exceeds PT`);
+  });
 
   // Family Care
   const fc = inputs.riders?.famCare;
   if (fc?.enabled) {
-    if (fc.pt > 82) errors.push('Max Family Care PT: 82 years');
-    if (fc.sumAssured < 100000 || fc.sumAssured > resolvedSA) {
-      errors.push(`Family Care SA must be between ₹1,00,000 and base SA`);
+    const v = fc.values || {};
+    const fSA = Number(v.sumAssured || 0);
+    const fPT = Number(v.pt || 0);
+    const fPPT = Number(v.ppt || fPT);
+    if (fPT > 82) errors.push('Max Family Care PT: 82 years');
+    if (fPPT > fPT) errors.push('Family Care PPT cannot exceed Rider PT');
+    if (fSA < 100000 || fSA > sa) errors.push(`Family Care SA invalid`);
+  }
+
+  // Care Plus
+  const cp = inputs.riders?.carePlus;
+  if (cp?.enabled) {
+    const v = cp.values || {};
+    const cpPT = Number(v.pt || 0);
+    const cpPPT = Number(v.ppt || cpPT);
+    const lim = CONFIG.carePlusLimits || { minPT: 1, maxPT: 20 };
+    if (cpPT < Number(lim.minPT) || cpPT > Number(lim.maxPT)) {
+      errors.push(`Care Plus Policy Term must be between ${lim.minPT} and ${lim.maxPT} years`);
     }
+    if (cpPPT > cpPT) errors.push('Care Plus PPT cannot exceed Rider PT');
   }
 
   return errors;
@@ -381,8 +393,10 @@ export function calculatePremium(inputs) {
 
   // ── ADB RIDER ─────────────────────────────────
   let adbRate = 0, adbAnnualPrem = 0, adbInstalmentPrem = 0, adbKey = '';
-  const resolvedAdbEnabled = inputs.adbEnabled || inputs.riders?.adb?.enabled;
-  const resolvedAdbSAVal = Number(adbSA || (inputs.riders?.adb?.sumAssured) || 0);
+  const adb = inputs.riders?.adb || {};
+  const adbv = adb.values || {};
+  const resolvedAdbEnabled = adb.enabled;
+  const resolvedAdbSAVal = Number(adbv.sumAssured || adb.sumAssured || 0);
   const resolvedAdbSA = resolvedAdbEnabled ? resolvedAdbSAVal : 0;
 
   if (resolvedAdbSA > 0) {
@@ -394,12 +408,14 @@ export function calculatePremium(inputs) {
 
   // ── CI RIDER ──────────────────────────────────
   let ciRate = 0, ciAnnualPrem = 0, ciInstalmentPrem = 0, ciKey = '';
-  const resolvedCiEnabled = ciEnabled || inputs.riders?.ci?.enabled;
-  const resolvedCiSAVal = Number(ciSA || inputs.riders?.ci?.sumAssured || 0);
-  const resolvedCiPTVal = Number(ciPT || inputs.ciPT || CONFIG.ciLimits.maxPT);
-  const resolvedCiPPTVal = Number(ciPPT || inputs.riders?.ci?.ppt || resolvedPPT);
-  const resolvedCiType = ciType || inputs.riders?.ci?.ciType || 'Comprehensive';
-  const resolvedCiMed = ciMedicalType || inputs.riders?.ci?.medicalType || 'TeleMedical';
+  const ci = inputs.riders?.ci || {};
+  const civ = ci.values || {};
+  const resolvedCiEnabled = ci.enabled;
+  const resolvedCiSAVal = Number(civ.sumAssured || ci.sumAssured || 0);
+  const resolvedCiPTVal = Number(civ.pt || ci.pt || pt || 20);
+  const resolvedCiPPTVal = Number(civ.ppt || ci.ppt || ppt || 5);
+  const resolvedCiType = civ.type || ci.type || 'Comprehensive';
+  const resolvedCiMed = civ.medicalType || ci.medicalType || 'TeleMedical';
 
   if (resolvedCiEnabled && resolvedCiSAVal > 0) {
     ciKey = buildCIKey(age, resolvedCiPTVal, resolvedCiPPTVal, genderCode, resolvedCiType, resolvedCiMed);
@@ -410,10 +426,12 @@ export function calculatePremium(inputs) {
 
   // ── CARE PLUS RIDER ───────────────────────────
   let cpRate = 0, cpAnnualPrem = 0, cpInstalmentPrem = 0, cpKey = '';
-  const resolvedCpEnabled = carePlusEnabled || inputs.riders?.carePlus?.enabled;
-  const resolvedCpPT = Number(carePlusPT || inputs.riders?.carePlus?.pt) || 20;
-  const resolvedCpPPT = Number(carePlusPPT || inputs.riders?.carePlus?.ppt) || 5;
-  const resolvedCpPlan = carePlusPlan || inputs.riders?.carePlus?.plan || 'Prime';
+  const cp = inputs.riders?.carePlus || {};
+  const cpv = cp.values || {};
+  const resolvedCpEnabled = cp.enabled;
+  const resolvedCpPT = Number(cpv.pt || cp.pt) || 20;
+  const resolvedCpPPT = Number(cpv.ppt || cp.ppt) || 5;
+  const resolvedCpPlan = cpv.plan || cp.plan || 'Prime';
 
   if (resolvedCpEnabled) {
     cpKey = buildCarePlusKey(resolvedCpPT, resolvedCpPPT, resolvedCpPlan);
@@ -427,59 +445,62 @@ export function calculatePremium(inputs) {
   let pcInstalmentPrem = 0;
   const parentalRider = inputs.riders?.parentalCare;
   if (parentalRider?.enabled) {
-    const pPT = parentalRider.pt || 49;
-    const pPPT = parentalRider.ppt || resolvedPPT;
+    const pv = parentalRider.values || {};
+    const pPT = pv.pt || 49;
+    const pPPT = pv.ppt || resolvedPPT;
     const pKey = buildFPRKey(age, genderCode, pPT, pPPT, 'PC', smokerType);
     const pBaseRate = fprBaseRates ? (fprBaseRates[pKey] || 0) : 0;
 
-    const olderParentAge = Math.max(parentalRider.fatherAge || 0, parentalRider.motherAge || 0);
+    const olderParentAge = Math.max(pv.fatherAge || 0, pv.motherAge || 0);
     const pDiff = olderParentAge - age;
     const pFactor = getFPRAdjustmentFactor(pDiff, 'parent');
     const pAdjustedRate = pBaseRate * (1 + pFactor);
-    pcInstalmentPrem = (pAdjustedRate / 1000) * (parentalRider.sumAssured || 0) * modalFactor;
+    pcInstalmentPrem = (pAdjustedRate / 1000) * (pv.sumAssured || 0) * modalFactor;
   }
 
   // Spouse Care
   let scInstalmentPrem = 0;
   const spouseRider = inputs.riders?.spouseCare;
   if (spouseRider?.enabled) {
-    const sPT = spouseRider.pt || 49;
-    const sPPT = spouseRider.ppt || resolvedPPT;
-    const sKey = buildFPRKey(age, genderCode, sPT, sPPT, 'SC', smokerType); // Note: SC is not a variant in the new FPR key, assuming it should be 'PC' or 'FC'
+    const sv = spouseRider.values || {};
+    const sPT = sv.pt || 49;
+    const sPPT = sv.ppt || resolvedPPT;
+    const sKey = buildFPRKey(age, genderCode, sPT, sPPT, 'SC', smokerType);
     const sBaseRate = fprBaseRates ? (fprBaseRates[sKey] || 0) : 0;
 
-    // Test case: 26M4910SCNS -> 0.4841. Adjustment -0.48. Result 0.251732
-    const sDiff = age - (spouseRider.spouseAge || 0);
+    const sDiff = age - (sv.age || Number(sv.spouseAge) || 0);
     const sFactor = getFPRAdjustmentFactor(sDiff, 'spouse');
     const sAdjustedRate = sBaseRate * (1 + sFactor);
-    scInstalmentPrem = (sAdjustedRate / 1000) * (spouseRider.sumAssured || 0) * modalFactor;
+    scInstalmentPrem = (sAdjustedRate / 1000) * (sv.sumAssured || 0) * modalFactor;
   }
 
   // Child Care
   let ccInstalmentPrem = 0;
-  const childRiders = inputs.riders?.childCare || [];
   const childPremDetails = [];
-  childRiders.forEach((child) => {
-    if (child.enabled) {
+  const childHub = inputs.riders?.childCare;
+  if (childHub?.enabled) {
+    const children = childHub.children || [];
+    children.forEach((child) => {
       const cPT = child.pt || 15;
       const cPPT = child.ppt || resolvedPPT;
-      const cKey = buildFPRKey(age, genderCode, cPT, cPPT, 'CC', smokerType); // Note: CC is not a variant in the new FPR key, assuming it should be 'PC' or 'FC'
+      const cKey = buildFPRKey(age, genderCode, cPT, cPPT, 'CC', smokerType);
       const cBaseRate = fprBaseRates ? (fprBaseRates[cKey] || 0) : 0;
       const cPrem = (cBaseRate / 1000) * (child.sumAssured || 0) * modalFactor;
       ccInstalmentPrem += cPrem;
       childPremDetails.push(cPrem);
-    }
-  });
+    });
+  }
 
   // Fam Care
   let fcInstalmentPrem = 0;
   const famRider = inputs.riders?.famCare;
   if (famRider?.enabled) {
-    const fPT = famRider.pt || 59;
-    const fPPT = famRider.ppt || resolvedPPT;
+    const fv = famRider.values || {};
+    const fPT = fv.pt || 59;
+    const fPPT = fv.ppt || resolvedPPT;
     const fKey = buildFPRKey(age, genderCode, fPT, fPPT, 'FC', smokerType);
     const fBaseRate = fprBaseRates ? (fprBaseRates[fKey] || 0) : 0;
-    fcInstalmentPrem = (fBaseRate / 1000) * (famRider.sumAssured || 0) * modalFactor;
+    fcInstalmentPrem = (fBaseRate / 1000) * (fv.sumAssured || 0) * modalFactor;
   }
 
   // ── HSAR DISCOUNT ────────────────────────────────

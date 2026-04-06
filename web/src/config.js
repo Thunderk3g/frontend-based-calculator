@@ -42,6 +42,13 @@ export let CONFIG = {
         maxAge: 65,
         maxMaturityAge: 85,
         minSA: 5000000,
+    },
+    carePlusLimits: {
+        minPT: 1,
+        maxPT: 20,
+        minAge: 18,
+        maxAge: 65,
+        maxMaturityAge: 85
     }
 };
 
@@ -106,14 +113,20 @@ export async function loadConfig() {
         const outputSheet = data['Output'] || [];
         outputSheet.forEach(row => {
             const label = String(row[5] || '');
-            const value = parseFloat(row[7]);
-            if (label.includes('GST Rate (First Year)')) CONFIG.gst.year1 = value || 0.045;
-            if (label.includes('GST Rate (Second Year Onwards)')) CONFIG.gst.year2 = value || 0.0225;
+            const value = row[7];
+            if (label.includes('GST Rate (First Year)')) {
+                const num = parseFloat(value);
+                CONFIG.gst.year1 = (!isNaN(num)) ? num : 0.045;
+            }
+            if (label.includes('GST Rate (Second Year Onwards)')) {
+                const num = parseFloat(value);
+                CONFIG.gst.year2 = (!isNaN(num)) ? num : 0.0225;
+            }
         });
 
-        // Forced fallback if data is zero/missing to ensure split exists
-        if (!CONFIG.gst.year1) CONFIG.gst.year1 = 0.045;
-        if (!CONFIG.gst.year2) CONFIG.gst.year2 = 0.0225;
+        // Only fallback if they are strictly undefined or null (not 0)
+        if (CONFIG.gst.year1 === undefined) CONFIG.gst.year1 = 0.045;
+        if (CONFIG.gst.year2 === undefined) CONFIG.gst.year2 = 0.0225;
 
         // 5. CI Limits from 'CI Calc' sheet
         const ciCalcSheet = data['CI Calc'] || [];

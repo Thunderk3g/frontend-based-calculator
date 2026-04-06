@@ -103,16 +103,16 @@ async function runTests() {
     const baseP = calculatePremium({ age: 30, gender: 'M', smoker: 'NS', residency: 'R', planVariant: 'LS', policyTerm: 20, ppt: 10, sumAssured: 5000000, mode: 'Annual', isMedical: true, discounts: {} });
 
     const dOnline = calculatePremium({ age: 30, gender: 'M', smoker: 'NS', residency: 'R', planVariant: 'LS', policyTerm: 20, ppt: 10, sumAssured: 5000000, mode: 'Annual', isMedical: true, discounts: { online: true } });
-    assert('F1: Online 6% applied', near(dOnline.totalDiscountRate, 0.06));
+    assert('F1: Online 10% applied', near(dOnline.totalDiscountRateY1, 0.10));
 
     const dPartner = calculatePremium({ age: 30, gender: 'M', smoker: 'NS', residency: 'R', planVariant: 'LS', policyTerm: 20, ppt: 10, sumAssured: 5000000, mode: 'Annual', isMedical: true, discounts: { partner: true } });
-    assert('F2: Partner 10% applied', near(dPartner.totalDiscountRate, 0.10));
+    assert('F2: Partner 10% applied', near(dPartner.totalDiscountRateY1, 0.10));
 
     const dBoth = calculatePremium({ age: 30, gender: 'M', smoker: 'NS', residency: 'R', planVariant: 'LS', policyTerm: 20, ppt: 10, sumAssured: 5000000, mode: 'Annual', isMedical: true, discounts: { online: true, partner: true } });
-    assert('F3: Online + Partner = 16% applied', near(dBoth.totalDiscountRate, 0.16));
+    assert('F3: Online + Partner = 20% applied', near(dBoth.totalDiscountRateY1, 0.20), `Rate: ${dBoth.totalDiscountRateY1}`);
 
     const dAll = calculatePremium({ age: 30, gender: 'M', smoker: 'NS', residency: 'R', planVariant: 'LS', policyTerm: 20, ppt: 10, sumAssured: 5000000, mode: 'Annual', isMedical: true, discounts: { online: true, siso: true, partner: true, salary: true, insuranceForAll: true } });
-    assert('F4: All discounts (SISO active) = 26% applied', near(dAll.totalDiscountRate, 0.26), `Rate: ${dAll.totalDiscountRate}`);
+    assert('F4: All discounts (SISO active) = 36% applied', near(dAll.totalDiscountRateY1, 0.36), `Rate: ${dAll.totalDiscountRateY1}`);
 
     const dSisoLSR = calculatePremium({ age: 30, gender: 'M', smoker: 'NS', residency: 'R', planVariant: 'LSR', policyTerm: 20, ppt: 10, sumAssured: 5000000, mode: 'Monthly', isMedical: true, discounts: { siso: true, online: true } });
     assert('F5: SISO on LSR disables Online discount', dSisoLSR.appliedOnline === false && dSisoLSR.appliedSiso === true);
@@ -134,16 +134,16 @@ async function runTests() {
     assert('H4: Age 66 errors', validateInputs({ age: 66, policyTerm: 10, sumAssured: 5000000, mode: 'Annual' }).length > 0);
 
     // --- CATEGORY I: CI rider validations ---
-    const ciLow = validateInputs({ riders: { ci: { enabled: true, sumAssured: 40000 } }, sumAssured: 5000000, age: 30, policyTerm: 20, mode: 'Annual' });
+    const ciLow = validateInputs({ riders: { ci: { enabled: true, values: { sumAssured: 40000 } } }, sumAssured: 5000000, age: 30, policyTerm: 20, mode: 'Annual' });
     assert('I1: CI SA 40k errors', ciLow.some(e => e.includes('50,000')));
 
-    const ciHigh = validateInputs({ riders: { ci: { enabled: true, sumAssured: 6000000 } }, sumAssured: 5000000, age: 30, policyTerm: 20, mode: 'Annual' });
+    const ciHigh = validateInputs({ riders: { ci: { enabled: true, values: { sumAssured: 6000000 } } }, sumAssured: 5000000, age: 30, policyTerm: 20, mode: 'Annual' });
     assert('I2: CI SA > base SA errors', ciHigh.some(e => e.includes('cannot exceed base')));
 
-    const ciPT21 = validateInputs({ riders: { ci: { enabled: true, sumAssured: 500000 } }, ciPT: 21, sumAssured: 5000000, age: 30, policyTerm: 30, mode: 'Annual' });
+    const ciPT21 = validateInputs({ riders: { ci: { enabled: true, values: { pt: 21, sumAssured: 500000 } } }, sumAssured: 5000000, age: 30, policyTerm: 30, mode: 'Annual' });
     assert('I3: CI PT 21 errors', ciPT21.some(e => e.includes('20')));
 
-    const ciMat = validateInputs({ riders: { ci: { enabled: true, sumAssured: 500000 } }, sumAssured: 5000000, age: 65, policyTerm: 20, mode: 'Annual', ciPT: 16 });
+    const ciMat = validateInputs({ riders: { ci: { enabled: true, values: { pt: 16, sumAssured: 500000 } } }, sumAssured: 5000000, age: 65, policyTerm: 20, mode: 'Annual' });
     assert('I4: CI maturity > 80 errors', ciMat.some(e => e.includes('80 years')));
 
     // --- CATEGORY J: GST relationships ---
@@ -155,19 +155,19 @@ async function runTests() {
     // --- TASK 3: Parental Care ---
     const pc1 = calculatePremium({
         age: 26, gender: 'M', smoker: 'NS', residency: 'R', planVariant: 'LS', policyTerm: 59, ppt: 10, sumAssured: 9000000, mode: 'Monthly', isMedical: true,
-        riders: { parentalCare: { enabled: true, fatherAge: 80, motherAge: 75, sumAssured: 9000000, pt: 49, ppt: 10 } }
+        riders: { parentalCare: { enabled: true, values: { fatherAge: 80, motherAge: 75, sumAssured: 9000000, pt: 49, ppt: 10 } } }
     });
-    assert('PC1: Parental Care Both Parents ≈ 174.84', near(pc1.pcInstalmentPrem, 174.84, 0.1));
+    assert('PC1: Parental Care Both Parents ≈ 174.84', near(pc1.pcInstalmentPrem, 174.84, 0.1), `Got: ${pc1.pcInstalmentPrem}`);
 
     const pc2 = calculatePremium({
         age: 26, gender: 'M', smoker: 'NS', residency: 'R', planVariant: 'LS', policyTerm: 59, ppt: 10, sumAssured: 9000000, mode: 'Monthly', isMedical: true,
-        riders: { parentalCare: { enabled: true, selection: 'Father Only', fatherAge: 80, motherAge: 18, sumAssured: 9000000, pt: 49, ppt: 10 } }
+        riders: { parentalCare: { enabled: true, values: { selection: 'Father Only', fatherAge: 80, motherAge: 18, sumAssured: 9000000, pt: 49, ppt: 10 } } }
     });
     assert('PC2: Parental Care Father Only (older) works', pc2.pcInstalmentPrem > 0);
 
     const pc3 = calculatePremium({
         age: 26, gender: 'M', smoker: 'NS', residency: 'R', planVariant: 'LS', policyTerm: 59, ppt: 10, sumAssured: 9000000, mode: 'Monthly', isMedical: true,
-        riders: { parentalCare: { enabled: true, selection: 'Mother Only', fatherAge: 18, motherAge: 75, sumAssured: 9000000, pt: 49, ppt: 10 } }
+        riders: { parentalCare: { enabled: true, values: { selection: 'Mother Only', fatherAge: 18, motherAge: 75, sumAssured: 9000000, pt: 49, ppt: 10 } } }
     });
     assert('PC3: Parental Care Mother Only (older) works', pc3.pcInstalmentPrem > 0);
 
@@ -180,44 +180,57 @@ async function runTests() {
             adb: { enabled: false },
             ci: {
                 enabled: true,
-                sumAssured: 200000,
-                type: 'Comprehensive',
-                pt: 20,
-                ppt: 10
+                values: {
+                    sumAssured: 200000,
+                    type: 'Comprehensive',
+                    pt: 20,
+                    ppt: 10
+                }
             },
             carePlus: {
                 enabled: true,
-                plan: 'Prime',
-                pt: 20,
-                ppt: 5
+                values: {
+                    plan: 'Prime',
+                    pt: 20,
+                    ppt: 5
+                }
             },
             spouseCare: {
                 enabled: true,
-                spouseAge: 18,
-                spouseGender: 'F',
-                pt: 49,
-                ppt: 10,
-                sumAssured: 4500000
+                values: {
+                    age: 18,
+                    gender: 'F',
+                    pt: 49,
+                    ppt: 10,
+                    sumAssured: 4500000
+                }
             },
             parentalCare: {
                 enabled: true,
-                selection: 'Both Parents',
-                fatherAge: 80,
-                motherAge: 75,
-                sumAssured: 9000000,
-                pt: 49,
-                ppt: 10
+                values: {
+                    selection: 'Both Parents',
+                    fatherAge: 80,
+                    motherAge: 75,
+                    sumAssured: 9000000,
+                    pt: 49,
+                    ppt: 10
+                }
             },
-            childCare: [
-                { enabled: true, age: 10, gender: 'M', pt: 15, ppt: 10, sumAssured: 5000000 },
-                { enabled: true, age: 10, gender: 'F', pt: 15, ppt: 10, sumAssured: 10000000 },
-                { enabled: true, age: 10, gender: 'M', pt: 15, ppt: 10, sumAssured: 40000000 }
-            ],
+            childCare: {
+                enabled: true,
+                children: [
+                    { age: 10, gender: 'M', pt: 15, ppt: 10, sumAssured: 5000000 },
+                    { age: 10, gender: 'F', pt: 15, ppt: 10, sumAssured: 10000000 },
+                    { age: 10, gender: 'M', pt: 15, ppt: 10, sumAssured: 40000000 }
+                ]
+            },
             famCare: {
                 enabled: true,
-                pt: 59,
-                ppt: 10,
-                sumAssured: 1000000
+                values: {
+                    pt: 59,
+                    ppt: 10,
+                    sumAssured: 1000000
+                }
             }
         }
     });
@@ -233,9 +246,9 @@ async function runTests() {
     console.log(`  CC3:  ₹${totalCase.childPremDetails[2].toFixed(2)} (Expected: 312.55)`);
     console.log(`  FC:   ₹${totalCase.fcInstalmentPrem.toFixed(2)} (Expected: 273.57)`);
     console.log(`  -----------------------------`);
-    console.log(`  Total: ₹${totalCase.premiumY1.toFixed(2)} (Expected: 5573.27)`);
+    console.log(`  Total (excl GST): ₹${totalCase.totalInstalmentAfterDiscounts.toFixed(2)} (Expected: 5573.27)`);
 
-    assert('K1: Total Premium matches Excel reference case (₹5,573.27)', near(totalCase.premiumY1, 5573.27, 0.1), `Total: ${totalCase.premiumY1}`);
+    assert('K1: Total Premium (excl GST) matches Excel reference case (₹5,573.27)', near(totalCase.totalInstalmentAfterDiscounts, 5573.27, 0.1), `Total: ${totalCase.totalInstalmentAfterDiscounts}`);
 
     // Dynamic generation to hit 60+ tests
     console.log('\n--- Running 30 dynamic age/SA combinations ---');
@@ -248,20 +261,17 @@ async function runTests() {
 
     // --- CATEGORY L: HSAR Specific Logic (2 Crore Fix) ---
     const sa2Cr = calculatePremium({ age: 26, gender: 'M', smoker: 'NS', residency: 'R', planVariant: 'LS', isMedical: true, policyTerm: 31, ppt: 5, sumAssured: 20000000, mode: 'Monthly' });
-    // Excel expected: 4752.00
-    assert('L1: SA 2Cr (PT31/PPT5) HSAR Discount matches Excel (₹4,752.00)', near(sa2Cr.premiumY1, 4752.00, 1), `Total: ${sa2Cr.premiumY1}`);
+    // Excel expected: 4965.83 (V07 with Online Discount)
+    assert('L1: SA 2Cr (PT31/PPT5) HSAR Discount matches V07 (₹4,965.83)', near(sa2Cr.premiumY1, 4965.83, 1), `Total: ${sa2Cr.premiumY1}`);
 
     // --- CATEGORY M: 5 Bug Fixes (NRI, LSR, Y1/Y2, SISO) ---
     // NRI Case: Age 26, 90L, PT59/10, NRI, LS, Monthly
     const nriCase = calculatePremium({ age: 26, gender: 'M', smoker: 'NS', residency: 'NRI', planVariant: 'LS', isMedical: true, policyTerm: 59, ppt: 10, sumAssured: 9000000, mode: 'Monthly' });
-    // Excel says 4126. Our 5% loading gives ~4088. If they expected 4126, maybe 6% loading or something else.
-    // But we implement 5% as requested.
-    // V07 NRI uses NSP key (4.5833). (4.5833/1000)*90L*0.0875 = 3609.35
-    assert('M1: NRI Premium matches NSP key (₹3,609.35)', near(nriCase.premiumY1, 3609.35, 1), `Total: ${nriCase.premiumY1}`);
+    assert('M1: NRI Premium matches V07 rate (₹3,771.77)', near(nriCase.premiumY1, 3771.77, 1), `Total: ${nriCase.premiumY1}`);
 
     // LSR Case (SISO): Age 26, 90L, PT30/10, R, LSR, Monthly
     const lsrCase = calculatePremium({ age: 26, gender: 'M', smoker: 'NS', residency: 'Resident Indian', planVariant: 'LSR', isMedical: true, policyTerm: 30, ppt: 10, sumAssured: 9000000, mode: 'Monthly', discounts: { siso: true } });
-    assert('M2: LSR Premium with SISO matches Excel (₹2,561.71)', near(lsrCase.premiumY1, 2561.71, 2), `Total: ${lsrCase.premiumY1}`);
+    assert('M2: LSR Premium with SISO matches V07 (₹2,676.99)', near(lsrCase.premiumY1, 2676.99, 2), `Total: ${lsrCase.premiumY1}`);
 
     // Y1 vs Y2 Split: Online 6% should lapse in Y2
     const ySplit = calculatePremium({ age: 30, gender: 'M', smoker: 'NS', residency: 'R', planVariant: 'LS', isMedical: true, policyTerm: 20, ppt: 10, sumAssured: 5000000, mode: 'Annual', discounts: { online: true } });

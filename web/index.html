@@ -9,17 +9,17 @@
     content="Compare Bajaj Life eTouch II plan variants side-by-side with real premium calculations." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
   <style>
     :root {
-      --primary: #c41230;
+      --primary: #f37021;
       --primary-light: #fef2f4;
-      --primary-dark: #9e0e27;
+      --primary-dark: #d95d13;
       --blue: #1a73e8;
       --blue-light: #e8f0fe;
-      --bajaj-blue: #005cb9;
+      --bajaj-blue: #005DA4;
       --bajaj-orange: #f37021;
       --green: #0d9f6e;
       --green-light: #ecfdf5;
@@ -53,7 +53,7 @@
     }
 
     body {
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Rubik', system-ui, sans-serif;
       background: var(--bg);
       color: var(--t1);
       min-height: 100vh;
@@ -68,7 +68,7 @@
       left: 0;
       right: 0;
       z-index: 1000;
-      background: linear-gradient(135deg, #0B3A6E 0%, #031a31 100%);
+      background: linear-gradient(135deg, #005DA4 0%, #003d6d 100%);
       border-bottom: 2px solid #f37021;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       display: flex;
@@ -246,19 +246,29 @@
     }
 
     .fg input,
-    .fg select {
+    .fg select,
+    .combo-wrapper {
       background: var(--input);
-      border: 1px solid #1f4e79;
-      border-radius: var(--rs);
-      padding: 8px 11px;
-      font-size: 13px;
+      border: 1px solid #005DA4;
+      border-radius: 8px;
+      padding: 6px 8px;
+      height: 36px;
+      font-size: 14px;
       font-weight: 500;
       color: var(--t1);
       font-family: inherit;
       outline: none;
       transition: var(--tr);
       -webkit-appearance: none;
-      appearance: none
+      appearance: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .input-small {
+      width: 100px !important;
     }
 
     .fg select {
@@ -270,7 +280,8 @@
     }
 
     .fg input:focus,
-    .fg select:focus {
+    .fg select:focus,
+    .combo-wrapper:focus-within {
       border-color: var(--border-focus);
       box-shadow: 0 0 0 3px rgba(26, 115, 232, .12)
     }
@@ -291,13 +302,21 @@
     .cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 18px
+      gap: 18px;
+      align-items: start;
     }
+
+    .card-col {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
 
     .card {
       background: var(--white);
       border: 2px solid var(--border);
-      border-radius: var(--r);
+      border-radius: var(--r) var(--r) 0 0;
       box-shadow: var(--shadow-card);
       padding: 0 22px 22px;
       cursor: pointer;
@@ -306,14 +325,18 @@
       display: flex;
       flex-direction: column;
       overflow: visible;
+      border-bottom: none;
     }
+
 
 
 
     .card.selected {
-      border: 2px solid #0b4c80;
+      border: 2px solid #005DA4;
+      border-bottom: none;
       box-shadow: 0 0 0 3px rgba(11, 76, 128, .15), var(--shadow-md)
     }
+
 
     .card.best {
       border-color: #0d9f6e;
@@ -344,7 +367,7 @@
     .card-name {
       font-size: 16px;
       font-weight: 800;
-      color: #0b3a6e;
+      color: #005DA4;
       margin-bottom: 0;
       position: sticky;
       top: 64px;
@@ -395,7 +418,7 @@
 
     .prem-lbl {
       font-size: 10px;
-      color: #0b4c80;
+      color: #005DA4;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: .06em;
@@ -449,7 +472,7 @@
 
     .feat .material-icons-outlined {
       font-size: 14px;
-      color: #0b4c80
+      color: #005DA4
     }
 
     .card-note {
@@ -479,27 +502,81 @@
 
     .sel-btn {
       margin-top: auto;
-      padding-top: 12px
+      padding-top: 12px;
     }
 
     .sel-btn button {
       width: 100%;
-      padding: 9px 0;
+      padding: 10px 0;
       border: none;
-      border-radius: var(--rs);
-      font-size: 12px;
-      font-weight: 700;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
       cursor: pointer;
-      transition: var(--tr);
+      transition: all 0.2s;
       background: #f37021;
       color: #fff;
-      border: 1px solid #f37021
+      box-shadow: 0 4px 6px -1px rgba(243, 112, 33, 0.2);
+    }
+
+    .sel-btn button:hover {
+      background: #d95d13;
+      transform: translateY(-1px);
     }
 
     .card.selected .sel-btn button {
-      background: #0b4c80;
+      background: #005DA4;
       color: #fff;
-      border-color: #0b4c80
+      box-shadow: 0 4px 12px rgba(11, 58, 110, 0.2);
+    }
+
+    /* Keep THESE for sidebar */
+    .card-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 16px;
+    }
+
+    .btn-buy {
+      flex: 1;
+      background: #f37021;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 0;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 6px -1px rgba(243, 112, 33, 0.2);
+      white-space: nowrap;
+    }
+
+    .btn-buy:hover {
+      background: #d95d13;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px -2px rgba(243, 112, 33, 0.3);
+    }
+
+    .btn-more {
+      flex: 1;
+      background: #fff;
+      color: #f37021;
+      border: 1.5px solid #f37021;
+      border-radius: 12px;
+      padding: 10px 0;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-more:hover {
+      background: #fff9f5;
+      color: #d95d13;
+      border-color: #d95d13;
     }
 
     /* ADDONS */
@@ -639,7 +716,7 @@
       left: 0;
       right: 0;
       z-index: 100;
-      background: #032545;
+      background: #005DA4;
       border-top: none;
       box-shadow: 0 -4px 12px rgba(0, 0, 0, .06);
       padding: 12px 32px;
@@ -802,7 +879,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, .5);
-      z-index: 200;
+      z-index: 2000;
       display: none;
       align-items: center;
       justify-content: center;
@@ -815,20 +892,27 @@
 
     .modal-box {
       background: #fff;
-      border-radius: 16px;
+      border-radius: 24px;
       width: 100%;
       max-width: 480px;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .15)
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .15);
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .modal-box::-webkit-scrollbar {
+      display: none;
     }
 
     .modal-hdr {
-      padding: 16px 20px;
+      padding: 16px 24px;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
-      justify-content: space-between
+      justify-content: space-between;
+      border-radius: 24px 24px 0 0;
     }
 
     .modal-hdr h3 {
@@ -845,7 +929,7 @@
     }
 
     .modal-body {
-      padding: 20px
+      padding: 24px 20px;
     }
 
     .modal-body .mfg {
@@ -879,24 +963,31 @@
       border-color: var(--blue)
     }
 
-    .modal-body .mfg .merr {
-      color: #C41230;
+    .modal-body .mfg .merr,
+    .modal-group .merr {
+      color: #dc2626;
       font-size: 11px;
-      margin-top: 4px
+      margin-top: 6px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    .modal-body .mfg input.err-border {
-      border-color: #C41230
+    .modal-body .mfg input.err-border,
+    .modal-group input.err-border {
+      border-color: #dc2626;
+      background-color: #fffafb;
     }
 
     .modal-ftr {
-      padding: 14px 20px;
+      padding: 14px 24px;
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: flex-end;
       gap: 10px;
       background: #fafafa;
-      border-radius: 0 0 16px 16px
+      border-radius: 0 0 24px 24px
     }
 
     .modal-ftr .mbtn {
@@ -916,12 +1007,12 @@
     }
 
     .modal-ftr .mbtn-apply {
-      background: #C41230;
+      background: #f37021;
       color: #fff
     }
 
     .modal-ftr .mbtn-apply:hover {
-      background: #9e0e27
+      background: #d95d13
     }
 
     .modal-ftr .mbtn-apply:disabled {
@@ -971,7 +1062,7 @@
     .child-block-hdr button {
       background: none;
       border: none;
-      color: #C41230;
+      color: #f37021;
       cursor: pointer;
       font-size: 11px;
       font-weight: 600
@@ -1009,8 +1100,8 @@
       position: relative
     }
 
-    /* ── PER-CARD IN-CARD SECTIONS ── */
-    /* ── PREMIUM PER-CARD DESIGN ── */
+    /* -- PER-CARD IN-CARD SECTIONS -- */
+    /* -- PREMIUM PER-CARD DESIGN -- */
     .card-section {
       margin-top: 14px;
       padding-top: 14px;
@@ -1020,7 +1111,7 @@
     .card-sec-title {
       font-size: 9px;
       font-weight: 800;
-      color: #0b3a6e;
+      color: #005DA4;
       text-transform: uppercase;
       letter-spacing: .1em;
       margin-bottom: 12px;
@@ -1079,7 +1170,7 @@
 
     .card-fg input:focus,
     .card-fg select:focus {
-      border-color: #005cb9;
+      border-color: #005DA4;
       background: #fff;
       box-shadow: 0 0 0 4px rgba(0, 92, 185, 0.12);
       transform: translateY(-1px);
@@ -1096,7 +1187,7 @@
       padding: 4px 2px;
       font-size: 10px;
       font-weight: 700;
-      color: #0b3a6e;
+      color: #005DA4;
       background: #f1f5f9;
       border: 1px solid #e2e8f0;
       border-radius: 8px;
@@ -1107,9 +1198,9 @@
     }
 
     .qsa:hover {
-      background: #005cb9;
+      background: #005DA4;
       color: #ffffff;
-      border-color: #005cb9;
+      border-color: #005DA4;
       transform: translateY(-2px);
       box-shadow: 0 4px 8px rgba(0, 92, 185, 0.2);
     }
@@ -1120,68 +1211,20 @@
       gap: 12px;
     }
 
-    /* COMBOBOX (Manual Input + Dropdown) */
+    /* COMBOBOX (Custom Select Container) */
     .combo-box {
       position: relative;
       display: flex;
       flex-direction: column;
     }
 
-    .combo-wrapper {
-      position: relative;
-      background: #fdfdfe;
-      border: 1.5px solid #edf0f5;
-      border-radius: 10px;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .combo-wrapper:focus-within {
-      border-color: #0b3a6e;
-      background: #fff;
-      box-shadow: 0 0 0 4px rgba(11, 58, 110, 0.08);
-      transform: translateY(-1px);
-    }
-
-    .combo-input {
-      background: none;
-      border: none;
-      padding: 8px 12px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--t1);
-      font-family: inherit;
-      outline: none;
-      width: 100%;
-      flex: 1;
-    }
-
-    .combo-btn {
-      background: none;
-      border: none;
-      padding: 0 8px;
-      cursor: pointer;
-      color: var(--t3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--tr);
-    }
-
-    .combo-btn:hover {
-      color: #0b3a6e;
-    }
-
     .combo-list {
       position: absolute;
       top: 100%;
-      /* REQUIRED: Always downwards */
       left: 0;
       right: 0;
       background: #fff;
-      border: 1.5px solid #0b3a6e;
+      border: 1.5px solid #005DA4;
       border-radius: 10px;
       margin-top: 4px;
       max-height: 200px;
@@ -1219,12 +1262,12 @@
 
     .combo-item:hover {
       background: #f1f5f9;
-      color: #0b3a6e;
+      color: #005DA4;
     }
 
     .combo-item.active {
       background: #e0f2fe;
-      color: #0b3a6e;
+      color: #005DA4;
       font-weight: 700;
     }
 
@@ -1267,7 +1310,7 @@
 
     .card-rider-edit {
       font-size: 10px;
-      color: #0b3a6e;
+      color: #005DA4;
       cursor: pointer;
       text-decoration: none;
       font-weight: 800;
@@ -1302,47 +1345,84 @@
       color: #475569;
     }
 
-    /* NEW PREMIUM DISPLAY BLOCK */
+    /* PREMIUM BLOCK ATTACHED TO CARD BOTTOM */
     .global-premium-bar {
-      position: fixed;
-      bottom: 0px;
-      left: 0;
-      right: 0;
-      max-width: 1400px;
-      /* Matches .main */
-      margin: 0 auto;
-      /* Center if window is very wide */
-      padding: 0 32px;
-      /* Matches .main side padding */
-      background: transparent;
-      pointer-events: none;
-      z-index: 100;
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      /* Matches .grid */
-      gap: 24px;
-      /* Matches .grid gap */
-      animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      display: none;
     }
 
-    .global-p-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      /* Matches card gap exactly */
-      background: transparent;
+    /* Sticky unit: savings banner + blue premium block move together */
+    .premium-sticky-unit {
+      position: sticky;
+      bottom: 0;
+      z-index: 50;
     }
 
     .footer-p-block {
-      background: #032545;
-      padding: 18px 22px;
+      background: linear-gradient(135deg, #005DA4 0%, #003d6d 100%);
+      padding: 14px 22px 16px;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      pointer-events: auto;
-      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.2);
+      border-radius: 0 0 var(--r) var(--r);
+      border: 2px solid #005DA4;
+      border-top: none;
+      box-shadow: 0 12px 28px rgba(3, 37, 69, 0.35);
+      overflow: hidden;
+    }
+
+    /* Decorative curved bridge at top of premium block */
+    .footer-p-block::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg,
+          transparent 0%,
+          rgba(243, 112, 33, 0.6) 30%,
+          rgba(255, 194, 14, 0.8) 50%,
+          rgba(243, 112, 33, 0.6) 70%,
+          transparent 100%);
+    }
+
+    /* Subtle shimmer line */
+    .footer-p-block::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+      animation: shimmer 4s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 200%;
+      }
+    }
+
+    /* When card is selected, highlight its premium block border */
+    .card-col:has(.card.selected) .footer-p-block {
+      border-color: #005DA4;
+      box-shadow: 0 0 0 3px rgba(11, 76, 128, 0.2), 0 12px 28px rgba(3, 37, 69, 0.4);
+    }
+
+    .card-col:has(.card.selected) .footer-p-block::before {
+      background: linear-gradient(90deg,
+          transparent 0%,
+          rgba(255, 194, 14, 0.4) 30%,
+          rgba(255, 194, 14, 1) 50%,
+          rgba(255, 194, 14, 0.4) 70%,
+          transparent 100%);
     }
 
     .global-prem-col {
@@ -1371,18 +1451,8 @@
       color: #ffc20e;
     }
 
-    @keyframes slideUp {
-      from {
-        transform: translateY(100%);
-      }
-
-      to {
-        transform: translateY(0);
-      }
-    }
-
     .main {
-      padding-bottom: 120px !important;
+      padding-bottom: 40px !important;
     }
 
     /* MODAL ENHANCEMENTS */
@@ -1404,7 +1474,9 @@
     .modal-sec-title {
       font-size: 14px;
       font-weight: 800;
-      color: #0b3a6e;
+      color: #005DA4;
+      line-height: 1.2;
+      padding-top: 2px;
     }
 
     .modal-row {
@@ -1440,31 +1512,47 @@
       transition: all 0.2s;
     }
 
+    .sect-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #005DA4;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .sect-header span {
+      font-size: 10px;
+    }
+
     .modal-group input:focus {
-      border-color: #0b3a6e;
+      border-color: #005DA4;
       box-shadow: 0 0 0 3px rgba(11, 58, 110, 0.05);
     }
 
     .select-clean {
-      border: 1.5px solid #e2e8f0;
+      border: 1px solid #005DA4;
       border-radius: 8px;
-      padding: 8px 10px;
-      height: 38px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #0b3a6e;
+      padding: 6px 8px;
+      height: 36px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--t1);
       outline: none;
-      background: #fff;
+      background: var(--input);
       cursor: pointer;
       appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'%3E%3Cpath d='M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 10px center;
-      padding-right: 32px;
+      background-position: right 6px center;
+      padding-right: 24px;
     }
 
     .select-clean:focus {
-      border-color: #0b3a6e;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, .12)
     }
 
     .tog {
@@ -1478,7 +1566,7 @@
     }
 
     .tog.on {
-      background: #0b3a6e;
+      background: #005DA4;
     }
 
     .tog::after {
@@ -1510,7 +1598,7 @@
 
 
     .card.selected {
-      border: 2px solid #0b3a6e;
+      border: 2px solid #005DA4;
       box-shadow: 0 0 0 5px rgba(11, 58, 110, 0.1);
     }
 
@@ -1537,7 +1625,7 @@
       border-radius: 8px;
       font-size: 16px;
       font-weight: 800;
-      color: #0b3a6e;
+      color: #005DA4;
       text-align: center;
       margin-top: 4px;
       box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -1554,8 +1642,8 @@
 
     .btn-sm-o {
       background: #fff;
-      color: #0b3a6e;
-      border: 1.5px solid #0b3a6e;
+      color: #f37021;
+      border: 1.5px solid #f37021;
       padding: 12px;
       border-radius: 8px;
       font-size: 13px;
@@ -1565,8 +1653,7 @@
     }
 
     .btn-sm-p {
-      background: #d81b21;
-      /* Bajaj Red */
+      background: #f37021;
       color: #fff;
       border: none;
       padding: 13px;
@@ -1574,20 +1661,172 @@
       font-size: 14px;
       font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 4px 6px -1px rgba(216, 27, 33, 0.2);
+      box-shadow: 0 4px 6px -1px rgba(243, 112, 33, 0.2);
       transition: all 0.2s;
     }
 
     .btn-sm-o:hover {
-      background: #f8fafc;
-      color: #082d56;
-      border-color: #082d56;
+      background: #fffbf9;
+      color: #d95d13;
+      border-color: #d95d13;
     }
 
     .btn-sm-p:hover {
-      background: #be181d;
+      background: #d95d13;
       transform: translateY(-1px);
-      box-shadow: 0 6px 12px -2px rgba(216, 27, 33, 0.3);
+      box-shadow: 0 6px 12px -2px rgba(243, 112, 33, 0.3);
+    }
+
+    /* -- RIDER INFO (i) BUTTON -- */
+    .rider-info-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1.2px solid #94a3b8;
+      background: transparent;
+      color: #64748b;
+      font-size: 8px;
+      font-weight: 700;
+      font-family: 'Rubik', sans-serif;
+      cursor: pointer;
+      margin-left: 4px;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      line-height: 1;
+      padding: 0;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .rider-info-btn:hover {
+      border-color: #005DA4;
+      background: #e0f2fe;
+      color: #005DA4;
+    }
+
+    /* -- INFO MODAL DESCRIPTION TEXT -- */
+    .info-modal-desc {
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      line-height: 1.7;
+      padding: 4px 0;
+    }
+
+    /* -- SAVINGS CHIP -- */
+    .savings-chip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 600;
+      margin-top: 10px;
+      line-height: normal;
+      white-space: nowrap;
+      justify-content: center;
+    }
+
+    .savings-chip strong {
+      font-weight: 800;
+      color: #047857;
+      margin-left: 2px;
+    }
+
+    /* ═══ TOTAL SAVINGS BANNER — single line, above blue premium block ═══ */
+    .total-savings-banner {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: linear-gradient(90deg, #d1fae5, #a7f3d0 60%, #d1fae5);
+      border: 1.5px solid #6ee7b7;
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      padding: 6px 14px;
+      color: #065f46;
+      white-space: nowrap;
+      overflow: hidden;
+      line-height: 1;
+    }
+
+    .total-savings-banner .material-icons-outlined {
+      color: #059669;
+      font-size: 13px !important;
+      flex-shrink: 0;
+    }
+
+    .tsa-body {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tsa-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #065f46;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .tsa-amount {
+      font-size: 13px;
+      font-weight: 800;
+      color: #047857;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .tsa-yr {
+      font-size: 9.5px;
+      color: #059669;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0.85;
+    }
+
+    /* prem-row: side-by-side year1 + renewal */
+    .prem-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+
+    /* ═══ SUM ASSURED INPUT WITH ₹ PREFIX (LEFT) ═══ */
+    .sa-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .sa-rupee-symbol {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      font-weight: 700;
+      color: #005DA4;
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+      z-index: 1;
+    }
+
+    .sa-input-wrapper .c-sa {
+      width: 100%;
+      padding-left: 24px !important;
     }
   </style>
 </head>
@@ -1642,8 +1881,8 @@
             </select></div>
         </div>
         <div class="profile-acts">
-          <button class="btn-sm-o" onclick="window.print()">View Summary</button>
           <button class="btn-sm-p">Proceed to Buy</button>
+          <button class="btn-sm-o" onclick="window.print()">View Summary</button>
         </div>
       </div>
       <div>
@@ -1655,9 +1894,28 @@
             <div class="modal-hdr">
               <h3 id="rm-title">Rider</h3><button id="rm-close">&times;</button>
             </div>
+            <div id="rm-error"
+              style="display:none; background:#fef2f2; color:#dc2626; padding:12px; font-size:12px; font-weight:600; border-bottom:1px solid #fee2e2;">
+            </div>
             <div class="modal-body" id="rm-body"></div>
             <div class="modal-ftr"><button class="mbtn mbtn-cancel" id="rm-cancel">Cancel</button><button
-                class="mbtn mbtn-apply" id="rm-apply">Apply →</button></div>
+                class="mbtn mbtn-apply" id="rm-apply">Apply ?</button></div>
+          </div>
+        </div>
+
+        <!-- Rider Info Modal -->
+        <div class="modal-overlay" id="rider-info-modal">
+          <div class="modal-box" style="max-width:420px;">
+            <div class="modal-hdr">
+              <h3 id="rim-title">Rider Information</h3>
+              <button id="rim-close">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p class="info-modal-desc" id="rim-desc"></p>
+            </div>
+            <div class="modal-ftr">
+              <button class="mbtn mbtn-apply" id="rim-ok">OK</button>
+            </div>
           </div>
         </div>
       </div>

@@ -12,17 +12,17 @@ import {
 
 const DEFAULTS = {
   age: 26, gender: 'Male', smoker: 'Non Smoker', variant: 'Life Shield',
-  pt: 59, ppt: 10, sa: 9000000, sumAssured: 9000000, mode: 'Monthly',
+  pt: 34, ppt: 34, sa: 9000000, sumAssured: 9000000, mode: 'Monthly',
   medicalCategory: 'Medical', residence: 'Resident Indian',
   isMedical: true, residency: 'R',
-  discounts: { online: false, aggregator: false, partner: false, salaried: false, insuranceForAll: false, siso: false },
+  discounts: { online: false, aggregator: false, salaried: false, insuranceForAll: false },
   adbEnabled: false, adbSA: 9000000,
   ciEnabled: false, ciSA: 200000, ciPT: 20, ciPPT: 10, ciType: 'Comprehensive',
   carePlusEnabled: false, carePlusPT: 20, carePlusPPT: 5, carePlusPlan: 'Prime',
   spouseCareEnabled: false, spouseAge: 18, spouseGender: 'Female', spousePT: 49, spousePPT: 10, spouseSA: 4500000,
   childCare: [], childCareEnabled: false,
-  famCareEnabled: false, famCarePT: 59, famCarePPT: 10, famCareSA: 1000000,
-  parentalCare: { enabled: false, selection: 'Both Parents', fatherAge: 80, motherAge: 75, pt: 49, ppt: 10, sumAssured: 9000000 },
+  famCareEnabled: false, famCarePT: 34, famCarePPT: 34, famCareSA: 1000000,
+  parentalCare: { enabled: false, selection: 'Both Parents', fatherAge: 80, motherAge: 75, pt: 34, ppt: 34, sumAssured: 9000000 },
   gstYear1Rate: 0, gstYear2Rate: 0,
 };
 
@@ -110,10 +110,8 @@ function buildHTML() {
           <div class="discount-grid">
             ${discountToggle('online', 'Online / Direct', '-6%')}
             ${discountToggle('aggregator', 'Account Aggregator', '-6%')}
-            ${discountToggle('partner', 'Partner / Worksite', '-10%')}
             ${discountToggle('salaried', 'Salaried Rebate', '-5%')}
-            ${discountToggle('insuranceForAll', 'Insurance for All', '-5%')}
-            ${discountToggle('siso', 'SISO Benefit', '-6%')}
+            ${discountToggle('insuranceForAll', 'First Time Buyer', '-5%')}
           </div>
         </div>
 
@@ -307,8 +305,8 @@ function getElements() {
     errorBox: $('calc-error-box'),
     ptHint: $('pt-hint'),
     // Discount toggles
-    disco_online: $('inp-disco-online'), disco_aggregator: $('inp-disco-aggregator'), disco_partner: $('inp-disco-partner'),
-    disco_salaried: $('inp-disco-salaried'), disco_insuranceForAll: $('inp-disco-insuranceForAll'), disco_siso: $('inp-disco-siso'),
+    disco_online: $('inp-disco-online'), disco_aggregator: $('inp-disco-aggregator'),
+    disco_salaried: $('inp-disco-salaried'), disco_insuranceForAll: $('inp-disco-insuranceForAll'),
     // Errors
     errSA: $('err-sa'), errBaseGeneral: $('err-base-general'), errADB: $('err-adb'), errCI: $('err-ci'), errCP: $('err-cp'), errSC: $('err-sc'), errCC: $('err-cc'), errFC: $('err-fc'), errPC: $('err-pc'),
     y1: $('res-y1'), y1Sub: $('res-y1-sub'), y2: $('res-y2'), y2Sub: $('res-y2-sub'),
@@ -319,18 +317,24 @@ function getElements() {
 
 function showFieldError(id, message) {
   let el = document.getElementById(id);
-  if (!el) {
+  const input = document.getElementById(id.replace('err-', '').replace('-error', ''));
+
+  if (!el && input) {
     el = document.createElement('div');
+    el.className = 'merr';
     el.id = id;
-    el.style.cssText = `color: #ff4444; font-size: 12px; margin-top: 4px; font-weight: 500;`;
-    const input = document.getElementById(id.replace('-error', '-input'));
-    if (input && input.parentNode) {
-      input.parentNode.insertBefore(el, input.nextSibling);
-    }
+    input.parentNode.appendChild(el);
   }
-  el.textContent = '⚠️ ' + message;
-  el.style.display = 'block';
-  setTimeout(() => { if (el) el.style.display = 'none'; }, 4000);
+
+  if (el) {
+    el.textContent = message;
+    el.style.display = 'flex';
+    if (input) input.classList.add('err-border');
+    setTimeout(() => {
+      if (el) el.style.display = 'none';
+      if (input) input.classList.remove('err-border');
+    }, 5000);
+  }
 }
 
 function clearFieldError(id) {
@@ -354,10 +358,8 @@ function setFormValues(el, s) {
 
   safeCheck(el.disco_online, s.discounts.online);
   safeCheck(el.disco_aggregator, s.discounts.aggregator);
-  safeCheck(el.disco_partner, s.discounts.partner);
   safeCheck(el.disco_salaried, s.discounts.salaried);
   safeCheck(el.disco_insuranceForAll, s.discounts.insuranceForAll);
-  safeCheck(el.disco_siso, s.discounts.siso);
 
   safeCheck(el.adbToggle, s.adbEnabled); safeSet(el.adb, s.adbSA || s.sa);
   safeCheck(el.ciToggle, s.ciEnabled); safeSet(el.ciSA, s.ciSA); safeSet(el.ciPT, s.ciPT); safeSet(el.ciPPT, s.ciPPT); safeSet(el.ciType, s.ciType);
@@ -555,6 +557,7 @@ function bindEvents(el, state) {
 
     state.pt = pt;
     state.policyTerm = pt;
+    state.ppt = pt; el.ppt.value = pt; // Excel logic: Default to Regular Pay (PT = PPT)
     recalc();
   });
 
@@ -613,7 +616,7 @@ function bindEvents(el, state) {
   });
 
   // Discount toggles
-  [el.disco_online, el.disco_aggregator, el.disco_partner, el.disco_salaried, el.disco_insuranceForAll, el.disco_siso].forEach(e => e.addEventListener('change', recalc));
+  [el.disco_online, el.disco_aggregator, el.disco_salaried, el.disco_insuranceForAll].forEach(e => e.addEventListener('change', recalc));
 
   // Toggles visibility logic
   el.adbToggle.addEventListener('change', () => {
@@ -668,11 +671,7 @@ function bindEvents(el, state) {
     recalc();
   });
 
-  // Special SISO rule: SISO only on LSR
-  el.disco_siso.addEventListener('change', () => {
-    if (el.disco_siso.checked) el.disco_online.checked = false;
-    recalc();
-  });
+
 
   el.residence.addEventListener('change', () => {
     state.residence = el.residence.value;
@@ -695,10 +694,8 @@ function readForm(el, s) {
   s.discounts = {
     online: el.disco_online.checked,
     aggregator: el.disco_aggregator.checked,
-    partner: el.disco_partner.checked,
     salaried: el.disco_salaried.checked,
-    insuranceForAll: el.disco_insuranceForAll.checked,
-    siso: el.disco_siso.checked
+    insuranceForAll: el.disco_insuranceForAll.checked
   };
 
   s.adbEnabled = el.adbToggle.checked;
@@ -803,20 +800,21 @@ function runCalculation(el, state) {
   if (el.errorBox) el.errorBox.style.display = 'none';
 
   // Update rider premiums displayed in cards
-  el.premAdb.textContent = `Monthly Premium: ${formatCurrency(r.adbInstalmentPrem)}`;
-  el.premCi.textContent = `Monthly Premium: ${formatCurrency(r.ciInstalmentPrem)}`;
-  el.premCp.textContent = `Monthly Premium: ${formatCurrency(r.cpInstalmentPrem)}`;
-  el.premSc.textContent = `Monthly Premium: ${formatCurrency(r.scInstalmentPrem)}`;
-  el.premPc.textContent = `Monthly Premium: ${formatCurrency(r.pcInstalmentPrem)}`;
-  el.premCc.textContent = `Total Monthly Premium: ${formatCurrency(r.ccInstalmentPrem)}`;
-  el.premFc.textContent = `Monthly Premium: ${formatCurrency(r.fcInstalmentPrem)}`;
+  const m = r.inputs.mode || 'Annual';
+  el.premAdb.textContent = `${m} Premium: ${formatCurrency(r.adbInstalmentPrem)}`;
+  el.premCi.textContent = `${m} Premium: ${formatCurrency(r.ciInstalmentPrem)}`;
+  el.premCp.textContent = `${m} Premium: ${formatCurrency(r.cpInstalmentPrem)}`;
+  el.premSc.textContent = `${m} Premium: ${formatCurrency(r.scInstalmentPrem)}`;
+  el.premPc.textContent = `${m} Premium: ${formatCurrency(r.pcInstalmentPrem)}`;
+  el.premCc.textContent = `Total ${m} Premium: ${formatCurrency(r.ccInstalmentPrem)}`;
+  el.premFc.textContent = `${m} Premium: ${formatCurrency(r.fcInstalmentPrem)}`;
 
   // Update individual child premium labels without re-rendering cards
   const childCards = el.childContainer.querySelectorAll('.child-card');
   childCards.forEach((card, idx) => {
     const label = card.querySelector('.rider-prem-label');
     if (label) {
-      label.textContent = `Monthly: ${formatCurrency(r.childPremDetails[idx] || 0)}`;
+      label.textContent = `${m}: ${formatCurrency(r.childPremDetails[idx] || 0)}`;
     }
   });
 
