@@ -34,7 +34,7 @@ export async function createApp(root) {
   try {
     console.log("%c BAJAJ LIFE ETOUCH II %c UAT DEPLOYMENT ", "background:#c41230;color:#fff;padding:2px 6px;border-radius:3px 0 0 3px", "background:#1f4e79;color:#fff;padding:2px 6px;border-radius:0 3px 3px 0");
     console.log(`%c Environment: %c UAT \n Path: %c /term-plan-compare/ \n URL: %c http://balicuat.bajajlifeinsurance.com/term-plan-compare/`, "font-weight:bold", "color:#1a73e8", "color:#1a73e8", "color:#1a73e8");
-    console.log("UAT Environment Date : 20-03-2025")
+    console.log("UAT Environment Date : 07-04-2026")
     await loadRateData();
     const state = JSON.parse(JSON.stringify(DEFAULTS));
     root.innerHTML = buildHTML();
