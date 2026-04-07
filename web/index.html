@@ -102,12 +102,8 @@
     }
 
     .logo-icon {
-      width: 32px;
-      height: 32px;
+      height: 44px;
       object-fit: contain;
-      background: #FFFFFF;
-      padding: 3px;
-      border-radius: 4px;
     }
 
     .logo-life {
@@ -1631,51 +1627,7 @@
       box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
-    .profile-acts {
-      margin-top: 24px;
-      padding-top: 18px;
-      border-top: 1px dashed #e2e8f0;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
 
-    .btn-sm-o {
-      background: #fff;
-      color: #f37021;
-      border: 1.5px solid #f37021;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-sm-p {
-      background: #f37021;
-      color: #fff;
-      border: none;
-      padding: 13px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 4px 6px -1px rgba(243, 112, 33, 0.2);
-      transition: all 0.2s;
-    }
-
-    .btn-sm-o:hover {
-      background: #fffbf9;
-      color: #d95d13;
-      border-color: #d95d13;
-    }
-
-    .btn-sm-p:hover {
-      background: #d95d13;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 12px -2px rgba(243, 112, 33, 0.3);
-    }
 
     /* -- RIDER INFO (i) BUTTON -- */
     .rider-info-btn {
@@ -1839,14 +1791,7 @@
 
   <nav class="top-nav" id="nav" style="display:none">
     <div class="nav-brand">
-      <div class="logo-stack">
-        <div class="logo-top">
-          <!-- Embedded SVG icon to ensure it always loads -->
-          <img src="./Bajaj Logo.png" alt="Logo" class="logo-icon" />
-          <span class="logo-life">LIFE</span>
-        </div>
-        <div class="logo-tagline">LIFE GOALS. DONE.</div>
-      </div>
+      <img src="./Bajaj Logo.png" alt="Logo" class="logo-icon" />
     </div>
     <div class="mode-toggle" id="modeT">
       <button class="mode-btn" data-m="Annual">Annual</button>
@@ -1879,10 +1824,6 @@
               <option value="Resident Indian">Resident Indian</option>
               <option value="NRI">NRI</option>
             </select></div>
-        </div>
-        <div class="profile-acts">
-          <button class="btn-sm-p">Proceed to Buy</button>
-          <button class="btn-sm-o" onclick="window.print()">View Summary</button>
         </div>
       </div>
       <div>

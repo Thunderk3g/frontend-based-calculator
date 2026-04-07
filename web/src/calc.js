@@ -379,9 +379,20 @@ export function calculatePremium(inputs) {
         errors: [`Policy Term too long. Max PT for Age ${age} is ${maxPTForAge} years (Maturity Age 85).`]
       };
     }
+
+    // Contextual hint for PPT
+    const payTill60Value = 60 - age;
+    let pptHint = '';
+    if (resolvedPPT === 8 && age !== 52) {
+      pptHint = ` Note: PPT 8 is only available when it represents "Pay Till 60" (for entry age 52). For Age ${age}, "Pay Till 60" is PPT ${payTill60Value}.`;
+    } else if (resolvedPPT !== resolvedPT) {
+      pptHint = ` Standard Limited Pay options for most ages are: 5, 6, 10, 12, 15, and 20 years.`;
+    }
+
     return {
       success: false,
-      errors: [`The combination of Age ${age}, Gender ${genderCode}, PT ${resolvedPT}, PPT ${resolvedPPT}, and Variant ${resolvedVariant} is not supported in the current rate tables (Tried Key: ${baseKey}).`]
+      errors: [`The combination of Age ${age}, Gender ${genderCode}, PT ${resolvedPT}, PPT ${resolvedPPT}, and Variant ${resolvedVariant} is not supported in the current rate tables.${pptHint} (Tried Key: ${baseKey}).`],
+      lookupKey: baseKey
     };
   }
 

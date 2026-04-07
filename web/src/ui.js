@@ -479,7 +479,7 @@ function renderCards() {
             </div>
             <div class="combo-list c-ppt-list" data-ci="${i}">
               ${(() => {
-                const stdPPTs = [5, 6, 8, 10, 12, 15, 20];
+                const stdPPTs = [5, 6, 10, 12, 15, 20];
                 const payTill60 = 60 - S.age;
                 let opts = stdPPTs.filter(n => n < cs.pt);
                 if (payTill60 > 0 && payTill60 < cs.pt && !stdPPTs.includes(payTill60)) {
