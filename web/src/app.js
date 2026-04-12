@@ -755,8 +755,8 @@ function runCalculation(el, state) {
   el.variantWarning.style.display = state.variant === 'Life Shield ROP' ? 'block' : 'none';
 
   // SISO Rule Enforcement (LSR only)
-  if (state.variant !== 'Life Shield ROP' && state.discounts.siso) {
-    el.disco_siso.checked = false;
+  if (state.variant !== 'Life Shield ROP' && el.siso?.checked) {
+    el.siso.checked = false;
     state.discounts.siso = false;
   }
 
@@ -827,10 +827,13 @@ function clear(el) {
 }
 
 function render(el, r) {
+  const modeMap = { 'Monthly': '/mon', 'Annual': '/yr', 'Half-Yearly': '/hlyr', 'Quarterly': '/qtr' };
+  const modeSuffix = modeMap[r.inputs.mode || 'Annual'] || '';
+
   // Summary
-  el.y1.textContent = formatCurrency(r.instalmentWithGSTYear1);
+  el.y1.textContent = formatCurrency(r.instalmentWithGSTYear1).replace('.00', '') + modeSuffix;
   el.y1Sub.textContent = r.gstY1Rate > 0 ? `Incl. GST @ ${(r.gstY1Rate * 100).toFixed(1)}% = ${formatCurrency(r.gstYear1Amount)}` : 'GST: 0%';
-  el.y2.textContent = formatCurrency(r.instalmentWithGSTYear2);
+  el.y2.textContent = formatCurrency(r.instalmentWithGSTYear2).replace('.00', '') + modeSuffix;
   el.y2Sub.textContent = r.gstY2Rate > 0 ? `Incl. GST @ ${(r.gstY2Rate * 100).toFixed(2)}% = ${formatCurrency(r.gstYear2Amount)}` : 'GST: 0%';
 
   el.key.textContent = r.lookupKey;

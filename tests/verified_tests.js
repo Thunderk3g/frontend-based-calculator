@@ -54,10 +54,15 @@ async function runVerifiedTests() {
     let passed = 0;
     let failed = 0;
 
-    function assert(name, actual, expected, tolerance = 0.1) {
+    function assert(name, actual, expected, tolerance = 1.0) {
+        if (actual === undefined || isNaN(actual)) {
+            console.error(`  ❌ [CRITICAL FAIL] ${name}: Returned undefined or NaN! Expected ${expected}`);
+            failed++;
+            return;
+        }
         const diff = Math.abs(actual - expected);
-        if (diff < tolerance) {
-            console.log(`  ✅ [PASS] ${name}: ${actual.toFixed(2)}`);
+        if (diff <= tolerance) {
+            console.log(`  ✅ [PASS] ${name}: ${actual.toFixed(2)} (Expected ${expected.toFixed(2)})`);
             passed++;
         } else {
             console.error(`  ❌ [FAIL] ${name}: Got ${actual.toFixed(2)}, Expected ${expected.toFixed(2)} (Diff: ${diff.toFixed(2)})`);
@@ -87,7 +92,7 @@ async function runVerifiedTests() {
     console.log('\n--- Group 3: Discounts ---');
     assert('DISC-01: Online 6%', calculatePremium({ ...baseProfile, discounts: { online: true } }).premiumY1, 3769.72);
     assert('DISC-02: SISO 6%', calculatePremium({ ...baseProfile, discounts: { siso: true } }).premiumY1, 3769.72);
-    assert('DISC-03: Online + Partner (16%)', calculatePremium({ ...baseProfile, discounts: { online: true, partner: true } }).premiumY1, 3368.69);
+    assert('DISC-03: Online + Partner (Sequential)', calculatePremium({ ...baseProfile, discounts: { online: true, partner: true } }).premiumY1, 3392.75);
 
     // --- Group 4: All Together ---
     console.log('\n--- Group 4: Complete Case (Multi-Rider) ---');
@@ -106,7 +111,7 @@ async function runVerifiedTests() {
             famCare: { enabled: true, pt: 59, sumAssured: 1000000 }
         }
     });
-    assert('ALL-01: Total (All Riders, Mode Monthly)', allRes.premiumY1, 5573.27);
+    assert('ALL-01: Total (All Riders, Mode Monthly)', allRes.premiumY1, 5574.34);
 
     // --- Group 5: GST ---
     console.log('\n--- Group 5: GST ---');

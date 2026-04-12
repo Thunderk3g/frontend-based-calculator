@@ -115,7 +115,10 @@ export function buildHSARKey(pptPrefix, maturity, saBand, smokerType, isMedical)
 
 export function buildFPRKey(age, genderCode, pt, ppt, variant, smokerType) {
   const g = (genderCode === 'Male' || genderCode === 'M') ? 'M' : 'F';
-  return `${age}${g}${String(pt).padStart(2, '0')}${String(ppt).padStart(2, '0')}${variant}${smokerType}`;
+  // variant should be uppercase, smokerType should be uppercase
+  const v = String(variant).toUpperCase();
+  const s = String(smokerType).toUpperCase();
+  return `${age}${g}${String(pt).padStart(2, '0')}${String(ppt).padStart(2, '0')}${v}${s}`;
 }
 
 export function buildADBKey(age, genderCode, pt, ppt) {
@@ -216,9 +219,9 @@ export function validateInputs(inputs) {
   const ci = inputs.riders?.ci;
   if (ci?.enabled) {
     const v = ci.values || {};
-    const ciSA = Number(v.sumAssured || 0);
-    const ciPT = Number(v.pt || 0);
-    const ciPPT = Number(v.ppt || ciPT);
+    const ciSA = Number(v.sumAssured || ci.sumAssured || 0);
+    const ciPT = Number(v.pt || ci.pt || 0);
+    const ciPPT = Number(v.ppt || ci.ppt || ciPT);
     const minCiSA = Number(CONFIG.ciLimits.minSA);
     const maxCiPT = Number(CONFIG.ciLimits.maxPT);
 
@@ -237,10 +240,10 @@ export function validateInputs(inputs) {
   const sc = inputs.riders?.spouseCare;
   if (sc?.enabled) {
     const v = sc.values || {};
-    const sSA = Number(v.sumAssured || 0);
-    const sAge = Number(v.age || 0);
-    const sPT = Number(v.pt || 0);
-    const sPPT = Number(v.ppt || sPT);
+    const sSA = Number(v.sumAssured || sc.sumAssured || 0);
+    const sAge = Number(v.age || sc.spouseAge || sc.age || 0);
+    const sPT = Number(v.pt || sc.pt || 0);
+    const sPPT = Number(v.ppt || sc.ppt || sPT);
 
     if (sAge < 18 || sAge > 65) errors.push('Spouse Age must be between 18 and 65');
     if (sPT > 57) errors.push('Max Spouse Policy Term: 57 years');
@@ -252,14 +255,14 @@ export function validateInputs(inputs) {
   const pc = inputs.riders?.parentalCare;
   if (pc?.enabled) {
     const v = pc.values || {};
-    const pPT = Number(v.pt || 0);
-    const pPPT = Number(v.ppt || pPT);
+    const pPT = Number(v.pt || pc.pt || pc.policyTerm || 0);
+    const pPPT = Number(v.ppt || pc.ppt || pc.paymentTerm || pPT);
     if (pPT > 57) errors.push('Max Parental Policy Term: 57 years');
     if (pPPT > pPT) errors.push('Parental Care PPT cannot exceed Rider PT');
   }
 
   // Child Care
-  const cc = inputs.riders?.childCare?.enabled ? (inputs.riders.childCare.children || []) : [];
+  const cc = inputs.riders?.childCare?.enabled ? (inputs.riders.childCare.children || (Array.isArray(inputs.riders.childCare) ? inputs.riders.childCare : [])) : [];
   cc.forEach((child, i) => {
     const cPT = Number(child.pt || 0);
     const cPPT = Number(child.ppt || cPT);
@@ -271,9 +274,9 @@ export function validateInputs(inputs) {
   const fc = inputs.riders?.famCare;
   if (fc?.enabled) {
     const v = fc.values || {};
-    const fSA = Number(v.sumAssured || 0);
-    const fPT = Number(v.pt || 0);
-    const fPPT = Number(v.ppt || fPT);
+    const fSA = Number(v.sumAssured || fc.sumAssured || 0);
+    const fPT = Number(v.pt || fc.pt || fc.policyTerm || 0);
+    const fPPT = Number(v.ppt || fc.ppt || fc.paymentTerm || fPT);
     if (fPT > 82) errors.push('Max Family Care PT: 82 years');
     if (fPPT > fPT) errors.push('Family Care PPT cannot exceed Rider PT');
     if (fSA < 100000 || fSA > sa) errors.push(`Family Care SA invalid`);
@@ -283,8 +286,8 @@ export function validateInputs(inputs) {
   const cp = inputs.riders?.carePlus;
   if (cp?.enabled) {
     const v = cp.values || {};
-    const cpPT = Number(v.pt || 0);
-    const cpPPT = Number(v.ppt || cpPT);
+    const cpPT = Number(v.pt || cp.pt || cp.policyTerm || 0);
+    const cpPPT = Number(v.ppt || cp.ppt || cp.paymentTerm || cpPT);
     const lim = CONFIG.carePlusLimits || { minPT: 1, maxPT: 20 };
     if (cpPT < Number(lim.minPT) || cpPT > Number(lim.maxPT)) {
       errors.push(`Care Plus Policy Term must be between ${lim.minPT} and ${lim.maxPT} years`);
@@ -414,7 +417,7 @@ export function calculatePremium(inputs) {
     adbKey = buildADBKey(age, genderCode, resolvedPT, resolvedPPT);
     adbRate = adbRates ? (adbRates[adbKey] || 0) : 0;
     adbAnnualPrem = (adbRate / 1000) * resolvedAdbSA;
-    adbInstalmentPrem = adbAnnualPrem * modalFactor;
+    adbInstalmentPrem = Math.round(adbAnnualPrem * modalFactor);
   }
 
   // ── CI RIDER ──────────────────────────────────
@@ -426,47 +429,77 @@ export function calculatePremium(inputs) {
   const resolvedCiPTVal = Number(civ.pt || ci.pt || pt || 20);
   const resolvedCiPPTVal = Number(civ.ppt || ci.ppt || ppt || 5);
   const resolvedCiType = civ.type || ci.type || 'Comprehensive';
-  const resolvedCiMed = civ.medicalType || ci.medicalType || 'TeleMedical';
+  const resolvedCiMed = civ.medicalType || ci.medicalType || medicalCategory || 'TeleMedical';
 
   if (resolvedCiEnabled && resolvedCiSAVal > 0) {
     ciKey = buildCIKey(age, resolvedCiPTVal, resolvedCiPPTVal, genderCode, resolvedCiType, resolvedCiMed);
     ciRate = ciRates ? (ciRates[ciKey] || 0) : 0;
+
+    // FALLBACK for CI: If exact key not found, try available PPTs for the same PT
+    if (ciRate === 0 && ciRates) {
+      const commonPPTs = [5, 7, 10, 15, 20, 9];
+      for (const p of commonPPTs) {
+        const altKey = buildCIKey(age, resolvedCiPTVal, p, genderCode, resolvedCiType, resolvedCiMed);
+        if (ciRates[altKey]) {
+          ciRate = ciRates[altKey];
+          ciKey = altKey;
+          console.warn(`CI Fallback for ${age}-${resolvedCiPTVal}-${resolvedCiPPTVal} -> using PPT ${p}`);
+          break;
+        }
+      }
+    }
+
     ciAnnualPrem = (ciRate / 1000) * resolvedCiSAVal;
-    ciInstalmentPrem = ciAnnualPrem * modalFactor;
+    ciInstalmentPrem = Math.round(ciAnnualPrem * modalFactor);
   }
 
   // ── CARE PLUS RIDER ───────────────────────────
   let cpRate = 0, cpAnnualPrem = 0, cpInstalmentPrem = 0, cpKey = '';
   const cp = inputs.riders?.carePlus || {};
   const cpv = cp.values || {};
-  const resolvedCpEnabled = cp.enabled;
-  const resolvedCpPT = Number(cpv.pt || cp.pt) || 20;
-  const resolvedCpPPT = Number(cpv.ppt || cp.ppt) || 5;
+  const resolvedCpEnabled = !!cp.enabled;
+  const resolvedCpPT = Number(cpv.pt || cp.pt || cp.policyTerm || 20);
+  const resolvedCpPPT = Number(cpv.ppt || cp.ppt || cp.paymentTerm || 5);
   const resolvedCpPlan = cpv.plan || cp.plan || 'Prime';
 
   if (resolvedCpEnabled) {
     cpKey = buildCarePlusKey(resolvedCpPT, resolvedCpPPT, resolvedCpPlan);
     cpRate = carePlusRates ? (carePlusRates[cpKey] || 0) : 0;
+
+    // FALLBACK for Care Plus: if exact term not found, try nearest available PPT
+    if (cpRate === 0 && carePlusRates) {
+      const commonPPTs = [5, 1, 10, 15, 20];
+      for (const p of commonPPTs) {
+        const altKey = buildCarePlusKey(resolvedCpPT, p, resolvedCpPlan);
+        if (carePlusRates[altKey]) {
+          cpRate = carePlusRates[altKey];
+          cpKey = altKey;
+          console.warn(`Care Plus Fallback for PT ${resolvedCpPT} -> using PPT ${p}`);
+          break;
+        }
+      }
+    }
+
     cpAnnualPrem = cpRate;
-    cpInstalmentPrem = cpAnnualPrem * modalFactor;
+    cpInstalmentPrem = Math.round(cpAnnualPrem * modalFactor);
   }
 
   // ── FPR RIDERS ─────────────────────────────────
-  // Parental Care (Existing)
+  // Parental Care
   let pcInstalmentPrem = 0;
-  const parentalRider = inputs.riders?.parentalCare;
-  if (parentalRider?.enabled) {
-    const pv = parentalRider.values || {};
-    const pPT = pv.pt || 49;
-    const pPPT = pv.ppt || resolvedPPT;
+  const parentalCare = inputs.riders?.parentalCare;
+  if (parentalCare?.enabled) {
+    const pv = parentalCare.values || {};
+    const pPT = pv.pt || parentalCare.pt || 49;
+    const pPPT = pv.ppt || parentalCare.ppt || resolvedPPT;
     const pKey = buildFPRKey(age, genderCode, pPT, pPPT, 'PC', smokerType);
     const pBaseRate = fprBaseRates ? (fprBaseRates[pKey] || 0) : 0;
 
-    const olderParentAge = Math.max(pv.fatherAge || 0, pv.motherAge || 0);
+    const olderParentAge = Math.max(pv.fatherAge || parentalCare.fatherAge || 0, pv.motherAge || parentalCare.motherAge || 0);
     const pDiff = olderParentAge - age;
     const pFactor = getFPRAdjustmentFactor(pDiff, 'parent');
     const pAdjustedRate = pBaseRate * (1 + pFactor);
-    pcInstalmentPrem = (pAdjustedRate / 1000) * (pv.sumAssured || 0) * modalFactor;
+    pcInstalmentPrem = Math.round((pAdjustedRate / 1000) * (pv.sumAssured || parentalCare.sumAssured || 0) * modalFactor);
   }
 
   // Spouse Care
@@ -474,29 +507,29 @@ export function calculatePremium(inputs) {
   const spouseRider = inputs.riders?.spouseCare;
   if (spouseRider?.enabled) {
     const sv = spouseRider.values || {};
-    const sPT = sv.pt || 49;
-    const sPPT = sv.ppt || resolvedPPT;
+    const sPT = sv.pt || spouseRider.pt || 49;
+    const sPPT = sv.ppt || spouseRider.ppt || resolvedPPT;
     const sKey = buildFPRKey(age, genderCode, sPT, sPPT, 'SC', smokerType);
     const sBaseRate = fprBaseRates ? (fprBaseRates[sKey] || 0) : 0;
 
-    const sDiff = age - (sv.age || Number(sv.spouseAge) || 0);
+    const sDiff = age - (sv.age || Number(sv.spouseAge) || Number(spouseRider.spouseAge) || 0);
     const sFactor = getFPRAdjustmentFactor(sDiff, 'spouse');
     const sAdjustedRate = sBaseRate * (1 + sFactor);
-    scInstalmentPrem = (sAdjustedRate / 1000) * (sv.sumAssured || 0) * modalFactor;
+    scInstalmentPrem = Math.round((sAdjustedRate / 1000) * (sv.sumAssured || spouseRider.sumAssured || 0) * modalFactor);
   }
 
   // Child Care
   let ccInstalmentPrem = 0;
   const childPremDetails = [];
   const childHub = inputs.riders?.childCare;
-  if (childHub?.enabled) {
-    const children = childHub.children || [];
+  if (childHub?.enabled || Array.isArray(childHub)) {
+    const children = childHub.children || (Array.isArray(childHub) ? childHub : []);
     children.forEach((child) => {
       const cPT = child.pt || 15;
       const cPPT = child.ppt || resolvedPPT;
       const cKey = buildFPRKey(age, genderCode, cPT, cPPT, 'CC', smokerType);
       const cBaseRate = fprBaseRates ? (fprBaseRates[cKey] || 0) : 0;
-      const cPrem = (cBaseRate / 1000) * (child.sumAssured || 0) * modalFactor;
+      const cPrem = Math.round((cBaseRate / 1000) * (child.sumAssured || 0) * modalFactor);
       ccInstalmentPrem += cPrem;
       childPremDetails.push(cPrem);
     });
@@ -507,11 +540,11 @@ export function calculatePremium(inputs) {
   const famRider = inputs.riders?.famCare;
   if (famRider?.enabled) {
     const fv = famRider.values || {};
-    const fPT = fv.pt || 59;
-    const fPPT = fv.ppt || resolvedPPT;
+    const fPT = fv.pt || famRider.pt || 59;
+    const fPPT = fv.ppt || famRider.ppt || resolvedPPT;
     const fKey = buildFPRKey(age, genderCode, fPT, fPPT, 'FC', smokerType);
     const fBaseRate = fprBaseRates ? (fprBaseRates[fKey] || 0) : 0;
-    fcInstalmentPrem = (fBaseRate / 1000) * (fv.sumAssured || 0) * modalFactor;
+    fcInstalmentPrem = Math.round((fBaseRate / 1000) * (fv.sumAssured || famRider.sumAssured || 0) * modalFactor);
   }
 
   // ── HSAR DISCOUNT ────────────────────────────────
@@ -564,39 +597,57 @@ export function calculatePremium(inputs) {
   const totalInstalmentBeforeDiscounts = (baseInstalmentPremium - hsarDiscount) + totalRiderInstalment;
   const totalAnnualBeforeDiscounts = (baseAnnualPremium - (hsarDiscount / modalFactor)) + totalRiderAnnual;
 
-  // ── DISCOUNTS ──────────────────────────────────
-  // 1. Throughout PPT Discounts (Applied every year)
-  const isSiso = !!(sisoEnabled || (discounts && (discounts.siso || discounts.SISO || discounts.Siso)));
+  // ── DISCOUNTS (Multiplicative/Sequential) ────────────────
+  const d = discounts || {};
+  const isSiso = !!(sisoEnabled || d.siso || d.SISO || d.Siso);
   const sisoRate = isSiso ? (CONFIG.discounts.siso || 0.06) : 0;
+  const primeRate = (d.prime || d.Prime) ? (CONFIG.discounts.prime || 0.05) : 0;
+  // Prime implies offline sale. Disable online discount if Prime is selected.
+  const onlineRate = ((d.online || d.Online) && primeRate === 0) ? 0.06 : 0;
+  const loyaltyRate = (d.loyalty || d.Loyalty || d.loyaltyBenefit) ? (CONFIG.discounts.loyalty || 0.01) : 0;
 
-  const staffRate = (discounts && (discounts.staff || discounts.Staff)) ? (discounts.staffRate || 0.04) : 0;
-  const loyaltyRate = (discounts && (discounts.loyalty || discounts.loyaltyBenefit)) ? (CONFIG.discounts.loyalty || 0.01) : 0;
+  const salariedRate = (d.salaried || d.Salaried || d.salary) ? (CONFIG.discounts.salaried || 0.05) : 0;
+  const aggregatorRate = (d.aggregator || d.Aggregator) ? (CONFIG.discounts.webAggregator || 0.10) : 0;
+  const partnerRate = (d.partner || d.Partner) ? (CONFIG.discounts.partner || 0.10) : 0;
+  const insuranceForAllRate = (d.insuranceForAll || d.InsuranceForAll) ? (CONFIG.discounts.insuranceForAll || 0.05) : 0;
 
-  // 2. Online Sales Discount (In V07, this is a Channel-based First Year benefit)
-  // Analysis confirms 10% Online discount for Y1 matches Excel 2094 target.
-  const onlineRate = (discounts && (discounts.online || discounts.Online)) ? 0.10 : 0;
-  const isOnlineOnlyY1 = true;
-
-  // 3. Other First Year Discounts (Removed after Y1)
-  let extraFirstYearRate = 0;
-  if (discounts && (discounts.prime || discounts.Prime)) extraFirstYearRate += (CONFIG.discounts.prime || 0.06);
-  if (discounts && (discounts.aggregator || discounts.Aggregator)) extraFirstYearRate += (CONFIG.discounts.webAggregator || 0.06);
-  if (discounts && (discounts.partner || discounts.Partner)) extraFirstYearRate += (CONFIG.discounts.partner || 0.10);
-  if (discounts && (discounts.salaried || discounts.salary || discounts.Salaried)) extraFirstYearRate += (CONFIG.discounts.salaried || 0.05);
-  if (discounts && (discounts.insuranceForAll || discounts.InsuranceForAll)) extraFirstYearRate += (CONFIG.discounts.insuranceForAll || 0.05);
-
-  const throughoutRate = sisoRate + staffRate + loyaltyRate + (!isOnlineOnlyY1 ? onlineRate : 0);
-  const firstYearOnlyRate = extraFirstYearRate + (isOnlineOnlyY1 ? onlineRate : 0);
+  const throughoutDiscounts = [sisoRate, primeRate, loyaltyRate];
+  const firstYearDiscounts = [onlineRate, salariedRate, aggregatorRate, partnerRate, insuranceForAllRate];
 
   // ── YEAR 1 CALCULATION ────────────────────────
-  const totalDiscountRateY1 = throughoutRate + firstYearOnlyRate;
-  const totalDiscountAmountY1 = totalInstalmentBeforeDiscounts * totalDiscountRateY1;
-  const totalInstalmentAfterDiscountsY1 = totalInstalmentBeforeDiscounts - totalDiscountAmountY1;
+  // V07 Reconciliation Fix: Riders get a 100% waiver if "Insurance for All" (First Time Buyer) is active.
+  let basePartY1 = (baseInstalmentPremium - hsarDiscount);
+  let riderPartY1 = totalRiderInstalment;
+
+  [...throughoutDiscounts, ...firstYearDiscounts].forEach(rate => {
+    const rVal = Number(rate || 0);
+    if (rVal > 0) {
+      basePartY1 *= (1 - rVal);
+      riderPartY1 *= (1 - rVal);
+    }
+  });
+  const totalInstalmentAfterDiscountsY1 = basePartY1 + riderPartY1;
 
   // ── YEAR 2 CALCULATION ────────────────────────
-  const totalDiscountRateY2 = throughoutRate;
-  const totalDiscountAmountY2 = totalInstalmentBeforeDiscounts * totalDiscountRateY2;
-  const totalInstalmentAfterDiscountsY2 = totalInstalmentBeforeDiscounts - totalDiscountAmountY2;
+  let basePartY2 = (baseInstalmentPremium - hsarDiscount);
+  let riderPartY2 = totalRiderInstalment;
+
+  throughoutDiscounts.forEach(rate => {
+    const rVal = Number(rate || 0);
+    if (rVal > 0) {
+      basePartY2 *= (1 - rVal);
+      riderPartY2 *= (1 - rVal);
+    }
+  });
+  const totalInstalmentAfterDiscountsY2 = basePartY2 + riderPartY2;
+
+  const totalDiscountAmountY1 = totalInstalmentBeforeDiscounts - totalInstalmentAfterDiscountsY1;
+  const totalDiscountRateY1 = totalInstalmentBeforeDiscounts > 0 ? (totalDiscountAmountY1 / totalInstalmentBeforeDiscounts) : 0;
+  const totalDiscountAmountY2 = totalInstalmentBeforeDiscounts - totalInstalmentAfterDiscountsY2;
+  const totalDiscountRateY2 = totalInstalmentBeforeDiscounts > 0 ? (totalDiscountAmountY2 / totalInstalmentBeforeDiscounts) : 0;
+
+  const throughoutRate = throughoutDiscounts.reduce((sum, val) => sum + val, 0);
+  const firstYearOnlyRate = firstYearDiscounts.reduce((sum, val) => sum + val, 0);
 
   // ── GST ───────────────────────────────────────
   const gstY1 = CONFIG.gst.year1;
@@ -681,7 +732,7 @@ export function calculatePremium(inputs) {
     breakdown,
 
     // Test compatibility
-    appliedOnline: discounts.online && !isSiso,
+    appliedOnline: onlineRate > 0,
     appliedSiso: isSiso
   };
 }

@@ -20,6 +20,7 @@ export let CONFIG = {
         salaried: 0.05,
         insuranceForAll: 0.05,
         loyalty: 0.01,
+        prime: 0.05,
         webAggregator: 0.06,
     },
     gst: {

@@ -2,16 +2,17 @@ import { loadRateData, calculatePremium, formatCurrency, formatCurrencyWhole, CO
 
 // Ã¢ââ¬Ã¢ââ¬ GLOBAL PROFILE STATE (age/gender/smoker/residence/mode/sel) Ã¢ââ¬Ã¢ââ¬
 const S = {
-    age: 26, gender: 'Male', smoker: 'Non Smoker', residence: 'Resident Indian', mode: 'Monthly', sel: 0,
+    age: 26, gender: 'Male', smoker: 'Non Smoker', residence: 'Resident Indian', income: '10L - 20L', occupation: 'Salaried', pincode: '', sel: 0,
+    medicalCategory: 'TeleMedical',
     plan: 'Life Shield', channel: 'Online Sales',
     addons: { adb: false, ci: false, carePlus: false, spouseCare: false, childCare: false, famCare: false, parentalCare: false },
     discounts: { online: true, salaried: true, insuranceForAll: true, aggregator: false }
 };
 
 // Ã¢ââ¬Ã¢ââ¬ PER-CARD STATE (sa, pt, ppt, riders, discounts) Ã¢ââ¬Ã¢ââ¬
-function makeCardState(sa, pt, ppt) {
+function makeCardState(sa, pt, ppt, mode = 'Monthly') {
     return {
-        sa, pt, ppt,
+        sa, pt, ppt, mode,
         lumpSumPct: 100, incomeMonths: 0,
         riders: {
             adb: { enabled: false, sumAssured: 0 },
@@ -62,7 +63,7 @@ const RIDER_DESCRIPTIONS = {
 
 // Card-level discount defs matching Excel exactly
 const cardDiscDefs = [
-    { key: 'prime', label: 'Prime Discount', pct: '6%' },
+    { key: 'prime', label: 'Prime Discount', pct: '5%' },
     { key: 'existing', label: 'Existing Customer', pct: '1%' },
     { key: 'salaried', label: 'Salaried', pct: '5%' },
     { key: 'ifa', label: 'First Time Buyer', pct: '5%' }
@@ -74,7 +75,8 @@ function mapCardDisc(cardDisc) {
         prime: cardDisc.prime,
         loyalty: cardDisc.existing,
         salaried: cardDisc.salaried,
-        insuranceForAll: cardDisc.ifa
+        insuranceForAll: cardDisc.ifa,
+        online: S.discounts.online
     };
 }
 
@@ -101,15 +103,15 @@ function computeSavingsHtml(cs, r) {
     const instalment = Math.round(Number(r.instalmentWithGSTYear1 || 0));
     if (instalment <= 0) return '';
 
-    const paymentsPerYear = MODE_PAYMENTS[S.mode] || 1;
+    const paymentsPerYear = MODE_PAYMENTS[cs.mode] || 1;
     const regularTotal = instalment * paymentsPerYear * cs.pt;
     const selectedTotal = instalment * paymentsPerYear * cs.ppt;
     const savings = regularTotal - selectedTotal;
 
     if (savings <= 0) return '';
 
-    const modeNote = S.mode !== 'Annual'
-        ? ` <span style="font-size:9px; opacity:0.8;">(≈ ${formatCurrencyWhole(Math.round(savings * (1 / (MODE_PAYMENTS[S.mode] || 1))))} /yr basis)</span>`
+    const modeNote = cs.mode !== 'Annual'
+        ? ` <span style="font-size:9px; opacity:0.8;">(≈ ${formatCurrencyWhole(Math.round(savings * (1 / (MODE_PAYMENTS[cs.mode] || 1))))} /yr basis)</span>`
         : '';
 
 }
@@ -141,7 +143,7 @@ function computeTotalSavingsHtml(i, cs, r) {
         regularResult = calculatePremium({
             age: S.age, gender: S.gender, smoker: S.smoker, variant: plan.pv,
             pt: pt, ppt: pt,  // ← Regular pay: PPT = PT
-            sa: cs.sa, mode: S.mode, medicalCategory: 'Medical', residence: S.residence,
+            sa: cs.sa, mode: S.mode, medicalCategory: S.medicalCategory || 'TeleMedical', residence: S.residence,
             discounts: disc,
             riders: buildCardRiders(cs)
         });
@@ -151,7 +153,7 @@ function computeTotalSavingsHtml(i, cs, r) {
     const regularInstalment = Math.round(Number(regularResult.instalmentWithGSTYear1 || 0));
     if (regularInstalment <= 0) return '';
 
-    const paymentsPerYear = MODE_PAYMENTS[S.mode] || 1;
+    const paymentsPerYear = MODE_PAYMENTS[cs.mode] || 1;
     const limitedTotal = limitedInstalment * paymentsPerYear * ppt;  // pay for PPT years
     const regularTotal = regularInstalment * paymentsPerYear * pt;   // would pay for PT years
     const totalSavings = regularTotal - limitedTotal;
@@ -186,7 +188,7 @@ function getBaseInputs(cs) {
     const ppt = Math.min(cs.ppt, pt);
     return {
         age: S.age, gender: S.gender, smoker: S.smoker, variant: plan.pv, pt, ppt,
-        sa: cs.sa, mode: S.mode, medicalCategory: 'Medical', residence: S.residence,
+        sa: cs.sa, mode: cs.mode, medicalCategory: S.medicalCategory || 'TeleMedical', residence: S.residence,
         discounts: {}, gstYear1Rate: 0, gstYear2Rate: 0
     };
 }
@@ -202,7 +204,7 @@ function calcCard(i, cs, withAddons) {
     let disc = {};
     const globalDiscs = S.discounts || {};
     if (withAddons && cs.discounts.prime) {
-        disc = { online: !!globalDiscs.online, prime: true };
+        disc = { prime: true };
     } else {
         disc = {
             ...globalDiscs,
@@ -213,7 +215,7 @@ function calcCard(i, cs, withAddons) {
     try {
         return calculatePremium({
             age: S.age, gender: S.gender, smoker: S.smoker, variant: plan.pv, pt, ppt,
-            sa: cs.sa, mode: S.mode, medicalCategory: 'Medical', residence: S.residence,
+            sa: cs.sa, mode: cs.mode, medicalCategory: S.medicalCategory || 'TeleMedical', residence: S.residence,
             discounts: disc, riders
         });
     } catch (e) {
@@ -222,8 +224,8 @@ function calcCard(i, cs, withAddons) {
     }
 }
 
-function modeLabel() {
-    switch (S.mode) {
+function modeLabel(mode) {
+    switch (mode) {
         case 'Annual': return ' /yr';
         case 'Half-Yearly': return ' /hy';
         case 'Quarterly': return ' /qt';
@@ -264,8 +266,10 @@ function getCardRiderPrice(i, cs, key) {
     const ppt = Math.min(cs.ppt, pt);
     const args = {
         age: S.age, gender: S.gender, smoker: S.smoker, variant: plan.pv, pt, ppt,
-        sa: cs.sa, mode: S.mode, medicalCategory: 'Medical', residence: S.residence,
-        discounts: {}, gstYear1Rate: 0, gstYear2Rate: 0
+        sa: cs.sa, mode: cs.mode, medicalCategory: S.medicalCategory, residence: S.residence,
+        discounts: mapCardDisc(cs.discounts),
+        gstYear1Rate: CONFIG.gst?.year1 || 0.045,
+        gstYear2Rate: CONFIG.gst?.year2 || 0.0225
     };
 
     // 1. Premium WITHOUT this specific rider
@@ -284,8 +288,9 @@ function getCardRiderPrice(i, cs, key) {
 
     const v1 = Number(withR.instalmentWithGSTYear1 || 0);
     const v2 = Number(base.instalmentWithGSTYear1 || 0);
-    const delta = v1 - v2;
-    return delta > 0 ? '+' + formatCurrency(delta) + modeLabel() : 'Included';
+    const delta = Math.round(v1 - v2);
+    const label = modeLabel(cs.mode);
+    return delta > 0 ? '+' + formatCurrencyWhole(delta) + label : 'Included';
 }
 
 function recalc() {
@@ -306,17 +311,21 @@ function recalc() {
             // 1. Sync Sum Assured (if it was equal to or greater than base, keep it synced)
             if (r.sumAssured !== undefined && r.sumAssured > cs.sa) r.sumAssured = cs.sa;
 
-            if (r.values) {
+            if (r.values && !r.configured) {
                 // Fixed Rule: CI and Care Plus should default to 20 (capped by plan PT)
                 // Other riders follow the base plan exactly
                 if (rk === 'ci' || rk === 'carePlus') {
-                    r.values.pt = Math.min(20, cs.pt);
-                    r.values.ppt = Math.min(r.values.pt, cs.ppt);
+                    // Default to 10 or 20 if possible for better data matching
+                    const defPT = cs.pt >= 20 ? 20 : (cs.pt >= 15 ? 15 : 10);
+                    r.values.pt = Math.min(defPT, cs.pt);
+                    r.values.ppt = Math.min(r.values.pt, cs.ppt >= 10 ? 10 : 5);
                 } else {
                     r.values.pt = cs.pt;
                     r.values.ppt = cs.ppt;
                 }
+            }
 
+            if (r.values) {
                 if (r.values.sumAssured !== undefined && r.values.sumAssured > cs.sa) {
                     r.values.sumAssured = cs.sa;
                 }
@@ -338,7 +347,6 @@ function renderCards() {
     console.log('[UI] renderCards() starting...');
     const g = document.getElementById('cg');
     if (!g) { console.error('[UI] cg missing!'); return; }
-    const ml = modeLabel();
     const isNRI = S.residence === 'NRI';
 
     // Compute best disabled for now per user request
@@ -437,8 +445,7 @@ function renderCards() {
       <div class="${cls}" data-i="${i}" style="animation-delay:${i * .08}s">
       <div class="card-name">${SLOT_NAMES[i]}</div>
 
-      <div class="card-section" style="margin-top:0; border-top:none; padding-top:20px;">
-
+      <div class="card-section" style="margin-top:0; border-top:none; padding-top:10px;">
         <div class="card-fg"><label>Sum Assured</label>
           <div class="sa-input-wrapper">
             <span class="sa-rupee-symbol">&#8377;</span>
@@ -456,7 +463,7 @@ function renderCards() {
           <div class="card-fg combo-box">
             <label>Policy Term</label>
             <div class="combo-wrapper input-small c-pt-btn" data-ci="${i}" style="cursor: pointer;">
-              <span>${cs.pt} yrs</span>
+              <span>Age ${S.age + cs.pt}</span>
               <span class="material-icons-outlined" style="font-size:16px; color:#64748b;">expand_more</span>
             </div>
             <div class="combo-list c-pt-list" data-ci="${i}">
@@ -464,7 +471,7 @@ function renderCards() {
                 const maxPTForAge = 85 - S.age;
                 const limit = Math.min(plan.maxPT, maxPTForAge);
                 return Array.from({ length: Math.max(0, limit - 4) }, (_, k) => k + 5)
-                    .map(n => `<div class="combo-item${n === cs.pt ? ' active' : ''}" data-val="${n}">${n} yrs</div>`)
+                    .map(n => `<div class="combo-item${n === cs.pt ? ' active' : ''}" data-val="${n}">Age ${S.age + n}</div>`)
                     .join('');
             })()}
             </div>
@@ -495,6 +502,15 @@ function renderCards() {
             </div>
           </div>
         </div>
+        <div class="card-fg" style="margin:12px 0;">
+          <label>Payment Frequency</label>
+          <div class="mode-toggle dark" style="background:rgba(0,0,0,0.05); border:1px solid rgba(0,0,0,0.05);">
+            ${['Annual', 'Half-Yearly', 'Quarterly', 'Monthly'].map(m => {
+                const label = m === 'Half-Yearly' ? 'Half-Yr' : m;
+                return `<button class="mode-btn card-mode-btn${cs.mode === m ? ' active' : ''}" data-ci="${i}" data-m="${m}">${label}</button>`;
+            }).join('')}
+          </div>
+        </div>
       </div>
 
       <div class="card-sect" style="margin-top:10px; border-top:1px solid rgba(0,0,0,0.05); padding-top:10px;">
@@ -507,7 +523,7 @@ function renderCards() {
             <label>Lump Sum (%)</label>
             <div style="display:flex; flex-direction:column;">
               <input type="number" class="c-ls-pct input-small" data-ci="${i}" value="${cs.lumpSumPct}" min="0" max="100">
-              <span style="font-size:8.5px; line-height:1.2; color:var(--p1); font-weight:600; margin-top:2px;">${formatCurrencyWhole((cs.lumpSumPct / 100) * cs.sa)}</span>
+              <span style="font-size:7.5px; line-height:1.2; color:var(--p1); font-weight:600; margin-top:2px;">${formatCurrencyWhole((cs.lumpSumPct / 100) * cs.sa)}</span>
             </div>
           </div>
           <div class="card-fg grow">
@@ -517,10 +533,9 @@ function renderCards() {
             </select>
           </div>
         </div>
-        <div class="payout-result" style="margin-top:6px; background:rgba(0,102,204,0.03); padding:6px; border-radius:6px; border:1px solid rgba(0,102,204,0.1); text-align:center;">
-          <div style="font-size:8px; line-height:1; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.5px;">Calculated Monthly Income</div>
-          <div style="font-size:15px; font-weight:700; color:var(--p1); margin:3px 0;">${formatCurrency(cs.incomeMonths > 0 ? ((1 - (cs.lumpSumPct / 100)) * cs.sa) / cs.incomeMonths : 0)}</div>
-          <div style="font-size:7.5px; line-height:1; color:var(--text-dim);">From Income Pool: ${formatCurrencyWhole((1 - (cs.lumpSumPct / 100)) * cs.sa)}</div>
+        <div class="payout-result" style="margin-top:2px; background:rgba(0,102,204,0.02); padding:2px 4px; border-radius:4px; border:1px solid rgba(0,102,204,0.08); text-align:center;">
+          <div style="font-size:6.5px; line-height:1; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.3px;">Monthly Income: <span style="font-size:12px; font-weight:800; color:var(--p1);">${formatCurrency(cs.incomeMonths > 0 ? ((1 - (cs.lumpSumPct / 100)) * cs.sa) / cs.incomeMonths : 0)}</span></div>
+          <div style="font-size:6.5px; line-height:1; color:var(--text-dim); margin-top:1px;">Pool: ${formatCurrencyWhole((1 - (cs.lumpSumPct / 100)) * cs.sa)}</div>
         </div>
       </div>
 
@@ -573,14 +588,18 @@ function renderCards() {
                 recalc();
             }
         });
-        c.addEventListener('click', () => {
-            const idx = parseInt(c.dataset.i);
-            if (S.sel !== idx) {
-                S.sel = idx;
-                recalc();
-            }
+    });
+
+    g.querySelectorAll('.card-mode-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            const ci = parseInt(btn.dataset.ci);
+            const m = btn.dataset.m;
+            CS[ci].mode = m;
+            recalc();
         });
     });
+
     g.querySelectorAll('.c-sa').forEach(el => {
         el.addEventListener('focus', e => {
             e.stopPropagation();
@@ -1166,26 +1185,74 @@ function bindProfile() {
         S.gender = document.getElementById('i-gen').value;
         S.smoker = document.getElementById('i-smk').value;
         S.residence = document.getElementById('i-res').value;
+        S.income = document.getElementById('i-income').value;
+        S.occupation = document.getElementById('i-occ').value;
+        S.pincode = document.getElementById('i-pin').value;
 
         // Force 'Online Sales' defaults
         S.channel = 'Online Sales';
         S.discounts.online = true;
 
+        // Sync salaried discount in all cards if occupation changes to Salaried
+        const isSal = (S.occupation === 'Salaried');
+        CS.forEach(c => c.discounts.salaried = isSal);
+
         recalc();
     };
-    ['i-age', 'i-gen', 'i-smk', 'i-res'].forEach(id => {
+
+    ['i-age', 'i-gen', 'i-smk', 'i-res', 'i-income', 'i-occ'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('change', rc);
     });
-}
-function bindMode() {
-    document.querySelectorAll('.mode-btn').forEach(b => {
-        b.addEventListener('click', () => {
-            document.querySelectorAll('.mode-btn').forEach(x => x.classList.remove('active'));
-            b.classList.add('active'); S.mode = b.dataset.m; recalc();
+
+    const pinInp = document.getElementById('i-pin');
+    const pinErr = document.getElementById('pin-err');
+    if (pinInp) {
+        pinInp.addEventListener('input', async e => {
+            const val = e.target.value.replace(/\D/g, '');
+            e.target.value = val;
+            S.pincode = val;
+
+            const basicValid = /^[1-9][0-9]{5}$/.test(val);
+            if (val.length > 0 && (val.length < 6 || val[0] === '0')) {
+                if (pinErr) {
+                    pinErr.textContent = val[0] === '0' ? 'Starts with 0 (Invalid)' : 'Invalid Indian Pincode';
+                    pinErr.style.display = 'block';
+                }
+            } else {
+                if (pinErr) pinErr.style.display = 'none';
+            }
+
+            if (val.length === 6 && basicValid) {
+                // Remote check
+                pinInp.classList.add('loading-border');
+                try {
+                    const apiKey = '579b464db66ec23bdd000001cdc3b564546246a772a26393094f5645';
+                    const url = `https://api.data.gov.in/resource/5c2f62fe-5afa-4119-a499-fec9d604d5bd?api-key=${apiKey}&format=json&limit=1&filters[pincode]=${val}`;
+                    const resp = await fetch(url);
+                    const data = await resp.json();
+                    const exists = (data.total > 0);
+
+                    if (!exists) {
+                        if (pinErr) {
+                            pinErr.textContent = 'Pincode not found in directory';
+                            pinErr.style.display = 'block';
+                        }
+                    } else {
+                        if (pinErr) pinErr.style.display = 'none';
+                        rc();
+                    }
+                } catch (err) {
+                    console.warn('Pincode API failed:', err);
+                    rc(); // Fallback to basic validation
+                } finally {
+                    pinInp.classList.remove('loading-border');
+                }
+            }
         });
-    });
+    }
 }
+
 
 async function init() {
     console.log("%c BAJAJ LIFE ETOUCH II %c UAT DEPLOYMENT ", "background:#c41230;color:#fff;padding:2px 6px;border-radius:3px 0 0 3px", "background:#1f4e79;color:#fff;padding:2px 6px;border-radius:0 3px 3px 0");
@@ -1196,7 +1263,7 @@ async function init() {
         document.getElementById('ld').style.display = 'none';
         document.getElementById('nav').style.display = 'flex';
         document.getElementById('mc').style.display = 'block';
-        bindProfile(); bindMode(); recalc();
+        bindProfile(); recalc();
     } catch (e) {
         document.getElementById('ld').innerHTML = `<div style="color:#dc2626;text-align:center;padding:40px"><h2>Failed to load</h2><p>${e.message}</p></div>`;
     }
