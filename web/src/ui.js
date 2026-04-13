@@ -143,7 +143,7 @@ function computeTotalSavingsHtml(i, cs, r) {
         regularResult = calculatePremium({
             age: S.age, gender: S.gender, smoker: S.smoker, variant: plan.pv,
             pt: pt, ppt: pt,  // ← Regular pay: PPT = PT
-            sa: cs.sa, mode: S.mode, medicalCategory: S.medicalCategory || 'TeleMedical', residence: S.residence,
+            sa: cs.sa, mode: cs.mode, medicalCategory: S.medicalCategory || 'TeleMedical', residence: S.residence,
             discounts: disc,
             riders: buildCardRiders(cs)
         });
@@ -1257,7 +1257,7 @@ function bindProfile() {
 async function init() {
     console.log("%c BAJAJ LIFE ETOUCH II %c UAT DEPLOYMENT ", "background:#c41230;color:#fff;padding:2px 6px;border-radius:3px 0 0 3px", "background:#1f4e79;color:#fff;padding:2px 6px;border-radius:0 3px 3px 0");
     console.log(`%c Environment: %c UAT \n Path: %c /term-plan-compare/ \n URL: %c http://balicuat.bajajlifeinsurance.com/term-plan-compare/`, "font-weight:bold", "color:#1a73e8", "color:#1a73e8", "color:#1a73e8");
-    console.log("UAT Environment Date : 07-04-2026");
+    console.log("UAT Environment Date : 12-04-2026 Time : 10:55 AM");
     try {
         await loadRateData();
         document.getElementById('ld').style.display = 'none';
