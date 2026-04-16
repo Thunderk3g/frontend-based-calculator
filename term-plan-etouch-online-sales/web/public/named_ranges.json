@@ -1,0 +1,370 @@
+﻿[
+    {
+        "name":  "\u0027ADB Rates\u0027!_FilterDatabase",
+        "refersTo":  "=\u0027ADB Rates\u0027!$A$1:$G$24105"
+    },
+    {
+        "name":  "\u0027CI Calc\u0027!_FilterDatabase",
+        "refersTo":  "=\u0027CI Calc\u0027!#REF!"
+    },
+    {
+        "name":  "\u0027CI Rates\u0027!_FilterDatabase",
+        "refersTo":  "=\u0027CI Rates\u0027!$J$1:$J$87847"
+    },
+    {
+        "name":  "\u0027FPR_Base Rate\u0027!_FilterDatabase",
+        "refersTo":  "=\u0027FPR_Base Rate\u0027!$A$1:$H$543523"
+    },
+    {
+        "name":  "\u0027HSAR Factor\u0027!_FilterDatabase",
+        "refersTo":  "=\u0027HSAR Factor\u0027!$A$1:$F$97"
+    },
+    {
+        "name":  "\u0027Medical Rates\u0027!_FilterDatabase",
+        "refersTo":  "=\u0027Medical Rates\u0027!$A$1:$K$257587"
+    },
+    {
+        "name":  "\u0027Non Medical Rates\u0027!_FilterDatabase",
+        "refersTo":  "=\u0027Non Medical Rates\u0027!$A$1:$K$257587"
+    },
+    {
+        "name":  "\u0027Surrender Factors\u0027!_FilterDatabase",
+        "refersTo":  "=\u0027Surrender Factors\u0027!$G$1:$K$1190"
+    },
+    {
+        "name":  "_xlfn.BASE",
+        "refersTo":  "=#NAME?"
+    },
+    {
+        "name":  "_xlfn.CEILING.MATH",
+        "refersTo":  "=#NAME?"
+    },
+    {
+        "name":  "_xlfn.COUNTIFS",
+        "refersTo":  "=#NAME?"
+    },
+    {
+        "name":  "_xlfn.FLOOR.MATH",
+        "refersTo":  "=#NAME?"
+    },
+    {
+        "name":  "_xlfn.IFERROR",
+        "refersTo":  "=#NAME?"
+    },
+    {
+        "name":  "_xlfn.IFNA",
+        "refersTo":  "=#NAME?"
+    },
+    {
+        "name":  "_xlfn.NUMBERVALUE",
+        "refersTo":  "=#NAME?"
+    },
+    {
+        "name":  "_xlfn.SUMIFS",
+        "refersTo":  "=#NAME?"
+    },
+    {
+        "name":  "ADB_Header",
+        "refersTo":  "=\u0027ADB Rates\u0027!$A$1:$G$1"
+    },
+    {
+        "name":  "ADB_Rate",
+        "refersTo":  "=\u0027ADB Rates\u0027!$A$1:$G$24105"
+    },
+    {
+        "name":  "ADBplusPVofFPRlessThen2cr",
+        "refersTo":  "=FPR_Validations!$B$15"
+    },
+    {
+        "name":  "Age",
+        "refersTo":  "=Input!$D$12"
+    },
+    {
+        "name":  "Applicable_SA_Multiplier",
+        "refersTo":  "=\u0027Care Plus Validations\u0027!$J$5"
+    },
+    {
+        "name":  "AutoPay",
+        "refersTo":  "=Input!#REF!"
+    },
+    {
+        "name":  "BAGE2",
+        "refersTo":  "=FPR_Rate_Calculation!$B$3"
+    },
+    {
+        "name":  "base_PPT",
+        "refersTo":  "=FPR_Rate_Calculation!$B$14"
+    },
+    {
+        "name":  "base_PT",
+        "refersTo":  "=FPR_Rate_Calculation!$B$13"
+    },
+    {
+        "name":  "BaseInstalmentPremiumExcludingGST",
+        "refersTo":  "=FPR_Rate_Calculation!$B$15"
+    },
+    {
+        "name":  "BaseLA_Age",
+        "refersTo":  "=FPR_Rate_Calculation!$B$10"
+    },
+    {
+        "name":  "baseLA_Gender",
+        "refersTo":  "=FPR_Rate_Calculation!$B$11"
+    },
+    {
+        "name":  "BaseLA_Name",
+        "refersTo":  "=FPR_Rate_Calculation!$B$9"
+    },
+    {
+        "name":  "Care_Frequency_Factor",
+        "refersTo":  "=\u0027Care Plus Validations\u0027!$F$7"
+    },
+    {
+        "name":  "Care_Plus_Installment_Premium",
+        "refersTo":  "=Input!$I$46"
+    },
+    {
+        "name":  "Care_Plus_PPT",
+        "refersTo":  "=Input!$G$46"
+    },
+    {
+        "name":  "Care_Plus_PT",
+        "refersTo":  "=Input!$F$46"
+    },
+    {
+        "name":  "Care_Plus_SA",
+        "refersTo":  "=Input!$H$46"
+    },
+    {
+        "name":  "Care_Rider_Annualized_Premium",
+        "refersTo":  "=Input!$J$46"
+    },
+    {
+        "name":  "CI_Selection",
+        "refersTo":  "=Input!$D$45"
+    },
+    {
+        "name":  "CIP_1",
+        "refersTo":  "=Input!$D$37"
+    },
+    {
+        "name":  "CIP_1_IncomePeriod",
+        "refersTo":  "=FPR_Premium_Calculator!$N$8"
+    },
+    {
+        "name":  "CIP_1_MonthlyIncome",
+        "refersTo":  "=FPR_Premium_Calculator!$J$8"
+    },
+    {
+        "name":  "CIP_1_PPT",
+        "refersTo":  "=FPR_Premium_Calculator!$H$8"
+    },
+    {
+        "name":  "CIP_1_PT",
+        "refersTo":  "=FPR_Premium_Calculator!$G$8"
+    },
+    {
+        "name":  "CIP_2",
+        "refersTo":  "=Input!$D$38"
+    },
+    {
+        "name":  "CIP_2_IncomePeriod",
+        "refersTo":  "=FPR_Premium_Calculator!$N$9"
+    },
+    {
+        "name":  "CIP_2_MonthlyIncome",
+        "refersTo":  "=FPR_Premium_Calculator!$J$9"
+    },
+    {
+        "name":  "CIP_2_PPT",
+        "refersTo":  "=FPR_Premium_Calculator!$H$9"
+    },
+    {
+        "name":  "CIP_2_PT",
+        "refersTo":  "=FPR_Premium_Calculator!$G$9"
+    },
+    {
+        "name":  "CIP_3",
+        "refersTo":  "=Input!$D$39"
+    },
+    {
+        "name":  "CIP_3_IncomePeriod",
+        "refersTo":  "=FPR_Premium_Calculator!$N$10"
+    },
+    {
+        "name":  "CIP_3_MonthlyIncome",
+        "refersTo":  "=FPR_Premium_Calculator!$J$10"
+    },
+    {
+        "name":  "CIP_3_PPT",
+        "refersTo":  "=FPR_Premium_Calculator!$H$10"
+    },
+    {
+        "name":  "CIP_3_PT",
+        "refersTo":  "=FPR_Premium_Calculator!$G$10"
+    },
+    {
+        "name":  "EarlyExitAvailable",
+        "refersTo":  "=Input!$H$7"
+    },
+    {
+        "name":  "ExistingCustomer",
+        "refersTo":  "=Input!$D$20"
+    },
+    {
+        "name":  "FinalHLD",
+        "refersTo":  "=Calc!$H$32"
+    },
+    {
+        "name":  "FP",
+        "refersTo":  "=Input!$D$40"
+    },
+    {
+        "name":  "FP_IncomePeriod",
+        "refersTo":  "=FPR_Premium_Calculator!$N$11"
+    },
+    {
+        "name":  "FP_MonthlyIncome",
+        "refersTo":  "=FPR_Premium_Calculator!$J$11"
+    },
+    {
+        "name":  "FP_PPT",
+        "refersTo":  "=FPR_Premium_Calculator!$H$11"
+    },
+    {
+        "name":  "FP_PT",
+        "refersTo":  "=FPR_Premium_Calculator!$G$11"
+    },
+    {
+        "name":  "FPR_Online_Discount",
+        "refersTo":  "=FPR_Rate_Calculation!$B$16"
+    },
+    {
+        "name":  "FPR_Total_Income_PV",
+        "refersTo":  "=FPR_Premium_Calculator!$B$45"
+    },
+    {
+        "name":  "FPR_Total_Income_PV_Exceed_1Cr",
+        "refersTo":  "=FPR_Validations!$B$18"
+    },
+    {
+        "name":  "FPR_total_Prem",
+        "refersTo":  "=FPR_Premium_Calculator!$K$12"
+    },
+    {
+        "name":  "gsvv1",
+        "refersTo":  "=\u0027GSV Ann II.1\u0027!$A$6:$BU$81"
+    },
+    {
+        "name":  "gsvv2",
+        "refersTo":  "=\u0027GSV Ann II.3\u0027!$A$6:$BL$71"
+    },
+    {
+        "name":  "HLD",
+        "refersTo":  "=Input!$D$19"
+    },
+    {
+        "name":  "InsuranceforAll",
+        "refersTo":  "=Input!$D$22"
+    },
+    {
+        "name":  "IsFPRCaseValid",
+        "refersTo":  "=FPR_Validations!$B$35"
+    },
+    {
+        "name":  "Medical_Rates",
+        "refersTo":  "=\u0027Medical Rates\u0027!$A$1:$J$257587"
+    },
+    {
+        "name":  "ModalFactor",
+        "refersTo":  "=Calc!$AJ$11"
+    },
+    {
+        "name":  "Mode",
+        "refersTo":  "=Calc!$AI$11"
+    },
+    {
+        "name":  "Non_Medical_Rates",
+        "refersTo":  "=\u0027Non Medical Rates\u0027!$A$1:$J$257587"
+    },
+    {
+        "name":  "Note",
+        "refersTo":  "=Calc!$H$39"
+    },
+    {
+        "name":  "PIP",
+        "refersTo":  "=Input!$D$35"
+    },
+    {
+        "name":  "PIP_PPT",
+        "refersTo":  "=FPR_Premium_Calculator!$H$6"
+    },
+    {
+        "name":  "PIP_PT",
+        "refersTo":  "=FPR_Premium_Calculator!$G$6"
+    },
+    {
+        "name":  "Plan",
+        "refersTo":  "=Input!$E$46"
+    },
+    {
+        "name":  "PPT",
+        "refersTo":  "=Input!$D$17"
+    },
+    {
+        "name":  "\u0027GSV Ann II.1\u0027!Print_Area",
+        "refersTo":  "=\u0027GSV Ann II.1\u0027!$A$1:$BU$85"
+    },
+    {
+        "name":  "\u0027SSV Ann II.2\u0027!Print_Area",
+        "refersTo":  "=\u0027SSV Ann II.2\u0027!$A$1:$BU$85"
+    },
+    {
+        "name":  "\u0027GSV Ann II.1\u0027!Print_Titles",
+        "refersTo":  "=\u0027GSV Ann II.1\u0027!$A:$A"
+    },
+    {
+        "name":  "\u0027SSV Ann II.2\u0027!Print_Titles",
+        "refersTo":  "=\u0027SSV Ann II.2\u0027!$A:$A"
+    },
+    {
+        "name":  "PT",
+        "refersTo":  "=Input!$D$16"
+    },
+    {
+        "name":  "rate_category",
+        "refersTo":  "=FPR_Rate_Calculation!$B$5"
+    },
+    {
+        "name":  "SA",
+        "refersTo":  "=Input!$D$14"
+    },
+    {
+        "name":  "SISO_Benefit",
+        "refersTo":  "=Input!$D$24"
+    },
+    {
+        "name":  "SISO_Benefit_Available",
+        "refersTo":  "=\u0027SISO benefit\u0027!$C$2"
+    },
+    {
+        "name":  "SP",
+        "refersTo":  "=Input!$D$34"
+    },
+    {
+        "name":  "SP_PPT",
+        "refersTo":  "=FPR_Premium_Calculator!$H$5"
+    },
+    {
+        "name":  "SP_PT",
+        "refersTo":  "=FPR_Premium_Calculator!$G$5"
+    },
+    {
+        "name":  "ssvv1",
+        "refersTo":  "=\u0027SSV Ann II.2\u0027!$A$6:$BU$81"
+    },
+    {
+        "name":  "ssvv2",
+        "refersTo":  "=\u0027SSV Ann II.4\u0027!$A$6:$BL$71"
+    }
+]

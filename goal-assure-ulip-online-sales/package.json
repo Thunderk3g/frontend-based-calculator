@@ -1,0 +1,18 @@
+{
+    "name": "goal-assure-ulip-calculator",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "prepare-data": "node scripts/copy-data.cjs",
+        "dev": "npm run prepare-data && npx vite web",
+        "build": "npm run prepare-data && npx vite build web",
+        "preview": "npx vite preview web-dist"
+    },
+    "devDependencies": {
+        "vite": "^5.0.0"
+    },
+    "engines": {
+        "node": ">=14"
+    }
+}

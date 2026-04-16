@@ -1,0 +1,6 @@
+node_modules/
+web-dist/
+*.pyc
+__pycache__/
+inspect_*.py
+find_sheets.py
