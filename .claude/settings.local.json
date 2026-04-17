@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(node -e \"import\\('./web/src/fundPerformance.js'\\).then\\(\\(\\)=>console.log\\('fundPerformance OK'\\)\\).catch\\(e=>{console.error\\(e.message\\);process.exit\\(1\\)}\\)\")",
+      "Bash(node -e \"import\\('./web/src/ui.js'\\).then\\(\\(\\)=>console.log\\('ui OK'\\)\\).catch\\(e=>{console.error\\(e.message\\);process.exit\\(1\\)}\\)\")",
+      "Bash(node web/tests/ltcg_test.js)",
+      "Bash(node tests/ltcg_test.js)",
+      "Bash(node --check src/ui.js)",
+      "Bash(echo \"exit:$?\")"
+    ]
+  }
+}

@@ -1,0 +1,3906 @@
+[
+  {
+    "id": 1,
+    "input": {
+      "age": 40,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 25,
+      "ppt": 15,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 40M2515LSNon Smoker10000000"
+  },
+  {
+    "id": 4,
+    "input": {
+      "age": 35,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 25,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 35F2515LSNon Smoker10000000"
+  },
+  {
+    "id": 5,
+    "input": {
+      "age": 28,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 45,
+      "ppt": 5,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 28F455LSNon Smoker10000000"
+  },
+  {
+    "id": 9,
+    "input": {
+      "age": 24,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 30,
+      "ppt": 20,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 24F3020LSNon Smoker5000000"
+  },
+  {
+    "id": 12,
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 30,
+      "ppt": 10,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 28M3010LSNon Smoker5000000"
+  },
+  {
+    "id": 13,
+    "input": {
+      "age": 45,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 45F1212LSNon Smoker10000000"
+  },
+  {
+    "id": 16,
+    "input": {
+      "age": 32,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 50,
+      "ppt": 10,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 32F5010LSNon Smoker10000000"
+  },
+  {
+    "id": 18,
+    "input": {
+      "age": 55,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 15,
+      "ppt": 15,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 55F1515LSNon Smoker5000000"
+  },
+  {
+    "id": 19,
+    "input": {
+      "age": 18,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 30,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 18F3010LSNon Smoker10000000"
+  },
+  {
+    "id": 27,
+    "input": {
+      "age": 26,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 59,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 26F5915LSNon Smoker5000000"
+  },
+  {
+    "id": 38,
+    "input": {
+      "age": 26,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 59,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 26M5912LSNon Smoker10000000"
+  },
+  {
+    "id": 41,
+    "input": {
+      "age": 24,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 20,
+      "ppt": 5,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 24F205LSNon Smoker10000000"
+  },
+  {
+    "id": 42,
+    "input": {
+      "age": 18,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 67,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 18F6715LSNon Smoker10000000"
+  },
+  {
+    "id": 55,
+    "input": {
+      "age": 22,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 25,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 22M255LSNon Smoker5000000"
+  },
+  {
+    "id": 56,
+    "input": {
+      "age": 32,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 35,
+      "ppt": 5,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 32M355LSNon Smoker5000000"
+  },
+  {
+    "id": 60,
+    "input": {
+      "age": 42,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 25,
+      "ppt": 12,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 42M2512LSNon Smoker10000000"
+  },
+  {
+    "id": 61,
+    "input": {
+      "age": 50,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 25,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 50M2515LSNon Smoker5000000"
+  },
+  {
+    "id": 70,
+    "input": {
+      "age": 26,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 30,
+      "ppt": 20,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 26F3020LSNon Smoker10000000"
+  },
+  {
+    "id": 76,
+    "input": {
+      "age": 30,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 30F1010LSNon Smoker10000000"
+  },
+  {
+    "id": 78,
+    "input": {
+      "age": 65,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 65M1010LSNon Smoker10000000"
+  },
+  {
+    "id": 79,
+    "input": {
+      "age": 48,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 20,
+      "ppt": 5,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 48M205LSNon Smoker10000000"
+  },
+  {
+    "id": 97,
+    "input": {
+      "age": 62,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 15,
+      "ppt": 5,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 62F155LSNon Smoker10000000"
+  },
+  {
+    "id": 98,
+    "input": {
+      "age": 20,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 20F1010LSNon Smoker10000000"
+  },
+  {
+    "id": 100,
+    "input": {
+      "age": 42,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 12,
+      "ppt": 10,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 42F1210LSNon Smoker10000000"
+  },
+  {
+    "id": 102,
+    "input": {
+      "age": 28,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 57,
+      "ppt": 15,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 28F5715LSNon Smoker10000000"
+  },
+  {
+    "id": 111,
+    "input": {
+      "age": 48,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 35,
+      "ppt": 35,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 48M3535LSNon Smoker10000000"
+  },
+  {
+    "id": 112,
+    "input": {
+      "age": 26,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 59,
+      "ppt": 20,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 26F5920LSNon Smoker10000000"
+  },
+  {
+    "id": 113,
+    "input": {
+      "age": 30,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 35,
+      "ppt": 12,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 30M3512LSNon Smoker10000000"
+  },
+  {
+    "id": 120,
+    "input": {
+      "age": 35,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 35,
+      "ppt": 15,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 35F3515LSNon Smoker5000000"
+  },
+  {
+    "id": 122,
+    "input": {
+      "age": 32,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 53,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 32M5312LSNon Smoker10000000"
+  },
+  {
+    "id": 128,
+    "input": {
+      "age": 20,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 20,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 20M2012LSNon Smoker5000000"
+  },
+  {
+    "id": 138,
+    "input": {
+      "age": 45,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 45F1212LSNon Smoker5000000"
+  },
+  {
+    "id": 144,
+    "input": {
+      "age": 25,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 15,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 25F1512LSNon Smoker10000000"
+  },
+  {
+    "id": 146,
+    "input": {
+      "age": 28,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 28F1212LSNon Smoker5000000"
+  },
+  {
+    "id": 151,
+    "input": {
+      "age": 35,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 20,
+      "ppt": 20,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 35F2020LSNon Smoker5000000"
+  },
+  {
+    "id": 152,
+    "input": {
+      "age": 45,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 30,
+      "ppt": 10,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 45M3010LSNon Smoker5000000"
+  },
+  {
+    "id": 155,
+    "input": {
+      "age": 42,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 35,
+      "ppt": 15,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 42M3515LSNon Smoker5000000"
+  },
+  {
+    "id": 158,
+    "input": {
+      "age": 18,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 45,
+      "ppt": 10,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 18F4510LSNon Smoker5000000"
+  },
+  {
+    "id": 161,
+    "input": {
+      "age": 38,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 45,
+      "ppt": 45,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 38F4545LSNon Smoker10000000"
+  },
+  {
+    "id": 162,
+    "input": {
+      "age": 22,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 50,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 22M5015LSNon Smoker10000000"
+  },
+  {
+    "id": 168,
+    "input": {
+      "age": 30,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 45,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 30M455LSNon Smoker5000000"
+  },
+  {
+    "id": 170,
+    "input": {
+      "age": 48,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 35,
+      "ppt": 35,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 48F3535LSNon Smoker5000000"
+  },
+  {
+    "id": 174,
+    "input": {
+      "age": 25,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 25M1212LSNon Smoker10000000"
+  },
+  {
+    "id": 184,
+    "input": {
+      "age": 22,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 40,
+      "ppt": 40,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 22M4040LSNon Smoker5000000"
+  },
+  {
+    "id": 185,
+    "input": {
+      "age": 25,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 25F1010LSNon Smoker10000000"
+  },
+  {
+    "id": 186,
+    "input": {
+      "age": 58,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 20,
+      "ppt": 10,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 58M2010LSNon Smoker5000000"
+  },
+  {
+    "id": 187,
+    "input": {
+      "age": 20,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 20F1212LSNon Smoker10000000"
+  },
+  {
+    "id": 194,
+    "input": {
+      "age": 20,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 20F1212LSNon Smoker10000000"
+  },
+  {
+    "id": 200,
+    "input": {
+      "age": 26,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 59,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 26M5912LSNon Smoker10000000"
+  },
+  {
+    "id": 206,
+    "input": {
+      "age": 42,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 25,
+      "ppt": 12,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 42M2512LSNon Smoker10000000"
+  },
+  {
+    "id": 208,
+    "input": {
+      "age": 45,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 15,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 45F1512LSNon Smoker10000000"
+  },
+  {
+    "id": 211,
+    "input": {
+      "age": 24,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 35,
+      "ppt": 20,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 24F3520LSNon Smoker10000000"
+  },
+  {
+    "id": 215,
+    "input": {
+      "age": 48,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 48M1212LSNon Smoker10000000"
+  },
+  {
+    "id": 218,
+    "input": {
+      "age": 42,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 40,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 42F405LSNon Smoker10000000"
+  },
+  {
+    "id": 224,
+    "input": {
+      "age": 48,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 37,
+      "ppt": 37,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 48M3737LSNon Smoker10000000"
+  },
+  {
+    "id": 229,
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 25,
+      "ppt": 20,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 28M2520LSNon Smoker10000000"
+  },
+  {
+    "id": 230,
+    "input": {
+      "age": 20,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 65,
+      "ppt": 65,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 20F6565LSNon Smoker5000000"
+  },
+  {
+    "id": 238,
+    "input": {
+      "age": 45,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 35,
+      "ppt": 5,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 45M355LSNon Smoker5000000"
+  },
+  {
+    "id": 242,
+    "input": {
+      "age": 62,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 23,
+      "ppt": 10,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 62F2310LSNon Smoker10000000"
+  },
+  {
+    "id": 251,
+    "input": {
+      "age": 26,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 15,
+      "ppt": 5,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 26F155LSNon Smoker5000000"
+  },
+  {
+    "id": 259,
+    "input": {
+      "age": 32,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 32M1010LSNon Smoker10000000"
+  },
+  {
+    "id": 262,
+    "input": {
+      "age": 40,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 25,
+      "ppt": 20,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 40F2520LSNon Smoker10000000"
+  },
+  {
+    "id": 273,
+    "input": {
+      "age": 52,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 52M1212LSNon Smoker10000000"
+  },
+  {
+    "id": 274,
+    "input": {
+      "age": 50,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 25,
+      "ppt": 12,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 50F2512LSNon Smoker10000000"
+  },
+  {
+    "id": 276,
+    "input": {
+      "age": 38,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 20,
+      "ppt": 10,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 38M2010LSNon Smoker5000000"
+  },
+  {
+    "id": 277,
+    "input": {
+      "age": 24,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 10,
+      "ppt": 5,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 24F105LSNon Smoker10000000"
+  },
+  {
+    "id": 278,
+    "input": {
+      "age": 20,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 25,
+      "ppt": 20,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 20F2520LSNon Smoker5000000"
+  },
+  {
+    "id": 280,
+    "input": {
+      "age": 30,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 55,
+      "ppt": 10,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 30M5510LSNon Smoker10000000"
+  },
+  {
+    "id": 281,
+    "input": {
+      "age": 42,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 43,
+      "ppt": 15,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 42F4315LSNon Smoker10000000"
+  },
+  {
+    "id": 290,
+    "input": {
+      "age": 52,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 52F1010LSNon Smoker10000000"
+  },
+  {
+    "id": 293,
+    "input": {
+      "age": 60,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 25,
+      "ppt": 15,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 60M2515LSNon Smoker5000000"
+  },
+  {
+    "id": 295,
+    "input": {
+      "age": 52,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 52M1212LSNon Smoker5000000"
+  },
+  {
+    "id": 305,
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 55,
+      "ppt": 55,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 28M5555LSNon Smoker10000000"
+  },
+  {
+    "id": 315,
+    "input": {
+      "age": 35,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 35,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 35M355LSNon Smoker5000000"
+  },
+  {
+    "id": 319,
+    "input": {
+      "age": 58,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 15,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 58M1510LSNon Smoker5000000"
+  },
+  {
+    "id": 324,
+    "input": {
+      "age": 24,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 30,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 24F3012LSNon Smoker10000000"
+  },
+  {
+    "id": 326,
+    "input": {
+      "age": 65,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 15,
+      "ppt": 15,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 65F1515LSNon Smoker10000000"
+  },
+  {
+    "id": 334,
+    "input": {
+      "age": 22,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 25,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 22F2515LSNon Smoker10000000"
+  },
+  {
+    "id": 336,
+    "input": {
+      "age": 55,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 20,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 55M2012LSNon Smoker5000000"
+  },
+  {
+    "id": 343,
+    "input": {
+      "age": 40,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 45,
+      "ppt": 10,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 40F4510LSNon Smoker10000000"
+  },
+  {
+    "id": 345,
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 30,
+      "ppt": 20,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 28M3020LSNon Smoker10000000"
+  },
+  {
+    "id": 347,
+    "input": {
+      "age": 18,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 67,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 18M6712LSNon Smoker5000000"
+  },
+  {
+    "id": 348,
+    "input": {
+      "age": 25,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 30,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 25M305LSNon Smoker5000000"
+  },
+  {
+    "id": 349,
+    "input": {
+      "age": 30,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 55,
+      "ppt": 10,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 30F5510LSNon Smoker10000000"
+  },
+  {
+    "id": 354,
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 40,
+      "ppt": 15,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 28M4015LSNon Smoker5000000"
+  },
+  {
+    "id": 360,
+    "input": {
+      "age": 24,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 61,
+      "ppt": 12,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 24F6112LSNon Smoker10000000"
+  },
+  {
+    "id": 361,
+    "input": {
+      "age": 28,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 28F1010LSNon Smoker5000000"
+  },
+  {
+    "id": 362,
+    "input": {
+      "age": 65,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 65M1010LSNon Smoker10000000"
+  },
+  {
+    "id": 363,
+    "input": {
+      "age": 38,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 35,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 38M3515LSNon Smoker10000000"
+  },
+  {
+    "id": 365,
+    "input": {
+      "age": 26,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 15,
+      "ppt": 15,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 26M1515LSNon Smoker5000000"
+  },
+  {
+    "id": 373,
+    "input": {
+      "age": 26,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 59,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 26M5912LSNon Smoker5000000"
+  },
+  {
+    "id": 376,
+    "input": {
+      "age": 28,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 28F1212LSNon Smoker10000000"
+  },
+  {
+    "id": 382,
+    "input": {
+      "age": 25,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 60,
+      "ppt": 15,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 25F6015LSNon Smoker10000000"
+  },
+  {
+    "id": 383,
+    "input": {
+      "age": 55,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 15,
+      "ppt": 5,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 55M155LSNon Smoker10000000"
+  },
+  {
+    "id": 384,
+    "input": {
+      "age": 42,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 25,
+      "ppt": 5,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 42M255LSNon Smoker5000000"
+  },
+  {
+    "id": 385,
+    "input": {
+      "age": 18,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 15,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 18M155LSNon Smoker5000000"
+  },
+  {
+    "id": 395,
+    "input": {
+      "age": 18,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 20,
+      "ppt": 20,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 18M2020LSNon Smoker10000000"
+  },
+  {
+    "id": 404,
+    "input": {
+      "age": 60,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 10,
+      "ppt": 5,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 60M105LSNon Smoker5000000"
+  },
+  {
+    "id": 405,
+    "input": {
+      "age": 50,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 20,
+      "ppt": 12,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 50F2012LSNon Smoker10000000"
+  },
+  {
+    "id": 406,
+    "input": {
+      "age": 30,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 40,
+      "ppt": 20,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 30F4020LSNon Smoker5000000"
+  },
+  {
+    "id": 412,
+    "input": {
+      "age": 22,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 45,
+      "ppt": 10,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 22F4510LSNon Smoker5000000"
+  },
+  {
+    "id": 417,
+    "input": {
+      "age": 45,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 25,
+      "ppt": 10,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 45F2510LSNon Smoker10000000"
+  },
+  {
+    "id": 419,
+    "input": {
+      "age": 52,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 33,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 52M335LSNon Smoker10000000"
+  },
+  {
+    "id": 421,
+    "input": {
+      "age": 38,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 45,
+      "ppt": 15,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 38F4515LSNon Smoker10000000"
+  },
+  {
+    "id": 422,
+    "input": {
+      "age": 30,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 55,
+      "ppt": 12,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 30M5512LSNon Smoker10000000"
+  },
+  {
+    "id": 423,
+    "input": {
+      "age": 18,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 18M1010LSNon Smoker10000000"
+  },
+  {
+    "id": 425,
+    "input": {
+      "age": 48,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 25,
+      "ppt": 20,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 48F2520LSNon Smoker10000000"
+  },
+  {
+    "id": 432,
+    "input": {
+      "age": 20,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 55,
+      "ppt": 15,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 20M5515LSNon Smoker10000000"
+  },
+  {
+    "id": 436,
+    "input": {
+      "age": 18,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 25,
+      "ppt": 20,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 18M2520LSNon Smoker10000000"
+  },
+  {
+    "id": 444,
+    "input": {
+      "age": 42,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 25,
+      "ppt": 15,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 42F2515LSNon Smoker10000000"
+  },
+  {
+    "id": 447,
+    "input": {
+      "age": 20,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 20,
+      "ppt": 20,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 20M2020LSNon Smoker5000000"
+  },
+  {
+    "id": 452,
+    "input": {
+      "age": 22,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 10,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 22M105LSNon Smoker10000000"
+  },
+  {
+    "id": 455,
+    "input": {
+      "age": 45,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 40,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 45F4012LSNon Smoker5000000"
+  },
+  {
+    "id": 466,
+    "input": {
+      "age": 25,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 35,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 25M3512LSNon Smoker10000000"
+  },
+  {
+    "id": 471,
+    "input": {
+      "age": 22,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 50,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 22F5010LSNon Smoker10000000"
+  },
+  {
+    "id": 472,
+    "input": {
+      "age": 20,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 15,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 20M1515LSNon Smoker5000000"
+  },
+  {
+    "id": 474,
+    "input": {
+      "age": 62,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 15,
+      "ppt": 12,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 62F1512LSNon Smoker10000000"
+  },
+  {
+    "id": 477,
+    "input": {
+      "age": 26,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 59,
+      "ppt": 59,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 26F5959LSNon Smoker5000000"
+  },
+  {
+    "id": 482,
+    "input": {
+      "age": 26,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 20,
+      "ppt": 20,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 26F2020LSNon Smoker10000000"
+  },
+  {
+    "id": 497,
+    "input": {
+      "age": 28,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 55,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 28F5515LSNon Smoker5000000"
+  },
+  {
+    "id": 499,
+    "input": {
+      "age": 42,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 30,
+      "ppt": 20,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 42M3020LSNon Smoker5000000"
+  },
+  {
+    "id": 500,
+    "input": {
+      "age": 60,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 25,
+      "ppt": 10,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 60F2510LSNon Smoker5000000"
+  },
+  {
+    "id": 503,
+    "input": {
+      "age": 62,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 62M1212LSNon Smoker10000000"
+  },
+  {
+    "id": 509,
+    "input": {
+      "age": 42,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 43,
+      "ppt": 5,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 42M435LSNon Smoker5000000"
+  },
+  {
+    "id": 511,
+    "input": {
+      "age": 38,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 12,
+      "ppt": 5,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 38F125LSNon Smoker5000000"
+  },
+  {
+    "id": 519,
+    "input": {
+      "age": 40,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 45,
+      "ppt": 10,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 40M4510LSNon Smoker5000000"
+  },
+  {
+    "id": 525,
+    "input": {
+      "age": 58,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 58F1212LSNon Smoker10000000"
+  },
+  {
+    "id": 526,
+    "input": {
+      "age": 22,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 20,
+      "ppt": 10,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 22M2010LSNon Smoker5000000"
+  },
+  {
+    "id": 534,
+    "input": {
+      "age": 52,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 52F1010LSNon Smoker5000000"
+  },
+  {
+    "id": 536,
+    "input": {
+      "age": 55,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 25,
+      "ppt": 5,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 55F255LSNon Smoker10000000"
+  },
+  {
+    "id": 547,
+    "input": {
+      "age": 28,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 57,
+      "ppt": 10,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 28F5710LSNon Smoker5000000"
+  },
+  {
+    "id": 550,
+    "input": {
+      "age": 48,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 20,
+      "ppt": 20,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 48F2020LSNon Smoker10000000"
+  },
+  {
+    "id": 558,
+    "input": {
+      "age": 50,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 20,
+      "ppt": 20,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 50F2020LSNon Smoker5000000"
+  },
+  {
+    "id": 559,
+    "input": {
+      "age": 52,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 52M1212LSNon Smoker5000000"
+  },
+  {
+    "id": 561,
+    "input": {
+      "age": 42,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 30,
+      "ppt": 10,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 42M3010LSNon Smoker10000000"
+  },
+  {
+    "id": 571,
+    "input": {
+      "age": 18,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 45,
+      "ppt": 15,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 18F4515LSNon Smoker5000000"
+  },
+  {
+    "id": 573,
+    "input": {
+      "age": 24,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 35,
+      "ppt": 20,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 24M3520LSNon Smoker5000000"
+  },
+  {
+    "id": 574,
+    "input": {
+      "age": 20,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 50,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 20F5015LSNon Smoker5000000"
+  },
+  {
+    "id": 575,
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 50,
+      "ppt": 20,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 28M5020LSNon Smoker10000000"
+  },
+  {
+    "id": 579,
+    "input": {
+      "age": 42,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 20,
+      "ppt": 20,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 42M2020LSNon Smoker10000000"
+  },
+  {
+    "id": 581,
+    "input": {
+      "age": 32,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 30,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 32F3012LSNon Smoker10000000"
+  },
+  {
+    "id": 583,
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 57,
+      "ppt": 15,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 28M5715LSNon Smoker10000000"
+  },
+  {
+    "id": 589,
+    "input": {
+      "age": 40,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 40,
+      "ppt": 40,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 40M4040LSNon Smoker10000000"
+  },
+  {
+    "id": 595,
+    "input": {
+      "age": 40,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 25,
+      "ppt": 10,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 40F2510LSNon Smoker10000000"
+  },
+  {
+    "id": 605,
+    "input": {
+      "age": 58,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 15,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 58M155LSNon Smoker5000000"
+  },
+  {
+    "id": 609,
+    "input": {
+      "age": 25,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 25,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 25M255LSNon Smoker5000000"
+  },
+  {
+    "id": 614,
+    "input": {
+      "age": 35,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 20,
+      "ppt": 5,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 35F205LSNon Smoker10000000"
+  },
+  {
+    "id": 623,
+    "input": {
+      "age": 40,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 35,
+      "ppt": 20,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 40F3520LSNon Smoker10000000"
+  },
+  {
+    "id": 624,
+    "input": {
+      "age": 25,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 60,
+      "ppt": 20,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 25F6020LSNon Smoker10000000"
+  },
+  {
+    "id": 625,
+    "input": {
+      "age": 22,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 59,
+      "ppt": 59,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 22M5959LSNon Smoker5000000"
+  },
+  {
+    "id": 629,
+    "input": {
+      "age": 35,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 50,
+      "ppt": 5,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 35F505LSNon Smoker5000000"
+  },
+  {
+    "id": 630,
+    "input": {
+      "age": 40,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 25,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 40F2512LSNon Smoker5000000"
+  },
+  {
+    "id": 633,
+    "input": {
+      "age": 62,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 23,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 62M2312LSNon Smoker5000000"
+  },
+  {
+    "id": 636,
+    "input": {
+      "age": 60,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 15,
+      "ppt": 15,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 60F1515LSNon Smoker10000000"
+  },
+  {
+    "id": 650,
+    "input": {
+      "age": 65,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 12,
+      "ppt": 5,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 65M125LSNon Smoker5000000"
+  },
+  {
+    "id": 652,
+    "input": {
+      "age": 55,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 20,
+      "ppt": 20,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 55M2020LSNon Smoker10000000"
+  },
+  {
+    "id": 656,
+    "input": {
+      "age": 48,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 15,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 48M1512LSNon Smoker10000000"
+  },
+  {
+    "id": 657,
+    "input": {
+      "age": 22,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 15,
+      "ppt": 15,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 22F1515LSNon Smoker10000000"
+  },
+  {
+    "id": 658,
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 28M1010LSNon Smoker10000000"
+  },
+  {
+    "id": 662,
+    "input": {
+      "age": 20,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 50,
+      "ppt": 50,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 20M5050LSNon Smoker10000000"
+  },
+  {
+    "id": 663,
+    "input": {
+      "age": 58,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 20,
+      "ppt": 20,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 58F2020LSNon Smoker10000000"
+  },
+  {
+    "id": 664,
+    "input": {
+      "age": 60,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 25,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 60M255LSNon Smoker5000000"
+  },
+  {
+    "id": 665,
+    "input": {
+      "age": 22,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 45,
+      "ppt": 20,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 22M4520LSNon Smoker5000000"
+  },
+  {
+    "id": 667,
+    "input": {
+      "age": 45,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 45M1212LSNon Smoker5000000"
+  },
+  {
+    "id": 669,
+    "input": {
+      "age": 55,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 20,
+      "ppt": 10,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 55M2010LSNon Smoker5000000"
+  },
+  {
+    "id": 681,
+    "input": {
+      "age": 38,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 15,
+      "ppt": 5,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 38F155LSNon Smoker10000000"
+  },
+  {
+    "id": 687,
+    "input": {
+      "age": 45,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 35,
+      "ppt": 5,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 45F355LSNon Smoker5000000"
+  },
+  {
+    "id": 691,
+    "input": {
+      "age": 25,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 40,
+      "ppt": 10,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 25F4010LSNon Smoker10000000"
+  },
+  {
+    "id": 692,
+    "input": {
+      "age": 26,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 35,
+      "ppt": 20,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 26F3520LSNon Smoker5000000"
+  },
+  {
+    "id": 698,
+    "input": {
+      "age": 28,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 15,
+      "ppt": 5,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 28F155LSNon Smoker10000000"
+  },
+  {
+    "id": 702,
+    "input": {
+      "age": 60,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 20,
+      "ppt": 10,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 60M2010LSNon Smoker10000000"
+  },
+  {
+    "id": 704,
+    "input": {
+      "age": 42,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 25,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 42F2515LSNon Smoker10000000"
+  },
+  {
+    "id": 710,
+    "input": {
+      "age": 42,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 43,
+      "ppt": 15,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 42M4315LSNon Smoker5000000"
+  },
+  {
+    "id": 712,
+    "input": {
+      "age": 20,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 50,
+      "ppt": 20,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 20M5020LSNon Smoker5000000"
+  },
+  {
+    "id": 714,
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 28M1010LSNon Smoker10000000"
+  },
+  {
+    "id": 720,
+    "input": {
+      "age": 24,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 10,
+      "ppt": 5,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 24F105LSNon Smoker5000000"
+  },
+  {
+    "id": 726,
+    "input": {
+      "age": 40,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 25,
+      "ppt": 12,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 40F2512LSNon Smoker10000000"
+  },
+  {
+    "id": 727,
+    "input": {
+      "age": 18,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 59,
+      "ppt": 5,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 18F595LSNon Smoker10000000"
+  },
+  {
+    "id": 731,
+    "input": {
+      "age": 60,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 20,
+      "ppt": 20,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 60M2020LSNon Smoker5000000"
+  },
+  {
+    "id": 732,
+    "input": {
+      "age": 25,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 50,
+      "ppt": 5,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 25F505LSNon Smoker10000000"
+  },
+  {
+    "id": 733,
+    "input": {
+      "age": 35,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 30,
+      "ppt": 30,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 35F3030LSNon Smoker10000000"
+  },
+  {
+    "id": 735,
+    "input": {
+      "age": 35,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 12,
+      "ppt": 5,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 35F125LSNon Smoker10000000"
+  },
+  {
+    "id": 741,
+    "input": {
+      "age": 52,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 25,
+      "ppt": 12,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 52M2512LSNon Smoker10000000"
+  },
+  {
+    "id": 747,
+    "input": {
+      "age": 48,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 15,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 48F1510LSNon Smoker10000000"
+  },
+  {
+    "id": 754,
+    "input": {
+      "age": 32,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 45,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 32F4510LSNon Smoker5000000"
+  },
+  {
+    "id": 759,
+    "input": {
+      "age": 20,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 25,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 20M2512LSNon Smoker10000000"
+  },
+  {
+    "id": 772,
+    "input": {
+      "age": 60,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 60M1212LSNon Smoker5000000"
+  },
+  {
+    "id": 775,
+    "input": {
+      "age": 55,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 30,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 55F3012LSNon Smoker5000000"
+  },
+  {
+    "id": 777,
+    "input": {
+      "age": 48,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 25,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 48F255LSNon Smoker10000000"
+  },
+  {
+    "id": 781,
+    "input": {
+      "age": 45,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 12,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 45M1210LSNon Smoker5000000"
+  },
+  {
+    "id": 787,
+    "input": {
+      "age": 50,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 15,
+      "ppt": 12,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 50M1512LSNon Smoker5000000"
+  },
+  {
+    "id": 792,
+    "input": {
+      "age": 58,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 27,
+      "ppt": 27,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 58M2727LSNon Smoker5000000"
+  },
+  {
+    "id": 799,
+    "input": {
+      "age": 62,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 62F1212LSNon Smoker5000000"
+  },
+  {
+    "id": 800,
+    "input": {
+      "age": 32,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 50,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 32M5010LSNon Smoker5000000"
+  },
+  {
+    "id": 801,
+    "input": {
+      "age": 58,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 27,
+      "ppt": 27,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 58F2727LSNon Smoker5000000"
+  },
+  {
+    "id": 802,
+    "input": {
+      "age": 26,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 45,
+      "ppt": 20,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 26M4520LSNon Smoker10000000"
+  },
+  {
+    "id": 806,
+    "input": {
+      "age": 28,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 15,
+      "ppt": 15,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 28F1515LSNon Smoker5000000"
+  },
+  {
+    "id": 808,
+    "input": {
+      "age": 58,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 58F1212LSNon Smoker5000000"
+  },
+  {
+    "id": 810,
+    "input": {
+      "age": 20,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 35,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 20F3512LSNon Smoker5000000"
+  },
+  {
+    "id": 813,
+    "input": {
+      "age": 48,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 35,
+      "ppt": 15,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 48M3515LSNon Smoker5000000"
+  },
+  {
+    "id": 818,
+    "input": {
+      "age": 55,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 15,
+      "ppt": 5,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 55M155LSNon Smoker10000000"
+  },
+  {
+    "id": 819,
+    "input": {
+      "age": 24,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 20,
+      "ppt": 15,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 24M2015LSNon Smoker10000000"
+  },
+  {
+    "id": 828,
+    "input": {
+      "age": 22,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 40,
+      "ppt": 5,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 22M405LSNon Smoker10000000"
+  },
+  {
+    "id": 832,
+    "input": {
+      "age": 22,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 20,
+      "ppt": 20,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 22F2020LSNon Smoker10000000"
+  },
+  {
+    "id": 839,
+    "input": {
+      "age": 20,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 55,
+      "ppt": 20,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 20F5520LSNon Smoker5000000"
+  },
+  {
+    "id": 843,
+    "input": {
+      "age": 60,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 15,
+      "ppt": 10,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 60M1510LSNon Smoker5000000"
+  },
+  {
+    "id": 845,
+    "input": {
+      "age": 20,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 40,
+      "ppt": 15,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 20M4015LSNon Smoker10000000"
+  },
+  {
+    "id": 846,
+    "input": {
+      "age": 48,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 37,
+      "ppt": 20,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 48M3720LSNon Smoker10000000"
+  },
+  {
+    "id": 849,
+    "input": {
+      "age": 42,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 15,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 42M1515LSNon Smoker10000000"
+  },
+  {
+    "id": 853,
+    "input": {
+      "age": 20,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 30,
+      "ppt": 10,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 20F3010LSNon Smoker5000000"
+  },
+  {
+    "id": 863,
+    "input": {
+      "age": 26,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 15,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 26M1512LSNon Smoker10000000"
+  },
+  {
+    "id": 874,
+    "input": {
+      "age": 55,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 25,
+      "ppt": 25,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 55M2525LSNon Smoker10000000"
+  },
+  {
+    "id": 876,
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 30,
+      "ppt": 12,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 28M3012LSNon Smoker10000000"
+  },
+  {
+    "id": 878,
+    "input": {
+      "age": 32,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 30,
+      "ppt": 5,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 32M305LSNon Smoker10000000"
+  },
+  {
+    "id": 879,
+    "input": {
+      "age": 62,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 23,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 62F2312LSNon Smoker5000000"
+  },
+  {
+    "id": 881,
+    "input": {
+      "age": 24,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 20,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 24F205LSNon Smoker10000000"
+  },
+  {
+    "id": 884,
+    "input": {
+      "age": 60,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 60M1212LSNon Smoker5000000"
+  },
+  {
+    "id": 885,
+    "input": {
+      "age": 18,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 30,
+      "ppt": 5,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 18M305LSNon Smoker10000000"
+  },
+  {
+    "id": 889,
+    "input": {
+      "age": 52,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 10,
+      "ppt": 5,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 52M105LSNon Smoker5000000"
+  },
+  {
+    "id": 894,
+    "input": {
+      "age": 60,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 12,
+      "ppt": 10,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 60M1210LSNon Smoker5000000"
+  },
+  {
+    "id": 897,
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 25,
+      "ppt": 12,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 28M2512LSNon Smoker10000000"
+  },
+  {
+    "id": 898,
+    "input": {
+      "age": 65,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 12,
+      "ppt": 12,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 65M1212LSNon Smoker5000000"
+  },
+  {
+    "id": 901,
+    "input": {
+      "age": 32,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 20,
+      "ppt": 20,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 32M2020LSNon Smoker10000000"
+  },
+  {
+    "id": 903,
+    "input": {
+      "age": 18,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 59,
+      "ppt": 5,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 18F595LSNon Smoker10000000"
+  },
+  {
+    "id": 905,
+    "input": {
+      "age": 60,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 12,
+      "ppt": 5,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 60M125LSNon Smoker10000000"
+  },
+  {
+    "id": 910,
+    "input": {
+      "age": 28,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 57,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 28M5710LSNon Smoker10000000"
+  },
+  {
+    "id": 911,
+    "input": {
+      "age": 62,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 10,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 62F105LSNon Smoker5000000"
+  },
+  {
+    "id": 918,
+    "input": {
+      "age": 20,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 12,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 20M1210LSNon Smoker10000000"
+  },
+  {
+    "id": 920,
+    "input": {
+      "age": 62,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 23,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 62M2310LSNon Smoker10000000"
+  },
+  {
+    "id": 924,
+    "input": {
+      "age": 32,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 30,
+      "ppt": 12,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 32M3012LSNon Smoker5000000"
+  },
+  {
+    "id": 932,
+    "input": {
+      "age": 28,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 25,
+      "ppt": 10,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 28F2510LSNon Smoker10000000"
+  },
+  {
+    "id": 936,
+    "input": {
+      "age": 22,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 15,
+      "ppt": 15,
+      "mode": "Half-Yearly"
+    },
+    "error": "Rate not found for key: 22F1515LSNon Smoker10000000"
+  },
+  {
+    "id": 938,
+    "input": {
+      "age": 62,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 20,
+      "ppt": 5,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 62F205LSNon Smoker5000000"
+  },
+  {
+    "id": 945,
+    "input": {
+      "age": 24,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 55,
+      "ppt": 12,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 24M5512LSNon Smoker5000000"
+  },
+  {
+    "id": 953,
+    "input": {
+      "age": 20,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 15000000,
+      "policyTerm": 15,
+      "ppt": 10,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 20F1510LSNon Smoker10000000"
+  },
+  {
+    "id": 964,
+    "input": {
+      "age": 50,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 50M1010LSNon Smoker5000000"
+  },
+  {
+    "id": 966,
+    "input": {
+      "age": 48,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 10000000,
+      "policyTerm": 37,
+      "ppt": 20,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 48M3720LSNon Smoker10000000"
+  },
+  {
+    "id": 968,
+    "input": {
+      "age": 40,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Monthly"
+    },
+    "error": "Rate not found for key: 40M1010LSNon Smoker5000000"
+  },
+  {
+    "id": 974,
+    "input": {
+      "age": 32,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 10,
+      "ppt": 10,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 32F1010LSNon Smoker10000000"
+  },
+  {
+    "id": 975,
+    "input": {
+      "age": 50,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 7500000,
+      "policyTerm": 12,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 50M125LSNon Smoker5000000"
+  },
+  {
+    "id": 988,
+    "input": {
+      "age": 38,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 5000000,
+      "policyTerm": 20,
+      "ppt": 20,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 38F2020LSNon Smoker5000000"
+  },
+  {
+    "id": 993,
+    "input": {
+      "age": 62,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 12000000,
+      "policyTerm": 20,
+      "ppt": 12,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 62M2012LSNon Smoker10000000"
+  },
+  {
+    "id": 996,
+    "input": {
+      "age": 48,
+      "gender": "F",
+      "smoker": "NS",
+      "isMedical": false,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 20000000,
+      "policyTerm": 15,
+      "ppt": 5,
+      "mode": "Quarterly"
+    },
+    "error": "Rate not found for key: 48F155LSNon Smoker10000000"
+  },
+  {
+    "id": 1000,
+    "input": {
+      "age": 45,
+      "gender": "M",
+      "smoker": "NS",
+      "isMedical": true,
+      "residency": "R",
+      "planVariant": "LS",
+      "sumAssured": 9000000,
+      "policyTerm": 30,
+      "ppt": 15,
+      "mode": "Annual"
+    },
+    "error": "Rate not found for key: 45M3015LSNon Smoker5000000"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "name": "@tpc/goal-assure-compare",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare-data": "node scripts/copy-data.cjs",
+    "dev": "pnpm run prepare-data && vite web",
+    "build": "pnpm run prepare-data && vite build web",
+    "preview": "vite preview web-dist"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
