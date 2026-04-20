@@ -169,7 +169,8 @@ export function initApp(root) {
                                         <th>Year</th>
                                         <th>Premium</th>
                                         <th>Mortality</th>
-                                        <th>Charges</th>
+                                        <th>Other Charges</th>
+                                        <th>FMC</th>
                                         <th>GST</th>
                                         <th>Fund Value (EOY)</th>
                                         <th>Surrender</th>
@@ -558,18 +559,24 @@ function renderBITable() {
     const scenarioKey = S.selectedScenario === 'custom' ? 'custom' : 'scenario' + S.selectedScenario;
     const details = results.projections[scenarioKey].yearlyDetails;
 
-    tbody.innerHTML = details.map(d => `
+    tbody.innerHTML = details.map(d => {
+        const otherCharges = d.allocationCharge + d.pac;
+        const gst = 0.18 * (d.mortality + otherCharges + d.fmc);
+        const surrender = d.year < 5 ? 0 : d.fundAtEnd;
+        return `
         <tr>
             <td>Year ${d.year}</td>
             <td class="value-cell">${formatCurrencyWhole(d.premiumPaid)}</td>
             <td class="value-cell">${formatCurrencyWhole(d.mortality)}</td>
-            <td class="value-cell">${formatCurrencyWhole(d.otherCharges)}</td>
-            <td class="value-cell">0</td> 
+            <td class="value-cell">${formatCurrencyWhole(otherCharges)}</td>
+            <td class="value-cell">${formatCurrencyWhole(d.fmc)}</td>
+            <td class="value-cell">${formatCurrencyWhole(gst)}</td>
             <td class="value-cell" style="font-weight:700; color:var(--bajaj-blue)">${formatCurrencyWhole(d.fundAtEnd)}</td>
-            <td class="value-cell">${formatCurrencyWhole(d.fundAtEnd)}</td>
+            <td class="value-cell">${d.year < 5 ? '<span style="color:var(--t3)">Locked</span>' : formatCurrencyWhole(surrender)}</td>
             <td class="value-cell">${formatCurrencyWhole(d.deathBenefit)}</td>
         </tr>
-    `).join('');
+    `;
+    }).join('');
 }
 
 function renderFooter() {

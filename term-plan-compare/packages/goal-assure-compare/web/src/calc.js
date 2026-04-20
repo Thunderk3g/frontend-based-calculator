@@ -18,17 +18,19 @@ const LTCG_RATE              = 0.125;    // 12.5% equity LTCG rate
 
 export async function loadRateData() {
     try {
-        const [aprR, ciR, cpR] = await Promise.all([
+        const [aprR, ciR, cpR, mortR] = await Promise.all([
             fetch(`${ASSET_BASE}apr_rates.json`).catch(() => ({ ok: false })),
             fetch(`${ASSET_BASE}ci_rates.json`).catch(() => ({ ok: false })),
-            fetch(`${ASSET_BASE}care_plus_rates.json`).catch(() => ({ ok: false }))
+            fetch(`${ASSET_BASE}care_plus_rates.json`).catch(() => ({ ok: false })),
+            fetch(`${ASSET_BASE}mortality_rates.json`).catch(() => ({ ok: false }))
         ]);
 
         if (aprR && aprR.ok) aprRates = await aprR.json();
         if (ciR && ciR.ok) ciRates = await ciR.json();
         if (cpR && cpR.ok) carePlusRates = await cpR.json();
+        if (mortR && mortR.ok) mortalityRates = await mortR.json();
 
-        CONFIG.ratesLoadedCount = [aprRates, ciRates, carePlusRates].filter(Boolean).length;
+        CONFIG.ratesLoadedCount = [aprRates, ciRates, carePlusRates, mortalityRates].filter(Boolean).length;
         console.log(`Loaded ${CONFIG.ratesLoadedCount} rate tables`);
     } catch (e) {
         console.error("Error loading rate tables:", e);
@@ -112,93 +114,119 @@ export function computeLtcgBenefit(projection, yearlyPremium, payYears) {
 }
 
 /**
- * Run the month-by-month ULIP projection for a specific growth scenario
+ * Look up the monthly mortality charge in ₹ for the given life at the start
+ * of a policy month, using the Excel Charges-sheet table (per-1000 SA/year).
+ * Returns 0 when the sum-at-risk is non-positive or the rate table is absent.
+ */
+function monthlyMortalityCharge(sumAtRisk, gender, ageAtYearStart) {
+    if (sumAtRisk <= 0 || !mortalityRates) return 0;
+    const table = gender === 'Female' ? mortalityRates.female : mortalityRates.male;
+    if (!table) return 0;
+    const rate = table[ageAtYearStart] ?? table[String(ageAtYearStart)] ?? 0;
+    return (rate * sumAtRisk) / 12000;
+}
+
+/**
+ * Run the month-by-month ULIP projection for a specific growth scenario.
+ *
+ * Monthly sequence matches the Excel Scenario sheets (BI_Goal Assure IV):
+ *   1. At year start only, add the annualised allocated premium as new units.
+ *   2. Deduct PAC (₹/month lookup) and mortality (per-1000 SA on sum-at-risk).
+ *   3. Grow unit price by (1+r)^(1/12) and deduct FMC as (fmc_annual/12) of
+ *      the grown fund value.
  */
 export function calculateULIPProjection(inputs, annualGrowthRate) {
-    const { age, pt, ppt, yearlyPremium, saFactor, fundAllocations, channel } = inputs;
+    const { age, gender, pt, ppt, yearlyPremium, saFactor, fundAllocations, channel } = inputs;
 
     const sumAssured = yearlyPremium * saFactor;
-    const monthlyGrowthRate = Math.pow(1 + annualGrowthRate, 1 / 12) - 1;
+    const monthlyGrowthFactor = Math.pow(1 + annualGrowthRate, 1 / 12);
 
-    // Average FMC based on allocation
+    // Fund-weighted annual FMC
     let avgFMCAnnual = 0;
     if (CONFIG.charges.fmc) {
         for (const [fund, pct] of Object.entries(fundAllocations)) {
-            const fundFMC = CONFIG.charges.fmc[fund] || 0.0135; // default 1.35%
+            const fundFMC = CONFIG.charges.fmc[fund] || 0.0135;
             avgFMCAnnual += fundFMC * (pct / 100);
         }
     } else {
         avgFMCAnnual = 0.0135;
     }
+    const monthlyFMCRate = avgFMCAnnual / 12;
 
-    const monthlyFMC = avgFMCAnnual / 12;
+    const pacMonthlyRs = CONFIG.charges.pac_monthly_rs || {};
+    const loyaltyRates = CONFIG.charges.loyalty_addition || {};
+    const fundBoosterRates = CONFIG.charges.fund_booster || {};
+
+    const allocRules = CONFIG.charges.allocation[channel] || CONFIG.charges.allocation['other'];
+    const matchingAllocRule = allocRules
+        ? allocRules.slice().reverse().find(r => r.minPremium <= yearlyPremium) || allocRules[0]
+        : null;
 
     const results = {
         yearlyDetails: [],
         finalFundValue: 0,
         totalNetPremiums: 0,
-        totalCharges: {
-            allocation: 0,
-            pac: 0,
-            fmc: 0,
-            mortality: 0
-        }
+        totalCharges: { allocation: 0, pac: 0, fmc: 0, mortality: 0 }
     };
 
     let currentFundValue = 0;
     let currentAge = age;
-
-    const allocRules = CONFIG.charges.allocation[channel] || CONFIG.charges.allocation['other'];
-    const matchingAllocRule = allocRules ? allocRules.find(r => r.minPremium <= yearlyPremium) || allocRules[0] : null;
+    // Rolling window of the last 36 month-end fund values, used to compute
+    // loyalty additions and the year-20 fund booster (Excel basis: average
+    // of last 36 daily-end values, proxied here by month-end values).
+    const monthEndHistory = [];
 
     for (let year = 1; year <= pt; year++) {
-        let yearlyPremiumPaid = year <= ppt ? yearlyPremium : 0;
-        let yearlyAllocCharge = 0;
+        const yearlyPremiumPaid = year <= ppt ? yearlyPremium : 0;
+        const allocRateThisYear = (matchingAllocRule && matchingAllocRule.ratesByYear)
+            ? (matchingAllocRule.ratesByYear[year - 1] ?? 1)
+            : 1;
+        const allocChargeAmt = yearlyPremiumPaid * (1 - allocRateThisYear);
+        const netPremium = yearlyPremiumPaid - allocChargeAmt;
+        results.totalNetPremiums += netPremium;
+
+        const pacRsThisYear = Number(pacMonthlyRs[String(year)] ?? 0);
+
         let yearlyPAC = 0;
         let yearlyFMC = 0;
         let yearlyMortality = 0;
-        let fundAtStartOfYear = currentFundValue;
 
-        const allocRateObj = matchingAllocRule && matchingAllocRule.ratesByYear ? matchingAllocRule.ratesByYear[year - 1] : 1;
-        const allocChargePct = 1 - allocRateObj; // e.g. 0.985 -> 1.5% charge
-        const allocChargeAmt = yearlyPremiumPaid * allocChargePct;
+        for (let month = 0; month < 12; month++) {
+            // Month 0: add the annualised net premium as new units.
+            if (month === 0 && netPremium > 0) {
+                currentFundValue += netPremium;
+            }
 
-        let netPremium = yearlyPremiumPaid - allocChargeAmt;
-        yearlyAllocCharge += allocChargeAmt;
-        results.totalNetPremiums += netPremium;
+            // Month-start charges: PAC + mortality on sum-at-risk.
+            const sumAtRisk = Math.max(0, sumAssured - currentFundValue);
+            const mortRs = monthlyMortalityCharge(sumAtRisk, gender, currentAge);
+            currentFundValue -= pacRsThisYear;
+            currentFundValue -= mortRs;
+            yearlyPAC += pacRsThisYear;
+            yearlyMortality += mortRs;
 
-        // Month by month processing
-        for (let month = 1; month <= 12; month++) {
-            const policyMonth = (year - 1) * 12 + month;
-
-            // Add premium at start of month if applicable (assuming annual mode for simplicity, so add all in month 1)
-            let premiumThisMonth = month === 1 ? netPremium : 0;
-            currentFundValue += premiumThisMonth;
-
-            // Deduct PAC
-            let pacRate = CONFIG.charges.pac ? (CONFIG.charges.pac[policyMonth.toString()] || 0) : 0;
-            let pacAmt = pacRate > 0 ? currentFundValue * pacRate : 0; // PAC is usually fixed Rs amount, wait, let's treat it as fixed or percentage. In Excel it was fixed Rs.
-            // Looking at deep inspect, PAC is an amount like 0 in early years? No, it's fixed. Let's use 500 flat for now if not found.
-            // Wait, Excel says: Policy month 1: 0.018? Actually it might be % of premium. Let's stick to 0 for simplicity if uncertain, or 500
-            let pacFixed = 0;
-            currentFundValue -= pacFixed;
-            yearlyPAC += pacFixed;
-
-            // Apply Growth
-            currentFundValue = currentFundValue * (1 + monthlyGrowthRate);
-
-            // Deduct FMC
-            const fmcAmt = currentFundValue * monthlyFMC;
-            currentFundValue -= fmcAmt;
+            // Growth then FMC on the grown fund value.
+            const grown = currentFundValue * monthlyGrowthFactor;
+            const fmcAmt = grown * monthlyFMCRate;
+            currentFundValue = grown - fmcAmt;
             yearlyFMC += fmcAmt;
 
-            // Deduct Mortality (Simplified: using a basic rate if we don't have the table)
-            // A simple approximation for ULIP
-            const saAtRisk = Math.max(0, sumAssured - currentFundValue);
-            let approxMortalityRateAnnual = 0.001 * Math.pow(1.05, Math.max(0, currentAge - 20)); // Dummy curve mimicking mortality
-            let monthlyMortAmt = (saAtRisk * approxMortalityRateAnnual) / 12;
-            currentFundValue -= monthlyMortAmt;
-            yearlyMortality += monthlyMortAmt;
+            monthEndHistory.push(currentFundValue);
+            if (monthEndHistory.length > 36) monthEndHistory.shift();
+        }
+
+        // Year-end additions: loyalty & fund booster, computed on the
+        // average of the last 36 month-end fund values, then added to the
+        // fund AFTER that average is captured (matches Excel precisely).
+        const loyaltyRate = Number(loyaltyRates[String(year)] ?? 0);
+        const boosterRate = Number(fundBoosterRates[String(year)] ?? 0);
+        let loyaltyAddition = 0;
+        let fundBoosterAmount = 0;
+        if (loyaltyRate > 0 || boosterRate > 0) {
+            const avgBase = monthEndHistory.reduce((a, b) => a + b, 0) / monthEndHistory.length;
+            loyaltyAddition = avgBase * loyaltyRate;
+            fundBoosterAmount = avgBase * boosterRate;
+            currentFundValue += loyaltyAddition + fundBoosterAmount;
         }
 
         currentAge++;
@@ -208,11 +236,12 @@ export function calculateULIPProjection(inputs, annualGrowthRate) {
             age: currentAge - 1,
             premiumPaid: yearlyPremiumPaid,
             allocationCharge: allocChargeAmt,
-            fundBeforeFMC: fundAtStartOfYear + netPremium,
             fmc: yearlyFMC,
             mortality: yearlyMortality,
             pac: yearlyPAC,
-            otherCharges: allocChargeAmt + yearlyPAC, // Combined for BI table
+            loyaltyAddition,
+            fundBooster: fundBoosterAmount,
+            otherCharges: allocChargeAmt + yearlyPAC,
             fundAtEnd: currentFundValue,
             deathBenefit: Math.max(sumAssured, 1.05 * (yearlyPremium * Math.min(year, ppt)), currentFundValue)
         });
