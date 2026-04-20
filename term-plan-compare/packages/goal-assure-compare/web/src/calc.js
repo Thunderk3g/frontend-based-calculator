@@ -3,8 +3,6 @@
  */
 import { CONFIG } from './config.js';
 
-const ASSET_BASE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || './';
-
 // Cache for rate data
 let aprRates = null;
 let ciRates = null;
@@ -19,10 +17,10 @@ const LTCG_RATE              = 0.125;    // 12.5% equity LTCG rate
 export async function loadRateData() {
     try {
         const [aprR, ciR, cpR, mortR] = await Promise.all([
-            fetch(`${ASSET_BASE}apr_rates.json`).catch(() => ({ ok: false })),
-            fetch(`${ASSET_BASE}ci_rates.json`).catch(() => ({ ok: false })),
-            fetch(`${ASSET_BASE}care_plus_rates.json`).catch(() => ({ ok: false })),
-            fetch(`${ASSET_BASE}mortality_rates.json`).catch(() => ({ ok: false }))
+            fetch('./apr_rates.json').catch(() => ({ ok: false })),
+            fetch('./ci_rates.json').catch(() => ({ ok: false })),
+            fetch('./care_plus_rates.json').catch(() => ({ ok: false })),
+            fetch('./mortality_rates.json').catch(() => ({ ok: false }))
         ]);
 
         if (aprR && aprR.ok) aprRates = await aprR.json();

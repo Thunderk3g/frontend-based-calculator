@@ -2,8 +2,6 @@
  * Config Loader for Bajaj Life Goal Assure IV (ULIP)
  */
 
-const ASSET_BASE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || './';
-
 export let CONFIG = {
     version: 'Unknown',
     updatedAt: 'Unknown',
@@ -32,9 +30,9 @@ export let CONFIG = {
 export async function loadConfig() {
     try {
         const [dataResp, chargesResp, versionResp] = await Promise.all([
-            fetch(`${ASSET_BASE}extracted_data.json`),
-            fetch(`${ASSET_BASE}charges.json`),
-            fetch(`${ASSET_BASE}version_control.json`)
+            fetch('./extracted_data.json'),
+            fetch('./charges.json'),
+            fetch('./version_control.json')
         ]);
 
         if (!dataResp.ok || !chargesResp.ok) {
