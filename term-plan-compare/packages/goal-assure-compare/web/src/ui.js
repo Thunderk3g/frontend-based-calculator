@@ -2,8 +2,6 @@ import { loadRateData, calculatePremium, formatCurrency, formatCurrencyWhole, co
 import { CONFIG, loadConfig } from './config.js';
 import { initFundPerformance } from './fundPerformance.js';
 
-const ASSET_BASE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || './';
-
 let activeTab = 'calculator'; // 'calculator' | 'fundPerformance'
 
 // ── GLOBAL PROFILE STATE ──
@@ -39,7 +37,7 @@ export function initApp(root) {
                 <div class="nav-logo">B</div>
                 <div class="logo-stack">
                     <div class="logo-top">
-                        <img src="${ASSET_BASE}Bajaj Logo.png" alt="Bajaj Logo" class="logo-icon" onerror="this.style.display='none'">
+                        <img src="./Bajaj Logo.png" alt="Bajaj Logo" class="logo-icon" onerror="this.style.display='none'">
                         <span class="logo-life">LIFE GOAL ASSURE IV</span>
                     </div>
                 </div>

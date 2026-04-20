@@ -73,18 +73,6 @@ function yearsAgoDate(years) {
     return d;
 }
 
-function logTimestamp() {
-    const d = new Date();
-    const dd = String(d.getDate()).padStart(2, '0');
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const yyyy = d.getFullYear();
-    let h = d.getHours();
-    const min = String(d.getMinutes()).padStart(2, '0');
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    h = h % 12 || 12;
-    return `${dd}-${mm}-${yyyy} ${String(h).padStart(2, '0')}:${min} ${ampm}`;
-}
-
 /**
  * Fire one POST to the fund-details endpoint. Resolves with parsed JSON on success,
  * throws on any error. Used as the low-level primitive for parallel window calls.
@@ -98,15 +86,13 @@ async function fetchWindow(fromDate, toDate) {
         p_to_date: toDate,
     };
 
-    console.log(`[fetchFundData] ${logTimestamp()} POST ${API_URL} from=${fromDate} to=${toDate}`);
-
     const resp = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
     });
 
-    if (!resp.ok) throw new Error(`API returned ${resp.status} (from=${fromDate} to=${toDate})`);
+    if (!resp.ok) throw new Error(`API returned ${resp.status}`);
     const data = await resp.json();
     if (data.p_error_code !== 'success') throw new Error(data.p_message || 'API error');
     return data;
@@ -161,7 +147,7 @@ export async function fetchFundData() {
     settled.forEach((result, i) => {
         const w = windows[i];
         if (result.status !== 'fulfilled') {
-            console.warn(`[fetchFundData] ${logTimestamp()} Window ${w.label} (from=${w.from} to=${w.to}) failed:`, result.reason?.message);
+            console.warn(`[fetchFundData] Window ${w.label} failed:`, result.reason?.message);
             fundMap.forEach(fund => {
                 fund[w.field] = null;
                 fund[w.bmField] = null;
