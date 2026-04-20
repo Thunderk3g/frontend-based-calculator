@@ -1,0 +1,235 @@
+{
+    "unmapped_inputs": [
+        {
+            "address": "Input!D4",
+            "label": "Channel",
+            "value": "Offline"
+        },
+        {
+            "address": "Input!D5",
+            "label": "Select Variant",
+            "value": "Life Shield"
+        },
+        {
+            "address": "Input!D6",
+            "label": "Whole Life",
+            "value": "No"
+        },
+        {
+            "address": "Input!D7",
+            "label": "Smoker Category",
+            "value": "Non Smoker"
+        },
+        {
+            "address": "Input!D8",
+            "label": "Medical/ Non Medical",
+            "value": "Medical"
+        },
+        {
+            "address": "Input!D9",
+            "label": "Residence Status",
+            "value": "Resident Indian"
+        },
+        {
+            "address": "Input!D10",
+            "label": "Name of Life Assured",
+            "value": "Abhi"
+        },
+        {
+            "address": "Input!D11",
+            "label": "Age of Life Assured",
+            "value": 26.0
+        },
+        {
+            "address": "Input!D12",
+            "label": "Gender of Life Assured",
+            "value": "Male"
+        },
+        {
+            "address": "Input!D13",
+            "label": "Sum Assured",
+            "value": 9000000.0
+        },
+        {
+            "address": "Input!D14",
+            "label": "ADB Sum Assured (Variant 2 only)",
+            "value": 10.0
+        },
+        {
+            "address": "Input!D15",
+            "label": "Policy Term",
+            "value": 59.0
+        },
+        {
+            "address": "Input!D16",
+            "label": "Premium Payment Term",
+            "value": 10.0
+        },
+        {
+            "address": "Input!D17",
+            "label": "Mode",
+            "value": "Monthly"
+        },
+        {
+            "address": "Input!D18",
+            "label": "Premium Holidays",
+            "value": 0.0
+        },
+        {
+            "address": "Input!D19",
+            "label": "Existing Customer",
+            "value": "No"
+        },
+        {
+            "address": "Input!D20",
+            "label": "Salaried",
+            "value": "No"
+        },
+        {
+            "address": "Input!D21",
+            "label": "Insurance for All",
+            "value": "No"
+        },
+        {
+            "address": "Input!D22",
+            "label": "Partner Discount/Worksite Mark-Up?",
+            "value": "No"
+        },
+        {
+            "address": "Input!D23",
+            "label": "SISO Benefit",
+            "value": "No"
+        },
+        {
+            "address": "Input!D24",
+            "label": "Death Benefit",
+            "value": "Lump Sum Payout"
+        },
+        {
+            "address": "Input!D25",
+            "label": "Instalment for years",
+            "value": 5.0
+        },
+        {
+            "address": "Input!D26",
+            "label": "Choose % of Lump Sum",
+            "value": 90.0
+        },
+        {
+            "address": "Input!D27",
+            "label": "Maturity Benefit",
+            "value": "Lump Sum Payout"
+        },
+        {
+            "address": "Input!D29",
+            "label": "Covid Full Vaccination",
+            "value": "No"
+        },
+        {
+            "address": "Input!D32",
+            "label": "",
+            "value": "Selection"
+        },
+        {
+            "address": "Input!J32",
+            "label": "Monthly Income %",
+            "value": "Rider Sum Assured"
+        },
+        {
+            "address": "Input!D33",
+            "label": "",
+            "value": "Yes"
+        },
+        {
+            "address": "Input!J33",
+            "label": "NA",
+            "value": 0.5
+        },
+        {
+            "address": "Input!D34",
+            "label": "Father",
+            "value": "Both Parents"
+        },
+        {
+            "address": "Input!J34",
+            "label": "0.1",
+            "value": 9000000.0
+        },
+        {
+            "address": "Input!D36",
+            "label": "Child 1",
+            "value": "Yes"
+        },
+        {
+            "address": "Input!J36",
+            "label": "0.1",
+            "value": 5000000.0
+        },
+        {
+            "address": "Input!D37",
+            "label": "Child 2",
+            "value": "Yes"
+        },
+        {
+            "address": "Input!J37",
+            "label": "0.1",
+            "value": 10000000.0
+        },
+        {
+            "address": "Input!D38",
+            "label": "Child 3",
+            "value": "Yes"
+        },
+        {
+            "address": "Input!J38",
+            "label": "0.1",
+            "value": 40000000.0
+        },
+        {
+            "address": "Input!D39",
+            "label": "",
+            "value": "Yes"
+        },
+        {
+            "address": "Input!J39",
+            "label": "NA",
+            "value": 1000000.0
+        },
+        {
+            "address": "Input!J40",
+            "label": "",
+            "value": "Total Premium"
+        },
+        {
+            "address": "Input!D43",
+            "label": "Applicability",
+            "value": "Selection"
+        },
+        {
+            "address": "Input!J43",
+            "label": "Instalment Premium",
+            "value": "Annualized Premium"
+        },
+        {
+            "address": "Input!D44",
+            "label": "Available",
+            "value": "Yes"
+        },
+        {
+            "address": "Input!J44",
+            "label": "54.074999999999996",
+            "value": 618.0
+        },
+        {
+            "address": "Input!D45",
+            "label": "Available",
+            "value": "Yes"
+        },
+        {
+            "address": "Input!J45",
+            "label": "531.5625",
+            "value": 6075.0
+        }
+    ],
+    "unvisited_logic_sheets": {}
+}
